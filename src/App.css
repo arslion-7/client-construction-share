@@ -1,4 +1,26 @@
-#root {
+/* Styles for App layout */
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+}
+
+.site-layout {
+  padding: 24px;
+  min-height: 280px;
+}
+
+.ant-layout-header {
+  background-color: #001529;
+  color: white;
+}
+
+.ant-layout-footer {
+  text-align: center;
+}
+
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -39,4 +61,4 @@
 
 .read-the-docs {
   color: #888;
-}
+} */
