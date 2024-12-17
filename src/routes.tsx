@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Routes } from 'react-router';
 
-import App from './App';
-import Registries from './pages/Registries';
-import About from './pages/About';
-import AuthLayout from './layouts/AuthLayout';
-import Login from './pages/Login';
+import App from '@/App';
+import Registries from '@/pages/Registries/Registries';
+import About from '@/pages/About';
+import AuthLayout from '@/layouts/AuthLayout';
+import Login from '@/pages/Login';
 
 // Import pages
 
