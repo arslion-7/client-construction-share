@@ -1,5 +1,6 @@
+import { OrderedListOutlined } from '@ant-design/icons';
 import { Layout, Menu, MenuProps } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const { Sider } = Layout;
 
@@ -17,8 +18,8 @@ export default function AppSider() {
         mode='inline'
         defaultSelectedKeys={['1']}
       >
-        <Menu.Item key='1'>
-          <Link to='/'>Home</Link>
+        <Menu.Item key='1' icon={<OrderedListOutlined />}>
+          <Link to='/registries'>Paýly reýestr</Link>
         </Menu.Item>
         <Menu.Item key='2'>
           <Link to='/about'>About</Link>
