@@ -5,7 +5,11 @@ import './App.css';
 import AppRoutes from './routes.tsx';
 import { BrowserRouter } from 'react-router';
 import { ConfigProvider } from 'antd';
+import tkTK from 'antd/locale/tk_TK';
+import { Provider } from 'react-redux';
 
+import 'dayjs/locale/tk';
+import { store } from './app/store.ts';
 // const theme = {
 //   token: {
 //     // Seed Token
@@ -22,10 +26,10 @@ import { ConfigProvider } from 'antd';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <ConfigProvider
-      // theme={theme}
-      >
-        <AppRoutes />
+      <ConfigProvider locale={tkTK}>
+        <Provider store={store}>
+          <AppRoutes />
+        </Provider>
       </ConfigProvider>
     </BrowserRouter>
   </StrictMode>

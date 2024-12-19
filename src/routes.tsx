@@ -2,10 +2,11 @@ import React from 'react';
 import { Route, Routes } from 'react-router';
 
 import App from '@/App';
-import Registries from '@/pages/Registries/Registries';
+import Registries from '@/pages/registries/Registries';
 import About from '@/pages/About';
 import AuthLayout from '@/layouts/AuthLayout';
 import Login from '@/pages/Login';
+import GeneralContractors from '@/pages/generalContractors/GeneralContractors';
 
 // Import pages
 
@@ -17,6 +18,7 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route path='/' element={<App />}>
         <Route path='registries' element={<Registries />} />
+        <Route path='general_contractors' element={<GeneralContractors />} />
         <Route path='about' element={<About />} />
       </Route>
 

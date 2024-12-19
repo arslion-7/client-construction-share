@@ -30,7 +30,7 @@ export default function AppSider() {
         {
           label: 'Baş potratçylar',
           icon: <GroupOutlined />,
-          key: '/about',
+          key: '/general_contractors',
         },
         {
           label: 'Baş potratçylar',
