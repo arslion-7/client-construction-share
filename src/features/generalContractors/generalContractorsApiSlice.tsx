@@ -3,7 +3,7 @@ import {
   // IGeneralContractorCreate,
 } from '@/features/generalContractors/types';
 import { apiSlice } from '@/app/api/apiSlice';
-import { PaginatedResponse } from '@/types';
+import { PaginatedResponse } from '@/utils/responseUtils';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
@@ -13,9 +13,9 @@ export const generalContractors = apiWithTag.injectEndpoints({
   endpoints: (builder) => ({
     getGeneralContractors: builder.query<
       PaginatedResponse<IGeneralContractor[]>,
-      void
+      {page: number, pageSize: number}
     >({
-      query: () => `/share_building/general_contractors`,
+      query: ({ page = 1, pageSize = 20 }) => `/general_contractors?page=${page}&pageSize=${pageSize}`,
       providesTags: ['GENERAL_CONTRACTORS'],
       // keepUnusedDataFor: 5,
     }),

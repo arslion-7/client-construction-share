@@ -12,3 +12,5 @@ export interface IGeneralContractor extends IGeneral {
   head_full_name: string;
   org_additional_info: string | null;
 }
+
+export interfact IGeneralContractorRequest extends 
