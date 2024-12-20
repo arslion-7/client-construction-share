@@ -1,3 +1,4 @@
+import { PaginatedRequest } from '@/utils/requestUtils';
 import { IGeneral } from '../generalTypes';
 
 export interface IGeneralContractor extends IGeneral {
@@ -13,4 +14,6 @@ export interface IGeneralContractor extends IGeneral {
   org_additional_info: string | null;
 }
 
-export interfact IGeneralContractorRequest extends 
+export interface IGeneralContractorRequest extends PaginatedRequest {
+  some?: string;
+}

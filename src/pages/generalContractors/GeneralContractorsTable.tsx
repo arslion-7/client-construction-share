@@ -1,15 +1,18 @@
 import { useGetGeneralContractorsQuery } from '@/features/generalContractors/generalContractorsApiSlice';
 import { IGeneralContractor } from '@/features/generalContractors/types';
+import { usePagination } from '@/utils/hooks/paramsHooks';
 import { Spin, Table } from 'antd';
 import type { TablePaginationConfig, TableProps } from 'antd';
 import { FilterValue } from 'antd/es/table/interface';
-import { useSearchParams } from 'react-router';
 
 export default function GeneralContractorsTable() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { page, pageSize, onChangePagination } = usePagination();
 
   const { data: paginatedData, isLoading: isLoadingGeneralContractors } =
-    useGetGeneralContractorsQuery();
+    useGetGeneralContractorsQuery({
+      page,
+      pageSize,
+    });
 
   if (isLoadingGeneralContractors) return <Spin />;
 
@@ -25,13 +28,6 @@ export default function GeneralContractorsTable() {
       key: 'org_name',
     },
   ];
-
-  const onChangePagination = (pagination: TablePaginationConfig) => {
-    const { pageSize = pagination, current = 1 } = pagination;
-    searchParams.set('pageSize', pageSize.toString());
-    searchParams.set('page', current.toString());
-    setSearchParams(searchParams);
-  };
 
   const onChangeFilters = (filters: Record<string, FilterValue | null>) => {
     console.log('filters', filters);
@@ -52,9 +48,8 @@ export default function GeneralContractorsTable() {
       columns={columns}
       dataSource={paginatedData?.data}
       pagination={{
-        current: Number(searchParams.get('page')),
-        pageSize:
-          Number(searchParams.get('pageSize')) || paginatedData?.pageSize,
+        current: Number(page),
+        pageSize: Number(pageSize) || paginatedData?.pageSize,
         total: paginatedData?.total,
         showSizeChanger: true,
       }}
