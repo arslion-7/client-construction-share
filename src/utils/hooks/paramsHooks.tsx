@@ -1,7 +1,8 @@
 import type { TablePaginationConfig } from 'antd';
 import { useSearchParams } from 'react-router';
+import { PaginatedResponse } from '../responseUtils';
 
-export const usePagination = () => {
+export function usePagination() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = searchParams.get('page');
@@ -24,10 +25,20 @@ export const usePagination = () => {
     setPagePageSize({ pageSize, current });
   };
 
+  function getPagination<T>(paginatedData: PaginatedResponse<T>) {
+    return {
+      current: Number(page),
+      pageSize: Number(pageSize) || paginatedData?.pageSize,
+      total: paginatedData?.total,
+      showSizeChanger: true,
+    };
+  }
+
   return {
     page,
     pageSize,
     setPagePageSize,
     onChangePagination,
+    getPagination,
   };
-};
+}

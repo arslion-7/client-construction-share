@@ -6,7 +6,7 @@ import type { TablePaginationConfig, TableProps } from 'antd';
 import { FilterValue } from 'antd/es/table/interface';
 
 export default function GeneralContractorsTable() {
-  const { page, pageSize, onChangePagination } = usePagination();
+  const { page, pageSize, onChangePagination, getPagination } = usePagination();
 
   const { data: paginatedData, isLoading: isLoadingGeneralContractors } =
     useGetGeneralContractorsQuery({
@@ -47,12 +47,7 @@ export default function GeneralContractorsTable() {
     <Table
       columns={columns}
       dataSource={paginatedData?.data}
-      pagination={{
-        current: Number(page),
-        pageSize: Number(pageSize) || paginatedData?.pageSize,
-        total: paginatedData?.total,
-        showSizeChanger: true,
-      }}
+      pagination={getPagination<IGeneralContractor[]>(paginatedData!)}
       onChange={onChange}
     />
   );
