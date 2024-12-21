@@ -1,13 +1,14 @@
 import {
   IGeneralContractor,
-  IGeneralContractorRequest, // IGeneralContractorResponse,
+  IGeneralContractorRequest // IGeneralContractorResponse,
   // IGeneralContractorCreate,
 } from '@/features/generalContractors/types';
 import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
+import { paginationInit } from '@/utils/requestUtils';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
+  addTagTypes: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR']
 });
 
 export const generalContractors = apiWithTag.injectEndpoints({
@@ -16,11 +17,15 @@ export const generalContractors = apiWithTag.injectEndpoints({
       PaginatedResponse<IGeneralContractor[]>,
       IGeneralContractorRequest
     >({
-      query: ({ page = 1, pageSize = 20 }) =>
-        `/general_contractors?page=${page}&pageSize=${pageSize}`,
-      providesTags: ['GENERAL_CONTRACTORS'],
+      query: ({
+        page = paginationInit.page,
+        pageSize = paginationInit.pageSize,
+        search = ''
+      }) =>
+        `/general_contractors?page=${page}&pageSize=${pageSize}&search=${search}`,
+      providesTags: ['GENERAL_CONTRACTORS']
       // keepUnusedDataFor: 5,
-    }),
+    })
     // getGeneralContractor: builder.query<IGeneralContractorResponse, string>({
     //   query: (id) => `/general_contractors/${id}`,
     //   providesTags: ['GENERAL_CONTRACTOR'],
@@ -55,7 +60,7 @@ export const generalContractors = apiWithTag.injectEndpoints({
     //   }),
     //   invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
     // }),
-  }),
+  })
 });
 
 export const { useGetGeneralContractorsQuery } = generalContractors;
