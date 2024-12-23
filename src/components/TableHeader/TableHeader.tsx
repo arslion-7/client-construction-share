@@ -1,11 +1,11 @@
 import { Flex } from 'antd';
-import AddButton from './AddButton';
+import NewButton from './NewButton';
 import SearchInput from './SearchInput';
 
 export default function TableHeader() {
   return (
     <Flex gap={16}>
-      <AddButton />
+      <NewButton />
       <SearchInput />
     </Flex>
   );

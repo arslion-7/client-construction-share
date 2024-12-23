@@ -11,6 +11,8 @@ export default function SearchInput() {
 
   const onSearch: SearchProps['onSearch'] = (value, _, __) => {
     searchParams.set('search', value);
+    searchParams.delete('page');
+    searchParams.delete('pageSize');
     setSearchParams(searchParams);
     // console.log(info?.source, value);
   };
