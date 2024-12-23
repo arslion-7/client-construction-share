@@ -7,18 +7,19 @@ import About from '@/pages/About';
 import AuthLayout from '@/layouts/AuthLayout';
 import Login from '@/pages/Login';
 import GeneralContractors from '@/pages/generalContractors/GeneralContractors';
-
-// Import pages
-
-// import About from './pages/About';
-// import Contact from './pages/Contact';
+import GeneralContractor from './pages/generalContractor/GeneralContractor';
 
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path='/' element={<App />}>
-        <Route path='registries' element={<Registries />} />
-        <Route path='general_contractors' element={<GeneralContractors />} />
+        <Route path='registries'>
+          <Route index element={<Registries />} />
+        </Route>
+        <Route path='general_contractors'>
+          <Route index element={<GeneralContractors />} />
+          <Route path=':id' element={<GeneralContractor />} />
+        </Route>
         <Route path='about' element={<About />} />
       </Route>
 
@@ -26,12 +27,6 @@ const AppRoutes: React.FC = () => {
         <Route path='login' element={<Login />} />
         {/* <Route path='register' element={<Register />} /> */}
       </Route>
-
-      {/* <Route path='concerts'>
-        <Route index element={<ConcertsHome />} />
-        <Route path=':city' element={<City />} />
-        <Route path='trending' element={<Trending />} />
-      </Route> */}
     </Routes>
   );
 };

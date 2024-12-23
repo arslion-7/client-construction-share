@@ -2,7 +2,7 @@ import { LockOutlined, LoginOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 
 export default function Login() {
-  const onFinish = async (values) => {};
+  const onFinish = async () => {};
 
   const onFinishFailed = async () => {};
 

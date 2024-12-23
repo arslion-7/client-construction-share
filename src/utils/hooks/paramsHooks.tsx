@@ -1,5 +1,5 @@
 import type { TablePaginationConfig } from 'antd';
-import { useSearchParams } from 'react-router';
+import { useParams, useSearchParams } from 'react-router';
 import { PaginatedResponse } from '../responseUtils';
 import { paginationInit } from '../requestUtils';
 
@@ -12,7 +12,7 @@ export function usePaginationSearch() {
 
   const setPagePageSize = ({
     pageSize,
-    current
+    current,
   }: {
     pageSize: number | TablePaginationConfig;
     current: number | string;
@@ -33,7 +33,7 @@ export function usePaginationSearch() {
       pageSize: Number(pageSize) || paginatedData?.pageSize,
       // pageSize: 2,
       total: paginatedData?.total,
-      showSizeChanger: true
+      showSizeChanger: true,
     };
   }
 
@@ -43,6 +43,12 @@ export function usePaginationSearch() {
     search: search || paginationInit.search,
     setPagePageSize,
     onChangePagination,
-    getPagination
+    getPagination,
   };
+}
+
+export function useIsNew() {
+  const { id } = useParams();
+  if (id === 'new') return { isNew: true, id, idTk: 'Täze' };
+  return { isNew: false, id, idTk: id };
 }

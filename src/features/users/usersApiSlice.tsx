@@ -1,25 +1,25 @@
 import {
   IUserResponse,
   IUserCreate,
-  IUserUpdateRequest
-} from "@/features/users/types";
-import { apiSlice } from "../../app/api/apiSlice";
-import { IRole } from "../roles/types";
+  IUserUpdateRequest,
+} from '@/features/users/types';
+import { apiSlice } from '@/app/api/apiSlice';
+// import { IRole } from '../roles/types';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ["USERS", "USER"]
+  addTagTypes: ['USERS', 'USER'],
 });
 
 export const usersApiSlice = apiWithTag.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<IUserResponse[], string>({
       query: (show) => `/users?show=${show}`,
-      providesTags: ["USERS"]
+      providesTags: ['USERS'],
       // keepUnusedDataFor: 5,
     }),
     getUser: builder.query<IUserResponse, string>({
       query: (id) => `/users/${id}`,
-      providesTags: ["USER"]
+      providesTags: ['USER'],
     }),
     updateUser: builder.mutation<
       string,
@@ -27,55 +27,44 @@ export const usersApiSlice = apiWithTag.injectEndpoints({
     >({
       query: ({ id, user }) => ({
         url: `/users/${id}`,
-        method: "PUT",
-        body: user
+        method: 'PUT',
+        body: user,
       }),
-      invalidatesTags: ["USERS", "USER"]
+      invalidatesTags: ['USERS', 'USER'],
     }),
     deleteUser: builder.mutation<string, string>({
       query: (id) => ({
-        method: "DELETE",
-        url: `/users/${id}`
+        method: 'DELETE',
+        url: `/users/${id}`,
       }),
-      invalidatesTags: ["USERS"]
+      invalidatesTags: ['USERS'],
     }),
     restoreUser: builder.mutation<string, string>({
       query: (id) => ({
-        method: "PUT",
-        url: `/users/${id}/restore`
+        method: 'PUT',
+        url: `/users/${id}/restore`,
       }),
-      invalidatesTags: ["USERS"]
+      invalidatesTags: ['USERS'],
     }),
     createUser: builder.mutation<IUserResponse, IUserCreate>({
       query: (body) => ({
-        method: "POST",
-        url: "/users",
-        body
+        method: 'POST',
+        url: '/users',
+        body,
       }),
-      invalidatesTags: ["USERS", "USER"]
+      invalidatesTags: ['USERS', 'USER'],
     }),
-    updateUserRoles: builder.mutation<IRole, { id: number; roleIds: number[] }>(
-      {
-        query: ({ id, roleIds }) => ({
-          method: "PUT",
-          url: `users/${id}/roles`,
-          body: roleIds
-        }),
-        invalidatesTags: ["USER"]
-      }
-    ),
-    updateUserConstructions: builder.mutation<
-      IRole,
-      { id: number; constructionIds: number[] }
-    >({
-      query: ({ id, constructionIds }) => ({
-        method: "PUT",
-        url: `users/${id}/constructions`,
-        body: constructionIds
-      }),
-      invalidatesTags: ["USER"]
-    })
-  })
+    // updateUserRoles: builder.mutation<IRole, { id: number; roleIds: number[] }>(
+    //   {
+    //     query: ({ id, roleIds }) => ({
+    //       method: "PUT",
+    //       url: `users/${id}/roles`,
+    //       body: roleIds
+    //     }),
+    //     invalidatesTags: ["USER"]
+    //   }
+    // ),
+  }),
 });
 
 export const {
@@ -85,6 +74,5 @@ export const {
   useDeleteUserMutation,
   useRestoreUserMutation,
   useCreateUserMutation,
-  useUpdateUserRolesMutation,
-  useUpdateUserConstructionsMutation
+  // useUpdateUserRolesMutation,
 } = usersApiSlice;

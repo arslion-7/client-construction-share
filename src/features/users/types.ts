@@ -1,11 +1,10 @@
-
-import { IGeneral } from "../generalTypes";
-import { IRole } from "../roles/types";
+import { IGeneral } from '../generalTypes';
+// import { IRole } from '../roles/types';
 
 export interface IUserResponse extends IGeneral {
   email: string;
   full_name: string;
-  roles: IRole[];
+  // roles: IRole[];
   phone_number: string;
 }
 
