@@ -12,7 +12,7 @@ export function usePaginationSearch() {
 
   const setPagePageSize = ({
     pageSize,
-    current,
+    current
   }: {
     pageSize: number | TablePaginationConfig;
     current: number | string;
@@ -33,7 +33,7 @@ export function usePaginationSearch() {
       pageSize: Number(pageSize) || paginatedData?.pageSize,
       // pageSize: 2,
       total: paginatedData?.total,
-      showSizeChanger: true,
+      showSizeChanger: true
     };
   }
 
@@ -43,7 +43,7 @@ export function usePaginationSearch() {
     search: search || paginationInit.search,
     setPagePageSize,
     onChangePagination,
-    getPagination,
+    getPagination
   };
 }
 

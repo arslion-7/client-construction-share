@@ -8,7 +8,8 @@ import CertContent from '@/components/common/CertContent';
 import ResolutionContent from '@/components/common/ResolutionContent';
 import { useEffect } from 'react';
 import { useGetGeneralContractorQuery } from '@/features/generalContractors/generalContractorsApiSlice';
-import { getDateOrNull } from '@/utils/convertors';
+import dayjs from 'dayjs';
+import SubmitButton from '@/components/SubmitButton';
 
 export default function GeneralContractor() {
   const { idTk, isNew, id } = useIsNew();
@@ -24,19 +25,16 @@ export default function GeneralContractor() {
     if (generalContractor) {
       form.setFieldsValue({
         id: generalContractor.id,
+        t_b: generalContractor.t_b,
         org_name: generalContractor.org_name,
         head_position: generalContractor.head_position,
         head_full_name: generalContractor.head_full_name,
         org_additional_info: generalContractor.org_additional_info,
         cert_number: generalContractor.cert_number,
-        cert_date: getDateOrNull(generalContractor.cert_date),
+        cert_date: dayjs(generalContractor.cert_date),
         resolution_code: generalContractor.resolution_code,
-        resolution_begin_date: getDateOrNull(
-          generalContractor.resolution_begin_date
-        ),
-        resolution_end_date: getDateOrNull(
-          generalContractor.resolution_end_date
-        ),
+        resolution_begin_date: dayjs(generalContractor.resolution_begin_date),
+        resolution_end_date: dayjs(generalContractor.resolution_end_date)
       });
     }
   }, [form, generalContractor]);
@@ -49,11 +47,17 @@ export default function GeneralContractor() {
         withLeftArrow
         items={[{ title: idTk!, href: '' }]}
       />
-      <Form size='small' form={form} name='general_contractor_modal_form'>
-        <Row gutter={2}>
+      <Form size='small' form={form} name='general_contractor_form'>
+        <Row gutter={[16, 16]}>
           <Col span={24}>
-            <Form.Item name='id' label='id' rules={[rules.non_required()]}>
-              <Input disabled />
+            <Form.Item wrapperCol={{ offset: 22, span: 2 }}>
+              <SubmitButton // loading={isLoadingCreate || isLoadingUpdate}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={24}>
+            <Form.Item name='t_b' label='t_b' rules={[rules.non_required()]}>
+              <Input />
             </Form.Item>
           </Col>
           <Col span={24}>
@@ -64,6 +68,12 @@ export default function GeneralContractor() {
           </Col>
           <Col span={12}>
             <ResolutionContent />
+          </Col>
+          <Col span={24}>
+            <Form.Item wrapperCol={{ offset: 22, span: 2 }}>
+              <SubmitButton // loading={isLoadingCreate || isLoadingUpdate}
+              />
+            </Form.Item>
           </Col>
         </Row>
       </Form>

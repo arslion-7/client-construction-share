@@ -7,9 +7,10 @@ import { BrowserRouter } from 'react-router';
 import { ConfigProvider } from 'antd';
 import tkTK from 'antd/locale/tk_TK';
 import { Provider } from 'react-redux';
+import { store } from './app/store.ts';
 
 import 'dayjs/locale/tk';
-import { store } from './app/store.ts';
+
 // const theme = {
 //   token: {
 //     // Seed Token

@@ -31,7 +31,7 @@ export default function GeneralContractorsTable({
 
   return (
     <Table
-      rowKey='tb'
+      rowKey='id'
       columns={columns}
       dataSource={paginatedData?.data}
       pagination={getPagination<IGeneralContractor[]>(paginatedData!)}

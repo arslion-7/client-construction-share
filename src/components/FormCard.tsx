@@ -2,12 +2,12 @@ import { Card } from 'antd';
 
 const style: React.CSSProperties = {
   padding: '4px 0',
-  margin: '4px 0 0 4px',
+  margin: '4px 0 0 4px'
 };
 
 interface IFormCardProps {
   title: string;
-  children: JSX.Element;
+  children: JSX.Element[];
 }
 
 const FormCard = ({ title, children }: IFormCardProps) => {

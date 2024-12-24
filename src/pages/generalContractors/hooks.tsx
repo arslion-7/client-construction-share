@@ -1,6 +1,6 @@
 import { IGeneralContractor } from '@/features/generalContractors/types';
 import { Button, type TableProps } from 'antd';
-import { EditOutlined, SearchOutlined } from '@ant-design/icons';
+import { EditOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 
 export function useColumns() {
@@ -8,14 +8,14 @@ export function useColumns() {
 
   const columns: TableProps<IGeneralContractor>['columns'] = [
     {
-      title: 'tb',
-      dataIndex: 'tb',
-      key: 'tb',
+      title: 't_b',
+      dataIndex: 't_b',
+      key: 't_b'
     },
     {
       title: 'org_name',
       dataIndex: 'org_name',
-      key: 'org_name',
+      key: 'org_name'
     },
     {
       title: 'edit',
@@ -26,12 +26,12 @@ export function useColumns() {
           shape='circle'
           icon={<EditOutlined />}
           onClick={() => {
-            console.log('clicked', record.tb);
-            navigate(record.tb);
+            console.log('clicked', record.id);
+            navigate(record.id.toString());
           }}
         />
-      ),
-    },
+      )
+    }
   ];
 
   return columns;

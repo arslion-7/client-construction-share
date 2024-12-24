@@ -1,13 +1,14 @@
 import { PaginatedRequest } from '@/utils/requestUtils';
 import { IGeneral } from '../generalTypes';
+import { Dayjs } from 'dayjs';
 
 export interface IGeneralContractor extends IGeneral {
-  tb: number;
+  t_b: number;
   cert_number: number;
-  cert_date: string; // ISO 8601 date format
+  cert_date: string | Dayjs; // ISO 8601 date format
   resolution_code: string;
-  resolution_begin_date: string; // ISO 8601 date format
-  resolution_end_date: string; // ISO 8601 date format
+  resolution_begin_date: string | Dayjs; // ISO 8601 date format
+  resolution_end_date: string | Dayjs; // ISO 8601 date format
   org_name: string;
   head_position: string | null;
   head_full_name: string;
