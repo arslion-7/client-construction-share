@@ -2,7 +2,7 @@ import { PaginatedRequest } from '@/utils/requestUtils';
 import { IGeneral } from '../generalTypes';
 
 export interface IGeneralContractor extends IGeneral {
-  id: number;
+  tb: number;
   cert_number: number;
   cert_date: string; // ISO 8601 date format
   resolution_code: string;
