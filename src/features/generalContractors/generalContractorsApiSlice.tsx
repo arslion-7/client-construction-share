@@ -6,6 +6,7 @@ import {
 import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
 import { paginationInit } from '@/utils/requestUtils';
+import { IOrg } from '../generalTypes';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
@@ -30,17 +31,25 @@ export const generalContractors = apiWithTag.injectEndpoints({
       query: (id) => `/general_contractors/${id}`,
       providesTags: ['GENERAL_CONTRACTOR'],
     }),
-    // updateGeneralContractor: builder.mutation<
-    //   string,
-    //   { id: number; general_contractor: IGeneralContractorUpdateRequest }
-    // >({
-    //   query: ({ id, general_contractor }) => ({
-    //     url: `/general_contractors/${id}`,
-    //     method: 'PUT',
-    //     body: general_contractor,
-    //   }),
-    //   invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
-    // }),
+    createGeneralContractor: builder.mutation<IGeneralContractor, IOrg>({
+      query: (body) => ({
+        method: 'POST',
+        url: '/general_contractors',
+        body,
+      }),
+      invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
+    }),
+    updateGeneralContractorOrg: builder.mutation<
+      string,
+      { id: number; org: IOrg }
+    >({
+      query: ({ id, org }) => ({
+        url: `/general_contractors/${id}`,
+        method: 'PUT',
+        body: org,
+      }),
+      invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
+    }),
     // deleteGeneralContractor: builder.mutation<string, string>({
     //   query: (id) => ({
     //     method: 'DELETE',
@@ -48,20 +57,12 @@ export const generalContractors = apiWithTag.injectEndpoints({
     //   }),
     //   invalidatesTags: ['GENERAL_CONTRACTORS'],
     // }),
-
-    // createGeneralContractor: builder.mutation<
-    //   IGeneralContractorResponse,
-    //   IGeneralContractorCreate
-    // >({
-    //   query: (body) => ({
-    //     method: 'POST',
-    //     url: '/general_contractors',
-    //     body,
-    //   }),
-    //   invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
-    // }),
   }),
 });
 
-export const { useGetGeneralContractorsQuery, useGetGeneralContractorQuery } =
-  generalContractors;
+export const {
+  useGetGeneralContractorsQuery,
+  useGetGeneralContractorQuery,
+  useCreateGeneralContractorMutation,
+  useUpdateGeneralContractorOrgMutation,
+} = generalContractors;

@@ -2,6 +2,7 @@ import FormCard from '@/components/FormCard';
 import { dateFormat } from '@/utils/formats';
 import { rules } from '@/utils/rules';
 import { DatePicker, Form, Input } from 'antd';
+import SubmitButton from '../SubmitButton';
 
 const ResolutionContent = () => {
   return (
@@ -30,6 +31,10 @@ const ResolutionContent = () => {
           hasFeedback
         >
           <DatePicker format={dateFormat} />
+        </Form.Item>
+        <Form.Item wrapperCol={{ offset: 22, span: 2 }}>
+          <SubmitButton // loading={isLoadingCreate || isLoadingUpdate}
+          />
         </Form.Item>
       </>
     </FormCard>

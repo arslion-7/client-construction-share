@@ -1,36 +1,66 @@
-import FormCard from '@/components/FormCard';
-import { rules } from '@/utils/rules';
-import { Form, Input } from 'antd';
+import { Form, Input, InputNumber } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
+import SubmitButton from '../SubmitButton';
+import { IOrg } from '@/features/generalTypes';
+import { useIsNew } from '@/utils/hooks/paramsHooks';
+import { useNavigate } from 'react-router';
 
-const FormOrgContent = () => {
+interface IFormOrgContent {
+  org: IOrg;
+  onCreate: (org: IOrg) => Promise<void>;
+  onUpdate: (org: IOrg) => Promise<void>;
+  loading: boolean;
+}
+
+const FormOrgContent = ({
+  org,
+  onCreate,
+  onUpdate,
+  loading,
+}: IFormOrgContent) => {
+  const { isNew, id } = useIsNew();
+  const navigate = useNavigate();
+
+  const [form] = Form.useForm<IOrg>();
+
+  const onFinish = async (values: IOrg) => {
+    if (isNew) {
+      const generalContractor = await onCreate(values).unwrap();
+      navigate(`/general_contractors/${generalContractor.id}`);
+    } else {
+      await onUpdate(values);
+    }
+  };
+
   return (
-    <FormCard title='org_info'>
-      <Form.Item
-        name='org_name'
-        rules={[rules.non_required()]}
-        label='org_name'
-      >
+    <Form
+      form={form}
+      initialValues={org}
+      onFinish={onFinish}
+      labelCol={{ span: 4 }}
+      wrapperCol={{ span: 20 }}
+    >
+      <Form.Item name='t_b' label='t_b'>
+        <InputNumber />
+      </Form.Item>
+      <Form.Item name='org_name' label='org_name'>
         <TextArea rows={2} />
       </Form.Item>
-      <Form.Item
-        name='head_position'
-        rules={[rules.non_required()]}
-        label='head_position'
-      >
+      <Form.Item name='head_position' label='head_position'>
         <Input />
       </Form.Item>
-      <Form.Item
-        name='head_full_name'
-        rules={[rules.non_required()]}
-        label='head_full_name'
-      >
+      <Form.Item name='head_full_name' label='head_full_name'>
         <Input />
       </Form.Item>
-      <Form.Item name='org_additional_info' rules={[rules.non_required()]}>
+      <Form.Item name='org_additional_info' label='Goşmaça maglumat'>
         <TextArea rows={2} placeholder='additional_info' />
       </Form.Item>
-    </FormCard>
+      <Form.Item wrapperCol={{ offset: 21, span: 3 }}>
+        <SubmitButton
+          loading={loading} // loading={isLoadingCreate || isLoadingUpdate}
+        />
+      </Form.Item>
+    </Form>
   );
 };
 

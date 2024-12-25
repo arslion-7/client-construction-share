@@ -8,3 +8,10 @@ export interface IGeneral {
 export interface IResponse<T> {
   data: T;
 }
+
+export interface IOrg extends IGeneral {
+  org_name: string;
+  head_position: string | null;
+  head_full_name: string;
+  org_additional_info: string | null;
+}
