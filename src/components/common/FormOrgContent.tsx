@@ -2,6 +2,7 @@ import { Form, Input, InputNumber } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import SubmitButton from '../SubmitButton';
 import { IOrg } from '@/features/generalTypes';
+import { useFocusInput } from './hooks';
 
 interface IFormOrgContent {
   org: IOrg;
@@ -12,6 +13,8 @@ interface IFormOrgContent {
 const FormOrgContent = ({ org, onFinish, loading }: IFormOrgContent) => {
   const [form] = Form.useForm<IOrg>();
 
+  const focusInput = useFocusInput();
+
   return (
     <Form
       form={form}
@@ -21,7 +24,7 @@ const FormOrgContent = ({ org, onFinish, loading }: IFormOrgContent) => {
       wrapperCol={{ span: 20 }}
     >
       <Form.Item name='t_b' label='t_b'>
-        <InputNumber />
+        <InputNumber ref={focusInput} />
       </Form.Item>
       <Form.Item name='org_name' label='org_name'>
         <TextArea rows={2} />

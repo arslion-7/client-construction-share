@@ -4,6 +4,7 @@ import { DatePicker, Form, Input } from 'antd';
 import SubmitButton from '../SubmitButton';
 import { IResolution } from '@/features/generalTypes';
 import dayjs from 'dayjs';
+import { useFocusInput } from './hooks';
 
 interface IResolutionContent {
   resolution: IResolution;
@@ -17,6 +18,8 @@ const ResolutionContent = ({
   onFinish
 }: IResolutionContent) => {
   const [form] = Form.useForm<IResolution>();
+
+  const focusInput = useFocusInput();
 
   return (
     <Form
@@ -40,7 +43,7 @@ const ResolutionContent = ({
         rules={[rules.non_required()]}
         hasFeedback
       >
-        <Input />
+        <Input ref={focusInput} />
       </Form.Item>
       <Form.Item
         label='resolution_begin_date'

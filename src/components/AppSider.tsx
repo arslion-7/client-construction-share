@@ -44,7 +44,7 @@ export default function AppSider() {
         {
           label: 'Baş potratçylar',
           icon: <HddOutlined />,
-          key: '/about1'
+          key: '/'
         },
         {
           label: 'Baş potratçylar',
