@@ -1,13 +1,13 @@
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 import { Card, Flex, Skeleton } from 'antd';
 import GeneralContractorsBreadcrumb from '../generalContractors/GeneralContractorsBreadcrumb';
-import ResolutionContent from '@/components/common/FormResolutionContent';
 import { useGetGeneralContractorQuery } from '@/features/generalContractors/generalContractorsApiSlice';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import { useSearchParams } from 'react-router';
 import GeneralContractorOrg from './GeneralContractorOrg';
 import GeneralContractorCert from './GeneralContractorCert';
+import GeneralContractorResolution from './GeneralContractorResolution';
 
 export default function GeneralContractor() {
   const { idTk, isNew, id } = useIsNew();
@@ -31,24 +31,28 @@ export default function GeneralContractor() {
         <Card>
           <GeneralContractorOrg generalContractor={generalContractor!} />
         </Card>
-      ),
+      )
     },
     {
       key: 'cert',
       label: 'Şahadatnama maglumaty',
       children: (
         <Card>
-          <GeneralContractorCert cert={generalContractor!} />
+          <GeneralContractorCert generalContractor={generalContractor!} />
         </Card>
       ),
-      disabled: isNew,
+      disabled: isNew
     },
     {
       key: 'resolution',
       label: 'Rugsatnama maglumaty',
-      children: <ResolutionContent />,
-      disabled: isNew,
-    },
+      children: (
+        <Card>
+          <GeneralContractorResolution generalContractor={generalContractor!} />
+        </Card>
+      ),
+      disabled: isNew
+    }
   ];
 
   return (

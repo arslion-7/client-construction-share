@@ -1,14 +1,8 @@
 import { PaginatedRequest } from '@/utils/requestUtils';
-import { IOrg } from '../generalTypes';
-import { Dayjs } from 'dayjs';
+import { ICert, IOrg, IResolution } from '../generalTypes';
 
-export interface IGeneralContractor extends IOrg {
+export interface IGeneralContractor extends IOrg, ICert, IResolution {
   t_b: number;
-  cert_number: number;
-  cert_date: string | Dayjs; // ISO 8601 date format
-  resolution_code: string;
-  resolution_begin_date: string | Dayjs; // ISO 8601 date format
-  resolution_end_date: string | Dayjs; // ISO 8601 date format
 }
 
 export interface IGeneralContractorRequest extends PaginatedRequest {

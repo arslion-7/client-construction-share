@@ -22,3 +22,9 @@ export interface ICert {
   cert_number: string | number;
   cert_date: Dayjs | string;
 }
+
+export interface IResolution {
+  resolution_code: string;
+  resolution_begin_date: string | Dayjs; // ISO 8601 date format
+  resolution_end_date: string | Dayjs; // ISO 8601 date format
+}

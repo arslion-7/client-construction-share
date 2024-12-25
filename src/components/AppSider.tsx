@@ -6,15 +6,24 @@ import {
   PieChartOutlined,
   SettingOutlined,
   TableOutlined,
-  TeamOutlined,
+  TeamOutlined
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 const { Sider } = Layout;
 
 export default function AppSider() {
   const navigate = useNavigate();
+
+  const [selectedKeys, setSelectedKeys] = useState('/');
+
+  useEffect(() => {
+    const pathName = location.pathname;
+    console.log('pathName', pathName);
+    setSelectedKeys(location.pathname);
+  }, [location.pathname]);
 
   const items = [
     {
@@ -25,29 +34,29 @@ export default function AppSider() {
         {
           label: 'Reýestr',
           icon: <TableOutlined />,
-          key: '/registries',
+          key: '/registries'
         },
         {
           label: 'Baş potratçylar',
           icon: <GroupOutlined />,
-          key: '/general_contractors',
+          key: '/general_contractors'
         },
         {
           label: 'Baş potratçylar',
           icon: <HddOutlined />,
-          key: '/about1',
+          key: '/about1'
         },
         {
           label: 'Baş potratçylar',
           icon: <InboxOutlined />,
-          key: '/about2',
+          key: '/about2'
         },
         {
           label: 'Baş potratçylar',
           icon: <BarsOutlined />,
-          key: '/about3',
-        },
-      ],
+          key: '/about3'
+        }
+      ]
     },
     {
       label: 'Sazlamalar',
@@ -57,10 +66,10 @@ export default function AppSider() {
         {
           label: 'Ulanyjylar',
           key: '/users',
-          icon: <TeamOutlined />,
-        },
-      ],
-    },
+          icon: <TeamOutlined />
+        }
+      ]
+    }
   ];
 
   return (
@@ -73,7 +82,8 @@ export default function AppSider() {
           navigate(item.key);
         }}
         mode='inline'
-        defaultSelectedKeys={['1']}
+        // defaultSelectedKeys={[]}
+        selectedKeys={[selectedKeys]}
         defaultOpenKeys={['share', 'settings']}
         items={items}
       />

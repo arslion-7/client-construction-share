@@ -1,5 +1,4 @@
 import { dateFormat } from '@/utils/formats';
-import { rules } from '@/utils/rules';
 import { DatePicker, Form, InputNumber } from 'antd';
 import SubmitButton from '../SubmitButton';
 import { ICert } from '@/features/generalTypes';
@@ -19,27 +18,19 @@ const CertContent = ({ cert, loading, onFinish }: ICertContent) => {
       form={form}
       initialValues={{
         cert_number: cert.cert_number,
-        cert_date: dayjs(cert.cert_date),
+        cert_date: cert.cert_date && dayjs(cert.cert_date)
       }}
       onFinish={onFinish}
+      labelCol={{ span: 4 }}
+      wrapperCol={{ span: 20 }}
     >
-      <Form.Item
-        label='cert_number'
-        name='cert_number'
-        rules={[rules.non_required()]}
-        hasFeedback
-      >
-        <InputNumber />
+      <Form.Item label='cert_number' name='cert_number' hasFeedback>
+        <InputNumber style={{ width: 200 }} />
       </Form.Item>
-      <Form.Item
-        label='cert_date'
-        name='cert_date'
-        rules={[rules.non_required()]}
-        hasFeedback
-      >
+      <Form.Item label='cert_date' name='cert_date' hasFeedback>
         <DatePicker format={dateFormat} />
       </Form.Item>
-      <Form.Item wrapperCol={{ offset: 22, span: 2 }}>
+      <Form.Item wrapperCol={{ offset: 21, span: 3 }}>
         <SubmitButton loading={loading} />
       </Form.Item>
     </Form>
