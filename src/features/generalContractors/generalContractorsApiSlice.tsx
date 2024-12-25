@@ -6,7 +6,7 @@ import {
 import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
 import { paginationInit } from '@/utils/requestUtils';
-import { IOrg } from '../generalTypes';
+import { ICert, IOrg } from '../generalTypes';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
@@ -41,7 +41,7 @@ export const generalContractors = apiWithTag.injectEndpoints({
     }),
     updateGeneralContractorOrg: builder.mutation<
       string,
-      { id: number; org: IOrg }
+      { id: string; org: IOrg }
     >({
       query: ({ id, org }) => ({
         url: `/general_contractors/${id}`,
@@ -50,6 +50,18 @@ export const generalContractors = apiWithTag.injectEndpoints({
       }),
       invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
     }),
+    updateGeneralContractorCert: builder.mutation<
+      string,
+      { id: string; cert: ICert }
+    >({
+      query: ({ id, cert }) => ({
+        url: `/general_contractors/${id}`,
+        method: 'PUT',
+        body: cert,
+      }),
+      invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
+    }),
+
     // deleteGeneralContractor: builder.mutation<string, string>({
     //   query: (id) => ({
     //     method: 'DELETE',
@@ -65,4 +77,5 @@ export const {
   useGetGeneralContractorQuery,
   useCreateGeneralContractorMutation,
   useUpdateGeneralContractorOrgMutation,
+  useUpdateGeneralContractorCertMutation,
 } = generalContractors;

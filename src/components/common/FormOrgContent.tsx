@@ -2,35 +2,15 @@ import { Form, Input, InputNumber } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import SubmitButton from '../SubmitButton';
 import { IOrg } from '@/features/generalTypes';
-import { useIsNew } from '@/utils/hooks/paramsHooks';
-import { useNavigate } from 'react-router';
 
 interface IFormOrgContent {
   org: IOrg;
-  onCreate: (org: IOrg) => Promise<void>;
-  onUpdate: (org: IOrg) => Promise<void>;
+  onFinish: (values: IOrg) => Promise<void>;
   loading: boolean;
 }
 
-const FormOrgContent = ({
-  org,
-  onCreate,
-  onUpdate,
-  loading,
-}: IFormOrgContent) => {
-  const { isNew, id } = useIsNew();
-  const navigate = useNavigate();
-
+const FormOrgContent = ({ org, onFinish, loading }: IFormOrgContent) => {
   const [form] = Form.useForm<IOrg>();
-
-  const onFinish = async (values: IOrg) => {
-    if (isNew) {
-      const generalContractor = await onCreate(values).unwrap();
-      navigate(`/general_contractors/${generalContractor.id}`);
-    } else {
-      await onUpdate(values);
-    }
-  };
 
   return (
     <Form

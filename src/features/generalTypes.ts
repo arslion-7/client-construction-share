@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs';
+
 export interface IGeneral {
   id: number;
   created_at: string;
@@ -14,4 +16,9 @@ export interface IOrg extends IGeneral {
   head_position: string | null;
   head_full_name: string;
   org_additional_info: string | null;
+}
+
+export interface ICert {
+  cert_number: string | number;
+  cert_date: Dayjs | string;
 }
