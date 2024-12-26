@@ -1,4 +1,4 @@
-import { IGeneralContractor } from '@/features/generalContractors/types';
+import { IContractor } from '@/features/generalContractors/types';
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
 import { Table } from 'antd';
 import type { TablePaginationConfig, TableProps } from 'antd';
@@ -7,9 +7,9 @@ import { useColumns } from './hooks';
 import { PaginatedResponse } from '@/utils/responseUtils';
 
 export default function GeneralContractorsTable({
-  paginatedData
+  paginatedData,
 }: {
-  paginatedData: PaginatedResponse<IGeneralContractor[]>;
+  paginatedData: PaginatedResponse<IContractor[]>;
 }) {
   const { onChangePagination, getPagination } = usePaginationSearch();
 
@@ -19,7 +19,7 @@ export default function GeneralContractorsTable({
     console.log('filters', filters);
   };
 
-  const onChange: TableProps<IGeneralContractor>['onChange'] = (
+  const onChange: TableProps<IContractor>['onChange'] = (
     pagination: TablePaginationConfig,
     filters
     // sorter: any,
@@ -34,7 +34,7 @@ export default function GeneralContractorsTable({
       rowKey='id'
       columns={columns}
       dataSource={paginatedData?.data}
-      pagination={getPagination<IGeneralContractor[]>(paginatedData!)}
+      pagination={getPagination<IContractor[]>(paginatedData!)}
       onChange={onChange}
     />
   );

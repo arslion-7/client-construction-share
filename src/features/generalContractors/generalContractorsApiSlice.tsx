@@ -1,6 +1,6 @@
 import {
-  IGeneralContractor,
-  IGeneralContractorRequest // IGeneralContractorResponse,
+  IContractor,
+  IGeneralContractorRequest, // IGeneralContractorResponse,
   // IGeneralContractorCreate,
 } from '@/features/generalContractors/types';
 import { apiSlice } from '@/app/api/apiSlice';
@@ -9,35 +9,35 @@ import { paginationInit } from '@/utils/requestUtils';
 import { ICert, IOrg, IResolution } from '../generalTypes';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR']
+  addTagTypes: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
 });
 
 export const generalContractors = apiWithTag.injectEndpoints({
   endpoints: (builder) => ({
     getGeneralContractors: builder.query<
-      PaginatedResponse<IGeneralContractor[]>,
+      PaginatedResponse<IContractor[]>,
       IGeneralContractorRequest
     >({
       query: ({
         page = paginationInit.page,
         pageSize = paginationInit.pageSize,
-        search = ''
+        search = '',
       }) =>
         `/general_contractors?page=${page}&pageSize=${pageSize}&search=${search}`,
-      providesTags: ['GENERAL_CONTRACTORS']
+      providesTags: ['GENERAL_CONTRACTORS'],
       // keepUnusedDataFor: 5,
     }),
-    getGeneralContractor: builder.query<IGeneralContractor, string>({
+    getGeneralContractor: builder.query<IContractor, string>({
       query: (id) => `/general_contractors/${id}`,
-      providesTags: ['GENERAL_CONTRACTOR']
+      providesTags: ['GENERAL_CONTRACTOR'],
     }),
-    createGeneralContractor: builder.mutation<IGeneralContractor, IOrg>({
+    createGeneralContractor: builder.mutation<IContractor, IOrg>({
       query: (body) => ({
         method: 'POST',
         url: '/general_contractors',
-        body
+        body,
       }),
-      invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR']
+      invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
     }),
     updateGeneralContractorOrg: builder.mutation<
       string,
@@ -46,9 +46,9 @@ export const generalContractors = apiWithTag.injectEndpoints({
       query: ({ id, org }) => ({
         url: `/general_contractors/${id}`,
         method: 'PUT',
-        body: org
+        body: org,
       }),
-      invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR']
+      invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
     }),
     updateGeneralContractorCert: builder.mutation<
       string,
@@ -57,9 +57,9 @@ export const generalContractors = apiWithTag.injectEndpoints({
       query: ({ id, cert }) => ({
         url: `/general_contractors/${id}/cert`,
         method: 'PUT',
-        body: cert
+        body: cert,
       }),
-      invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR']
+      invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
     }),
     updateGeneralContractorResolution: builder.mutation<
       string,
@@ -68,10 +68,10 @@ export const generalContractors = apiWithTag.injectEndpoints({
       query: ({ id, resolution }) => ({
         url: `/general_contractors/${id}/resolution`,
         method: 'PUT',
-        body: resolution
+        body: resolution,
       }),
-      invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR']
-    })
+      invalidatesTags: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
+    }),
 
     // deleteGeneralContractor: builder.mutation<string, string>({
     //   query: (id) => ({
@@ -80,7 +80,7 @@ export const generalContractors = apiWithTag.injectEndpoints({
     //   }),
     //   invalidatesTags: ['GENERAL_CONTRACTORS'],
     // }),
-  })
+  }),
 });
 
 export const {
@@ -89,5 +89,5 @@ export const {
   useCreateGeneralContractorMutation,
   useUpdateGeneralContractorOrgMutation,
   useUpdateGeneralContractorCertMutation,
-  useUpdateGeneralContractorResolutionMutation
+  useUpdateGeneralContractorResolutionMutation,
 } = generalContractors;

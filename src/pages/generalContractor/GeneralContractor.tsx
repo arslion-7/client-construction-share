@@ -10,7 +10,7 @@ import GeneralContractorCert from './GeneralContractorCert';
 import GeneralContractorResolution from './GeneralContractorResolution';
 
 export default function GeneralContractor() {
-  const { idTk, isNew, id } = useIsNew();
+  const { isNew, id } = useIsNew();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { data: generalContractor, isLoading: isLoadingGeneralContractor } =
@@ -31,7 +31,7 @@ export default function GeneralContractor() {
         <Card>
           <GeneralContractorOrg generalContractor={generalContractor!} />
         </Card>
-      )
+      ),
     },
     {
       key: 'cert',
@@ -41,7 +41,7 @@ export default function GeneralContractor() {
           <GeneralContractorCert generalContractor={generalContractor!} />
         </Card>
       ),
-      disabled: isNew
+      disabled: isNew,
     },
     {
       key: 'resolution',
@@ -51,16 +51,13 @@ export default function GeneralContractor() {
           <GeneralContractorResolution generalContractor={generalContractor!} />
         </Card>
       ),
-      disabled: isNew
-    }
+      disabled: isNew,
+    },
   ];
 
   return (
     <Flex vertical gap={16}>
-      <GeneralContractorsBreadcrumb
-        withLeftArrow
-        items={[{ title: idTk!, href: '' }]}
-      />
+      <GeneralContractorsBreadcrumb withLeftArrow withId />
       <Tabs
         defaultActiveKey={searchParams.get('tab') || 'org'}
         items={items}

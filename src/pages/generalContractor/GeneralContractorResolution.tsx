@@ -1,19 +1,19 @@
 import FormResolutionContent from '@/components/common/FormResolutionContent';
 import { useUpdateGeneralContractorResolutionMutation } from '@/features/generalContractors/generalContractorsApiSlice';
-import { IGeneralContractor } from '@/features/generalContractors/types';
+import { IContractor } from '@/features/generalContractors/types';
 import { IResolution } from '@/features/generalTypes';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 
 export default function GeneralContractorResolution({
-  generalContractor
+  generalContractor,
 }: {
-  generalContractor: IGeneralContractor;
+  generalContractor: IContractor;
 }) {
   const { isNew, id } = useIsNew();
 
   const [
     updateGeneralContractorResolution,
-    { isLoading: isLoadingUpdateResolution }
+    { isLoading: isLoadingUpdateResolution },
   ] = useUpdateGeneralContractorResolutionMutation();
 
   const onFinish = async (values: IResolution) => {
@@ -28,7 +28,7 @@ export default function GeneralContractorResolution({
       resolution={{
         resolution_code: generalContractor.resolution_code,
         resolution_begin_date: generalContractor.resolution_begin_date,
-        resolution_end_date: generalContractor.resolution_end_date
+        resolution_end_date: generalContractor.resolution_end_date,
       }}
       onFinish={onFinish}
       loading={isLoadingUpdateResolution}

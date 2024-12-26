@@ -1,13 +1,13 @@
 import FormCertContent from '@/components/common/FormCertContent';
 import { useUpdateGeneralContractorCertMutation } from '@/features/generalContractors/generalContractorsApiSlice';
-import { IGeneralContractor } from '@/features/generalContractors/types';
+import { IContractor } from '@/features/generalContractors/types';
 import { ICert } from '@/features/generalTypes';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 
 export default function GeneralContractorCert({
   generalContractor,
 }: {
-  generalContractor: IGeneralContractor;
+  generalContractor: IContractor;
 }) {
   const { isNew, id } = useIsNew();
 

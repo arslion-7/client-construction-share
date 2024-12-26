@@ -3,7 +3,7 @@ import {
   useCreateGeneralContractorMutation,
   useUpdateGeneralContractorOrgMutation,
 } from '@/features/generalContractors/generalContractorsApiSlice';
-import { IGeneralContractor } from '@/features/generalContractors/types';
+import { IContractor } from '@/features/generalContractors/types';
 import { IOrg } from '@/features/generalTypes';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 import { useNavigate } from 'react-router';
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router';
 export default function GeneralContractorOrg({
   generalContractor,
 }: {
-  generalContractor: IGeneralContractor;
+  generalContractor: IContractor;
 }) {
   const { isNew, id } = useIsNew();
   const navigate = useNavigate();

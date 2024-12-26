@@ -13,7 +13,7 @@ const Registries: React.FC = () => {
     useGetRegistriesQuery({
       page,
       pageSize,
-      search
+      search,
     });
 
   return (

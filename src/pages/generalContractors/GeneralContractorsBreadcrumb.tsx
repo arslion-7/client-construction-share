@@ -1,22 +1,24 @@
 import GeneralBreadCrumb from '@/components/GeneralBreadCrumb';
 
 export default function GeneralContractorsBreadcrumb({
-  items,
   withLeftArrow,
+  withId,
 }: {
-  items?: Array<{ title: JSX.Element } | { href: string; title: string }>;
   withLeftArrow?: boolean;
+  withId?: boolean;
 }) {
+  const items = [
+    {
+      href: '/general_contractors',
+      title: 'Baş potratçylar',
+    },
+  ];
+
   return (
     <GeneralBreadCrumb
       withLeftArrow={withLeftArrow}
-      items={[
-        {
-          href: '/general_contractors',
-          title: 'Baş potratçylar',
-        },
-        ...(items ?? []),
-      ]}
+      items={[...items]}
+      withId={withId}
     />
   );
 }

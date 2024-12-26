@@ -8,6 +8,7 @@ import AuthLayout from '@/layouts/AuthLayout';
 import Login from '@/pages/Login';
 import GeneralContractors from '@/pages/generalContractors/GeneralContractors';
 import GeneralContractor from './pages/generalContractor/GeneralContractor';
+import Registry from './pages/registry/Registry';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const AppRoutes: React.FC = () => {
       <Route path='/' element={<App />}>
         <Route path='registries'>
           <Route index element={<Registries />} />
+          <Route path=':id' element={<Registry />} />
         </Route>
         <Route path='general_contractors'>
           <Route index element={<GeneralContractors />} />

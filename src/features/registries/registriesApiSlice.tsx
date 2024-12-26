@@ -4,7 +4,7 @@ import { paginationInit } from '@/utils/requestUtils';
 import { IRegistry, IRegistryRequest } from './types';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['REGISTRIES', 'REGISTRY']
+  addTagTypes: ['REGISTRIES', 'REGISTRY'],
 });
 
 export const registriesApiSlice = apiWithTag.injectEndpoints({
@@ -16,23 +16,37 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
       query: ({
         page = paginationInit.page,
         pageSize = paginationInit.pageSize,
-        search = ''
+        search = '',
       }) => `/registries?page=${page}&pageSize=${pageSize}&search=${search}`,
-      providesTags: ['REGISTRIES']
+      providesTags: ['REGISTRIES'],
       // keepUnusedDataFor: 5,
-    })
-    // getRegistry: builder.query<IRegistry, string>({
-    //   query: (id) => `/registries/${id}`,
-    //   providesTags: ['REGISTRY']
-    // }),
-    // createRegistry: builder.mutation<IRegistry, IOrg>({
-    //   query: (body) => ({
-    //     method: 'POST',
-    //     url: '/registries',
-    //     body
-    //   }),
-    //   invalidatesTags: ['REGISTRIES', 'REGISTRY']
-    // })
+    }),
+
+    getRegistry: builder.query<IRegistry, string>({
+      query: (id) => `/registries/${id}`,
+      providesTags: ['REGISTRY'],
+    }),
+    createRegistry: builder.mutation<IRegistry, void>({
+      query: () => ({
+        method: 'POST',
+        url: '/registries',
+        // body,
+      }),
+      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+    }),
+    chooseGeneralContractor: builder.mutation<
+      IRegistry,
+      { id: string; general_contractor_id: number }
+    >({
+      query: ({ id, general_contractor_id }) => ({
+        method: 'PUT',
+        url: `/registries/${id}/update_general_contractor`,
+        body: {
+          general_contractor_id,
+        },
+      }),
+      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+    }),
     // updateRegistryOrg: builder.mutation<
     //   string,
     //   { id: string; org: IOrg }
@@ -44,7 +58,12 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
     //   }),
     //   invalidatesTags: ['REGISTRIES', 'REGISTRY']
     // })
-  })
+  }),
 });
 
-export const { useGetRegistriesQuery } = registriesApiSlice;
+export const {
+  useGetRegistriesQuery,
+  useGetRegistryQuery,
+  useCreateRegistryMutation,
+  useChooseGeneralContractorMutation,
+} = registriesApiSlice;

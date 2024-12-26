@@ -9,10 +9,11 @@ export function usePaginationSearch() {
   const page = searchParams.get('page');
   const pageSize = searchParams.get('pageSize');
   const search = searchParams.get('search');
+  const registryId = searchParams.get('registryId');
 
   const setPagePageSize = ({
     pageSize,
-    current
+    current,
   }: {
     pageSize: number | TablePaginationConfig;
     current: number | string;
@@ -33,7 +34,7 @@ export function usePaginationSearch() {
       pageSize: Number(pageSize) || paginatedData?.pageSize,
       // pageSize: 2,
       total: paginatedData?.total,
-      showSizeChanger: true
+      showSizeChanger: true,
     };
   }
 
@@ -41,9 +42,10 @@ export function usePaginationSearch() {
     page: page || paginationInit.page,
     pageSize: pageSize || paginationInit.pageSize,
     search: search || paginationInit.search,
+    registryId: registryId && Number(registryId) ? registryId : 0,
     setPagePageSize,
     onChangePagination,
-    getPagination
+    getPagination,
   };
 }
 
@@ -51,4 +53,17 @@ export function useIsNew() {
   const { id } = useParams();
   if (id === 'new') return { isNew: true, id, idTk: 'Täze' };
   return { isNew: false, id, idTk: id };
+}
+
+export function useIdAddedBreadCrumb({ withId }: { withId?: boolean }) {
+  const { id } = useParams();
+
+  if (!withId) return [];
+
+  return [
+    {
+      href: '',
+      title: id || '',
+    },
+  ];
 }

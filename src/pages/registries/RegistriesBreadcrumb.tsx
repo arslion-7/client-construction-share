@@ -1,22 +1,24 @@
 import GeneralBreadCrumb from '@/components/GeneralBreadCrumb';
 
 export default function RegistriesBreadcrumb({
-  items,
-  withLeftArrow
+  withLeftArrow,
+  withId,
 }: {
-  items?: Array<{ title: JSX.Element } | { href: string; title: string }>;
   withLeftArrow?: boolean;
+  withId?: boolean;
 }) {
+  const items = [
+    {
+      href: '/registries',
+      title: 'Reýestr',
+    },
+  ];
+
   return (
     <GeneralBreadCrumb
       withLeftArrow={withLeftArrow}
-      items={[
-        {
-          href: '/registries',
-          title: 'Reýestr'
-        },
-        ...(items ?? [])
-      ]}
+      items={[...items]}
+      withId={withId}
     />
   );
 }
