@@ -1,38 +1,41 @@
+import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
 import { Table } from 'antd';
+import type { TablePaginationConfig, TableProps } from 'antd';
+import { FilterValue } from 'antd/es/table/interface';
+import { PaginatedResponse } from '@/utils/responseUtils';
+import { useColumns } from './hooks';
+import { IRegistry } from '@/features/registries/types';
 
-export default function RegistriesTable() {
-  const dataSource = [
-    {
-      key: '1',
-      name: 'Mike',
-      age: 32,
-      address: '10 Downing Street',
-    },
-    {
-      key: '2',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
-    },
-  ];
+export default function RegistriesTable({
+  paginatedData
+}: {
+  paginatedData: PaginatedResponse<IRegistry[]>;
+}) {
+  const { onChangePagination, getPagination } = usePaginationSearch();
 
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-    },
-  ];
+  const columns = useColumns();
 
-  return <Table columns={columns} dataSource={dataSource} />;
+  const onChangeFilters = (filters: Record<string, FilterValue | null>) => {
+    console.log('filters', filters);
+  };
+
+  const onChange: TableProps<IRegistry>['onChange'] = (
+    pagination: TablePaginationConfig,
+    filters
+    // sorter: any,
+    // extra: TableCurrentDataSource<DataType>
+  ) => {
+    onChangePagination(pagination);
+    onChangeFilters(filters);
+  };
+
+  return (
+    <Table
+      rowKey='id'
+      columns={columns}
+      dataSource={paginatedData?.data}
+      pagination={getPagination<IRegistry[]>(paginatedData!)}
+      onChange={onChange}
+    />
+  );
 }
