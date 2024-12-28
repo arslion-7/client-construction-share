@@ -16,12 +16,12 @@ export function useColumns() {
     {
       title: 't_b',
       dataIndex: 't_b',
-      key: 't_b',
+      key: 't_b'
     },
     {
       title: 'org_name',
       dataIndex: 'org_name',
-      key: 'org_name',
+      key: 'org_name'
     },
     {
       title: 'edit',
@@ -36,11 +36,11 @@ export function useColumns() {
             navigate(record.id.toString());
           }}
         />
-      ),
-    },
+      )
+    }
   ];
 
-  let sufColumns: TableProps['columns'] = [];
+  let sufColumns: TableProps<IContractor>['columns'] = [];
 
   if (registryId) {
     sufColumns = [
@@ -52,10 +52,9 @@ export function useColumns() {
           <Button
             loading={isLoadingSelect}
             onClick={async () => {
-              console.log('gen_contractor id', record.id);
               await select({
                 id: registryId.toString(),
-                general_contractor_id: record.id,
+                general_contractor_id: record.id
               });
               navigate(`/registries/${registryId}`);
             }}
@@ -63,8 +62,8 @@ export function useColumns() {
           >
             Saýla
           </Button>
-        ),
-      },
+        )
+      }
     ];
   }
 

@@ -7,7 +7,7 @@ import { useColumns } from './hooks';
 import { PaginatedResponse } from '@/utils/responseUtils';
 
 export default function GeneralContractorsTable({
-  paginatedData,
+  paginatedData
 }: {
   paginatedData: PaginatedResponse<IContractor[]>;
 }) {

@@ -10,6 +10,7 @@ import GeneralContractors from '@/pages/generalContractors/GeneralContractors';
 import GeneralContractor from './pages/generalContractor/GeneralContractor';
 import Registry from './pages/registry/Registry';
 import Users from './pages/users/Users';
+import User from './pages/user/User';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -17,7 +18,7 @@ const AppRoutes: React.FC = () => {
       <Route path='/' element={<App />}>
         <Route path='users'>
           <Route index element={<Users />} />
-          {/* <Route path=':id' element={<User />} /> */}
+          <Route path=':id' element={<User />} />
         </Route>
         <Route path='registries'>
           <Route index element={<Registries />} />

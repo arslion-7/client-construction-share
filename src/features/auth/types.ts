@@ -1,13 +1,13 @@
 export interface IRequestUser {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export interface IResponseUser {
-  accessToken: string
+  accessToken: string;
 }
 
 export interface IRequestResetPassword {
-  id: number
-  password: string
+  id: string;
+  password: string;
 }

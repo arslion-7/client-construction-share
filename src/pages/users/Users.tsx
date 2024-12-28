@@ -1,10 +1,14 @@
+import { Flex } from 'antd';
 import UsersTable from './UsersTable';
+import TableHeader from '@/components/TableHeader/TableHeader';
+import UsersBreadcrumb from './UsersBreadcrumb';
 
 export default function Users() {
   return (
-    <>
-      <div>Users</div>
+    <Flex vertical gap={16}>
+      <UsersBreadcrumb />
+      <TableHeader />
       <UsersTable />
-    </>
+    </Flex>
   );
 }
