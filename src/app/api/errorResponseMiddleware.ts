@@ -1,21 +1,28 @@
-import { isRejectedWithValue } from "@reduxjs/toolkit";
-import type { Middleware } from "@reduxjs/toolkit";
-import { message } from "antd";
+import { isRejectedWithValue } from '@reduxjs/toolkit';
+import type { MiddlewareAPI, Middleware } from '@reduxjs/toolkit';
+import { message } from 'antd';
+
+interface CustomError {
+  data: { error: string };
+  status: number;
+}
 
 /**
- * Log a warning and show a message!
+ * Log a warning and show a toast!
  */
-export const errorResponseMiddleware: Middleware = () => (next) => (action) => {
-  // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
-  if (isRejectedWithValue(action)) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const { data, status } = action.payload;
+export const rtkQueryErrorLogger: Middleware =
+  (api: MiddlewareAPI) => (next) => (action) => {
+    // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
+    if (isRejectedWithValue(action)) {
+      console.warn('We got a rejected action!');
+      const payload = action.payload as CustomError;
 
-    if (status === 403) {
-      message.error(data.message_tk);
+      message.error(
+        'data' in payload
+          ? (payload.data as { error: string }).error
+          : action.error.message
+      );
     }
-  }
 
-  return next(action);
-};
+    return next(action);
+  };

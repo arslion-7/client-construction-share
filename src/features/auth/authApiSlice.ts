@@ -6,26 +6,26 @@ const URL = '/auth';
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<IResponseUser, IRequestUser>({
+    signIn: builder.mutation<IResponseUser, IRequestUser>({
       query: (credentials) => ({
-        url: `${URL}/login`,
+        url: `${URL}/sign-in`,
         method: 'POST',
-        body: { ...credentials },
-      }),
+        body: { ...credentials }
+      })
     }),
     resetPassword: builder.mutation<string, IRequestResetPassword>({
       query: ({ id, password }) => ({
         url: `${URL}/reset-password/${id}`,
         method: 'PUT',
-        body: { password },
-      }),
+        body: { password }
+      })
     }),
     getMe: builder.query<IUserResponse, null>({
-      query: () => `${URL}/me`,
+      query: () => `${URL}/me`
       // providesTags: []
-    }),
-  }),
+    })
+  })
 });
 
-export const { useLoginMutation, useResetPasswordMutation, useGetMeQuery } =
+export const { useSignInMutation, useResetPasswordMutation, useGetMeQuery } =
   authApiSlice;

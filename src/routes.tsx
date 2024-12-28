@@ -5,15 +5,20 @@ import App from '@/App';
 import Registries from '@/pages/registries/Registries';
 import About from '@/pages/About';
 import AuthLayout from '@/layouts/AuthLayout';
-import Login from '@/pages/Login';
+import SignIn from '@/pages/SignIn';
 import GeneralContractors from '@/pages/generalContractors/GeneralContractors';
 import GeneralContractor from './pages/generalContractor/GeneralContractor';
 import Registry from './pages/registry/Registry';
+import Users from './pages/users/Users';
 
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path='/' element={<App />}>
+        <Route path='users'>
+          <Route index element={<Users />} />
+          {/* <Route path=':id' element={<User />} /> */}
+        </Route>
         <Route path='registries'>
           <Route index element={<Registries />} />
           <Route path=':id' element={<Registry />} />
@@ -22,11 +27,12 @@ const AppRoutes: React.FC = () => {
           <Route index element={<GeneralContractors />} />
           <Route path=':id' element={<GeneralContractor />} />
         </Route>
+
         <Route path='about' element={<About />} />
       </Route>
 
       <Route element={<AuthLayout />}>
-        <Route path='login' element={<Login />} />
+        <Route path='login' element={<SignIn />} />
         {/* <Route path='register' element={<Register />} /> */}
       </Route>
     </Routes>

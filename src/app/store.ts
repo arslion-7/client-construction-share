@@ -1,6 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
-import auth from "../features/auth/authSlice";
-import { apiSlice } from "./api/apiSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import auth from '../features/auth/authSlice';
+import { apiSlice } from './api/apiSlice';
+import { rtkQueryErrorLogger } from './api/errorResponseMiddleware';
 // import { errorResponseMiddleware } from "./api/errorResponseMiddleware";
 
 export const store = configureStore({
@@ -10,7 +11,8 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     //  errorResponseMiddleware
-    getDefaultMiddleware().concat(apiSlice.middleware),
+    getDefaultMiddleware().concat(apiSlice.middleware, rtkQueryErrorLogger),
+
   devTools: true
 });
 
