@@ -3,14 +3,14 @@ import { Button, type TableProps } from 'antd';
 import { CheckCircleOutlined, EditOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
-import { useChooseGeneralContractorMutation } from '@/features/registries/registriesApiSlice';
+import { useSelectGeneralContractorMutation } from '@/features/registries/registriesApiSlice';
 
 export function useColumns() {
   const navigate = useNavigate();
   const { registryId } = usePaginationSearch();
 
-  const [choose, { isLoading: isLoadingChoose }] =
-    useChooseGeneralContractorMutation();
+  const [select, { isLoading: isLoadingSelect }] =
+    useSelectGeneralContractorMutation();
 
   const preColumns: TableProps<IContractor>['columns'] = [
     {
@@ -46,14 +46,14 @@ export function useColumns() {
     sufColumns = [
       {
         title: 'Saýla',
-        dataIndex: 'choose',
-        key: 'choose',
+        dataIndex: 'select',
+        key: 'select',
         render: (_, record) => (
           <Button
-            loading={isLoadingChoose}
+            loading={isLoadingSelect}
             onClick={async () => {
               console.log('gen_contractor id', record.id);
-              await choose({
+              await select({
                 id: registryId.toString(),
                 general_contractor_id: record.id,
               });

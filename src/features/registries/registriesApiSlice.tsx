@@ -34,7 +34,7 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
       }),
       invalidatesTags: ['REGISTRIES', 'REGISTRY'],
     }),
-    chooseGeneralContractor: builder.mutation<
+    selectGeneralContractor: builder.mutation<
       IRegistry,
       { id: string; general_contractor_id: number }
     >({
@@ -65,5 +65,5 @@ export const {
   useGetRegistriesQuery,
   useGetRegistryQuery,
   useCreateRegistryMutation,
-  useChooseGeneralContractorMutation,
+  useSelectGeneralContractorMutation,
 } = registriesApiSlice;
