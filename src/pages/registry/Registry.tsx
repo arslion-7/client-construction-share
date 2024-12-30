@@ -10,17 +10,17 @@ import {
   useGetRegistryQuery,
 } from '@/features/registries/registriesApiSlice';
 import RegistryMain from './RegistryMain';
+import { useMessageApi } from '@/utils/messages';
 
 export default function Registry() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { messageApi } = useMessageApi();
 
   const { isNew, id } = useIsNew();
 
   const { data: registry, isLoading } = useGetRegistryQuery(id!, {
     skip: isNew,
   });
-
-  console.log('registry', registry);
 
   const [createRegistry, { isLoading: isLoadingCreate }] =
     useCreateRegistryMutation();
@@ -32,8 +32,9 @@ export default function Registry() {
       };
 
       onCreate().catch(console.error);
+      messageApi.success('Reýestre täze ýazgy goşuldy');
     }
-  }, [createRegistry, isNew]);
+  }, [createRegistry, isNew, messageApi]);
 
   if (isLoadingCreate || isLoading) return <Skeleton />;
 

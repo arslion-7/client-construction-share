@@ -1,4 +1,4 @@
-import { IUserResponse } from '@/features/users/types';
+import { IUser } from '@/features/users/types';
 import { useGetUsersQuery } from '@/features/users/usersApiSlice';
 import { EditOutlined } from '@ant-design/icons';
 import { Button, Table } from 'antd';
@@ -10,16 +10,16 @@ export default function UsersTable() {
   const { data: users } = useGetUsersQuery({ show: '' });
   const navigate = useNavigate();
 
-  const columns: TableProps<IUserResponse>['columns'] = [
+  const columns: TableProps<IUser>['columns'] = [
     {
       title: 'email',
       dataIndex: 'email',
-      key: 'email'
+      key: 'email',
     },
     {
       title: 'full_name',
       dataIndex: 'full_name',
-      key: 'full_name'
+      key: 'full_name',
     },
     {
       title: 'edit',
@@ -34,8 +34,8 @@ export default function UsersTable() {
             navigate(record.id.toString());
           }}
         />
-      )
-    }
+      ),
+    },
   ];
 
   return (

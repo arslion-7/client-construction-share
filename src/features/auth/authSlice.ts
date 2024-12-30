@@ -14,7 +14,7 @@ const initialState: AuthState = {
   token: null,
 };
 
-interface IUserResponse {
+interface IUser {
   user: string;
   accessToken: string;
 }
@@ -23,7 +23,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (state, action: PayloadAction<IUserResponse>) => {
+    setCredentials: (state, action: PayloadAction<IUser>) => {
       const { user, accessToken } = action.payload;
       state.user = user;
       state.token = accessToken;

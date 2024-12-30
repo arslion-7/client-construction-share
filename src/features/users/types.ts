@@ -3,7 +3,7 @@ import { IGeneral } from '../generalTypes';
 
 type TRole = 'admin' | 'user_share';
 
-export interface IUserResponse extends IGeneral {
+export interface IUser extends IGeneral {
   email: string;
   full_name: string;
   // roles: IRole[];
@@ -21,9 +21,4 @@ export interface IUserBaseRequest {
   email: string;
   full_name: string;
   password: string;
-}
-
-export interface IUserUpdateRequest extends IUserBaseRequest {
-  roles: number[];
-  constructions: number[];
 }

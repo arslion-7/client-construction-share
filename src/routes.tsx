@@ -33,7 +33,7 @@ const AppRoutes: React.FC = () => {
       </Route>
 
       <Route element={<AuthLayout />}>
-        <Route path='login' element={<SignIn />} />
+        <Route path='sign-in' element={<SignIn />} />
         {/* <Route path='register' element={<Register />} /> */}
       </Route>
     </Routes>
