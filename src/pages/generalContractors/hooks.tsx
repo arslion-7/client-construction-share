@@ -4,10 +4,13 @@ import { CheckCircleOutlined, EditOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
 import { useSelectGeneralContractorMutation } from '@/features/registries/registriesApiSlice';
+import { useMessageApi } from '@/utils/messages';
 
 export function useColumns() {
   const navigate = useNavigate();
   const { registryId } = usePaginationSearch();
+
+  const { messageApi } = useMessageApi();
 
   const [select, { isLoading: isLoadingSelect }] =
     useSelectGeneralContractorMutation();
@@ -16,12 +19,12 @@ export function useColumns() {
     {
       title: 't_b',
       dataIndex: 't_b',
-      key: 't_b'
+      key: 't_b',
     },
     {
       title: 'org_name',
       dataIndex: 'org_name',
-      key: 'org_name'
+      key: 'org_name',
     },
     {
       title: 'edit',
@@ -36,8 +39,8 @@ export function useColumns() {
             navigate(record.id.toString());
           }}
         />
-      )
-    }
+      ),
+    },
   ];
 
   let sufColumns: TableProps<IContractor>['columns'] = [];
@@ -54,16 +57,17 @@ export function useColumns() {
             onClick={async () => {
               await select({
                 id: registryId.toString(),
-                general_contractor_id: record.id
+                general_contractor_id: record.id,
               });
+              messageApi.success('Baş potratçy saýlandy');
               navigate(`/registries/${registryId}`);
             }}
             icon={<CheckCircleOutlined />}
           >
             Saýla
           </Button>
-        )
-      }
+        ),
+      },
     ];
   }
 
