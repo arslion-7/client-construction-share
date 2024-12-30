@@ -1,11 +1,15 @@
 import { useEffect, useRef } from 'react';
 
 export const useFocusInput = () => {
-  const focusInput = useRef(null);
+  const inputRef = useRef(null); // More descriptive name
 
   useEffect(() => {
-    if (focusInput && focusInput.current) focusInput.current.focus();
+    if (inputRef.current) {
+      // Simplified check
+      // @ts-expect-error
+      inputRef.current.focus();
+    }
   }, []);
 
-  return focusInput;
+  return inputRef;
 };

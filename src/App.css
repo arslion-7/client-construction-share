@@ -1,8 +1,13 @@
 /* Styles for App layout */
+
+.logo-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
 .logo {
-  height: 32px;
-  margin: 16px;
-  background: rgba(255, 255, 255, 0.3);
   border-radius: 6px;
 }
 

@@ -1,52 +1,52 @@
-import { IUser, IUserCreate, IUserUpdateRequest } from '@/features/users/types';
+import { IUser } from '@/features/users/types';
 import { apiSlice } from '@/app/api/apiSlice';
 // import { IRole } from '../roles/types';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['USERS', 'USER'],
+  addTagTypes: ['USERS', 'USER']
 });
 
 export const usersApiSlice = apiWithTag.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<IUser[], { show: string }>({
       query: ({ show }) => `/users?show=${show}`,
-      providesTags: ['USERS'],
+      providesTags: ['USERS']
       // keepUnusedDataFor: 5,
     }),
     getUser: builder.query<IUser, string>({
       query: (id) => `/users/${id}`,
-      providesTags: ['USER'],
+      providesTags: ['USER']
     }),
     updateUser: builder.mutation<string, { id: string; user: IUser }>({
       query: ({ id, user }) => ({
         url: `/users/${id}`,
         method: 'PUT',
-        body: user,
+        body: user
       }),
-      invalidatesTags: ['USERS', 'USER'],
+      invalidatesTags: ['USERS', 'USER']
     }),
     deleteUser: builder.mutation<string, string>({
       query: (id) => ({
         method: 'DELETE',
-        url: `/users/${id}`,
+        url: `/users/${id}`
       }),
-      invalidatesTags: ['USERS'],
+      invalidatesTags: ['USERS']
     }),
     restoreUser: builder.mutation<string, string>({
       query: (id) => ({
         method: 'PUT',
-        url: `/users/${id}/restore`,
+        url: `/users/${id}/restore`
       }),
-      invalidatesTags: ['USERS'],
+      invalidatesTags: ['USERS']
     }),
     createUser: builder.mutation<IUser, IUser>({
       query: (body) => ({
         method: 'POST',
         url: '/users',
-        body,
+        body
       }),
-      invalidatesTags: ['USERS', 'USER'],
-    }),
+      invalidatesTags: ['USERS', 'USER']
+    })
     // updateUserRoles: builder.mutation<IRole, { id: number; roleIds: number[] }>(
     //   {
     //     query: ({ id, roleIds }) => ({
@@ -57,7 +57,7 @@ export const usersApiSlice = apiWithTag.injectEndpoints({
     //     invalidatesTags: ["USER"]
     //   }
     // ),
-  }),
+  })
 });
 
 export const {
@@ -66,6 +66,6 @@ export const {
   useUpdateUserMutation,
   useDeleteUserMutation,
   useRestoreUserMutation,
-  useCreateUserMutation,
+  useCreateUserMutation
   // useUpdateUserRolesMutation,
 } = usersApiSlice;

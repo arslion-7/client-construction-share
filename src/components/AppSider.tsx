@@ -8,11 +8,13 @@ import {
   TableOutlined,
   TeamOutlined
 } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import { Image, Layout, Menu } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 const { Sider } = Layout;
+
+import imgUrl from '@/assets/construction-share-small.webp';
 
 export default function AppSider() {
   const navigate = useNavigate();
@@ -74,7 +76,10 @@ export default function AppSider() {
 
   return (
     <Sider>
-      <div className='logo' />
+      <div className='logo-container'>
+        {/* New wrapper div */}
+        <Image className='logo' width={40} src={imgUrl} />
+      </div>
       <Menu
         theme='dark'
         onClick={(item) => {

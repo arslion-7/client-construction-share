@@ -6,7 +6,7 @@ import {
   HddOutlined,
   InboxOutlined,
   ReloadOutlined,
-  SelectOutlined,
+  SelectOutlined
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 
@@ -25,33 +25,33 @@ export default function RegistryMain({ registry }: IRegistryMainProps) {
         ? registry.general_contractor.org_name
         : '?',
       selected: registry.general_contractor_id ? true : false,
-      url: 'general_contractors',
+      url: 'general_contractors'
     },
     {
       title: 'Kömekçi potratçy',
       icon: <HddOutlined />,
-      description: registry.sub_contractor
-        ? registry.sub_contractor.org_name
-        : '?',
-      url: 'sub_contractors',
+      // description: registry.sub_contractor
+      //   ? registry.sub_contractor.org_name
+      //   : '?',
+      url: 'sub_contractors'
     },
     {
       title: 'Ant Design Title 3',
       icon: <InboxOutlined />,
-      url: 'aaa',
+      url: 'aaa'
     },
     {
       title: 'Ant Design Title 4',
       icon: <BarsOutlined />,
-      url: 'bbb',
-    },
+      url: 'bbb'
+    }
   ];
 
   return (
     <List
       itemLayout='horizontal'
       dataSource={data}
-      renderItem={({ icon, title, description, url, selected }, index) => (
+      renderItem={({ icon, title, description, url, selected }, _) => (
         <List.Item
           actions={[
             <Button
@@ -60,7 +60,7 @@ export default function RegistryMain({ registry }: IRegistryMainProps) {
               icon={selected ? <SelectOutlined /> : <ReloadOutlined />}
             >
               "{title}" {selected ? 'täzele' : 'saýla'}
-            </Button>,
+            </Button>
           ]}
         >
           <List.Item.Meta
