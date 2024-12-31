@@ -8,14 +8,22 @@ export function useColumns() {
 
   const columns: TableProps<IRegistry>['columns'] = [
     {
+      title: 'id',
+      dataIndex: 'id',
+      key: 'id'
+    },
+    {
       title: 't_b',
       dataIndex: 't_b',
       key: 't_b'
     },
     {
-      title: 'org_name',
-      dataIndex: 'org_name',
-      key: 'org_name'
+      title: 'Baş potratçy',
+      // dataIndex: 'general_contractor',
+      key: 'general_contractor',
+      render: (_, record) => (
+        <>{record.general_contractor && record.general_contractor.org_name}</>
+      )
     },
     {
       title: 'edit',

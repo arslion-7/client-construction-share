@@ -44,7 +44,7 @@ export default function AppSider() {
           key: '/general_contractors'
         },
         {
-          label: 'Baş potratçylar',
+          label: 'Kömekçi potratçylar',
           icon: <HddOutlined />,
           key: '/'
         },
