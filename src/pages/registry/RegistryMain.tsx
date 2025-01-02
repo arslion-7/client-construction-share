@@ -22,25 +22,27 @@ export default function RegistryMain({ registry }: IRegistryMainProps) {
   const data = [
     {
       title: 'Baş potratçy',
+      url: PATHS.GENERAL_CONTRACTORS,
       icon: <GroupOutlined />,
       description: registry.general_contractor
         ? registry.general_contractor.org_name
         : '?',
       selected: registry.general_contractor_id ? true : false,
-      url: PATHS.GENERAL_CONTRACTORS,
     },
     {
       title: 'Kömekçi potratçy',
       icon: <HddOutlined />,
+      url: PATHS.SUB_CONTRACTORS,
       // description: registry.sub_contractor
       //   ? registry.sub_contractor.org_name
       //   : '?',
-      url: PATHS.SUB_CONTRACTORS,
     },
     {
       title: 'Desga',
-      icon: <HomeOutlined />,
       url: PATHS.BUILDINGS,
+      icon: <HomeOutlined />,
+      selected: registry.building ? true : false,
+      description: registry.building ? registry.building.ident_number : '?',
     },
     {
       title: 'Ant Design Title 4',
