@@ -1,9 +1,10 @@
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
 import { Flex, Skeleton } from 'antd';
-import GeneralContractorsBreadcrumb from '../generalContractors/GeneralContractorsBreadcrumb';
 import TableHeader from '@/components/TableHeader/TableHeader';
-import { useGetBuildingsQuery } from '@/features/buildings/buildingContractorsApiSlice';
+
 import BuildingsTable from './BuildingsTable';
+import BuildingsBreadcrumb from './BuildingsBreadcrumb';
+import { useGetBuildingsQuery } from '@/features/buildings/buildingsApiSlice';
 
 export default function Buildings() {
   const { page, pageSize, search } = usePaginationSearch();
@@ -17,7 +18,7 @@ export default function Buildings() {
 
   return (
     <Flex vertical gap={16}>
-      <GeneralContractorsBreadcrumb />
+      <BuildingsBreadcrumb />
       <TableHeader />
       {isLoadingGeneralContractors ? (
         <Skeleton />

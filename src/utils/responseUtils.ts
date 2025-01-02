@@ -11,3 +11,9 @@ export interface PaginatedResponse<T> {
 //   previous?: null | string;
 //   count: number;
 // }
+
+export interface CascaderOption {
+  value: string;
+  label: string;
+  children?: CascaderOption[];
+}

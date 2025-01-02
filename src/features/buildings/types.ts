@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { PaginatedRequest } from '@/utils/requestUtils';
+import { IArea } from '../areas/types';
 
 export interface IBuildingRequest extends PaginatedRequest {
   some?: string;
@@ -8,7 +9,7 @@ export interface IBuildingRequest extends PaginatedRequest {
 export interface IBuilding {
   id: number;
   ident_number?: number;
-  area: number;
+  areas: IArea[];
   street: string;
   kind: string;
   start_date: dayjs.Dayjs | null;
