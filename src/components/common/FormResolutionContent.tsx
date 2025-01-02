@@ -1,7 +1,7 @@
 import { dateFormat } from '@/utils/formats';
 import { rules } from '@/utils/rules';
 import { DatePicker, Form, Input } from 'antd';
-import SubmitButton from '../SubmitButton';
+import SubmitButton from '../button/SubmitButton';
 import { IResolution } from '@/features/generalTypes';
 import dayjs from 'dayjs';
 import { useFocusInput } from './hooks';
@@ -15,7 +15,7 @@ interface IResolutionContent {
 const ResolutionContent = ({
   resolution,
   loading,
-  onFinish
+  onFinish,
 }: IResolutionContent) => {
   const [form] = Form.useForm<IResolution>();
 
@@ -31,7 +31,7 @@ const ResolutionContent = ({
           dayjs(resolution.resolution_begin_date),
         resolution_end_date:
           resolution.resolution_begin_date &&
-          dayjs(resolution.resolution_end_date)
+          dayjs(resolution.resolution_end_date),
       }}
       onFinish={onFinish}
       labelCol={{ span: 4 }}

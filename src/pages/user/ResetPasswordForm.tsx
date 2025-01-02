@@ -1,4 +1,4 @@
-import SubmitButton from '@/components/SubmitButton';
+import SubmitButton from '@/components/button/SubmitButton';
 import { useResetPasswordMutation } from '@/features/auth/authApiSlice';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 import { Form, Input, message } from 'antd';

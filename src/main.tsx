@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import './App.css';
-import AppRoutes from './routes.tsx';
+import AppRoutes from './routes/routes.tsx';
 import { BrowserRouter } from 'react-router';
 import { ConfigProvider } from 'antd';
 import tkTK from 'antd/locale/tk_TK';

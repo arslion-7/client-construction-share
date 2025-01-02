@@ -1,6 +1,6 @@
 import { dateFormat } from '@/utils/formats';
 import { DatePicker, Form, InputNumber } from 'antd';
-import SubmitButton from '../SubmitButton';
+import SubmitButton from '../button/SubmitButton';
 import { ICert } from '@/features/generalTypes';
 import dayjs from 'dayjs';
 import { useFocusInput } from './hooks';
@@ -21,7 +21,7 @@ const CertContent = ({ cert, loading, onFinish }: ICertContent) => {
       form={form}
       initialValues={{
         cert_number: cert.cert_number,
-        cert_date: cert.cert_date && dayjs(cert.cert_date)
+        cert_date: cert.cert_date && dayjs(cert.cert_date),
       }}
       onFinish={onFinish}
       labelCol={{ span: 4 }}

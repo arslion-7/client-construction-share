@@ -1,26 +1,24 @@
-import { IContractor } from '@/features/generalContractors/types';
 import { type TableProps } from 'antd';
 import { useNavigate } from 'react-router';
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
-import { useSelectGeneralContractorMutation } from '@/features/registries/registriesApiSlice';
+import { useSelectBuildingMutation } from '@/features/registries/registriesApiSlice';
 import { useMessageApi } from '@/utils/messages';
+import { IBuilding } from '@/features/buildings/types';
 import { useEditColumns, useSufColumns } from '@/components/table/columns';
 
 export function useColumns() {
   const navigate = useNavigate();
   const { registryId } = usePaginationSearch();
-
   const { messageApi } = useMessageApi();
 
-  const [select, { isLoading: isLoadingSelect }] =
-    useSelectGeneralContractorMutation();
+  const [select, { isLoading: isLoadingSelect }] = useSelectBuildingMutation();
 
   const onSelectClicked = async (id: number) => {
     await select({
       id: registryId.toString(),
-      general_contractor_id: id,
+      building_id: id,
     });
-    messageApi.success('Baş potratçy saýlandy');
+    messageApi.success('Desga saýlandy');
     navigate(`/registries/${registryId}`);
   };
 
@@ -32,16 +30,36 @@ export function useColumns() {
 
   const { editColumns } = useEditColumns();
 
-  const preColumns: TableProps<IContractor>['columns'] = [
+  const preColumns: TableProps<IBuilding>['columns'] = [
+    {
+      title: 'id',
+      dataIndex: 'id',
+      key: 'id',
+    },
     {
       title: 't_b',
       dataIndex: 't_b',
       key: 't_b',
     },
     {
-      title: 'org_name',
-      dataIndex: 'org_name',
-      key: 'org_name',
+      title: 'ident_number',
+      dataIndex: 'ident_number',
+      key: 'ident_number',
+    },
+    {
+      title: 'area_full_name',
+      dataIndex: 'area_full_name',
+      key: 'area_full_name',
+    },
+    {
+      title: 'Street',
+      dataIndex: 'street',
+      key: 'street',
+    },
+    {
+      title: 'Karar',
+      dataIndex: 'order_code',
+      key: 'order_code',
     },
   ];
 

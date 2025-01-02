@@ -12,7 +12,7 @@ const apiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ['GENERAL_CONTRACTORS', 'GENERAL_CONTRACTOR'],
 });
 
-export const generalContractors = apiWithTag.injectEndpoints({
+export const generalContractorsApiSlice = apiWithTag.injectEndpoints({
   endpoints: (builder) => ({
     getGeneralContractors: builder.query<
       PaginatedResponse<IContractor[]>,
@@ -90,4 +90,4 @@ export const {
   useUpdateGeneralContractorOrgMutation,
   useUpdateGeneralContractorCertMutation,
   useUpdateGeneralContractorResolutionMutation,
-} = generalContractors;
+} = generalContractorsApiSlice;

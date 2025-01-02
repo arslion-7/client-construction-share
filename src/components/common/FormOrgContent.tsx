@@ -1,6 +1,6 @@
 import { Form, Input, InputNumber } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import SubmitButton from '../SubmitButton';
+import SubmitButton from '../button/SubmitButton';
 import { IOrg } from '@/features/generalTypes';
 import { useFocusInput } from './hooks';
 

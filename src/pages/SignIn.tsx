@@ -1,5 +1,6 @@
 import { useSignInMutation } from '@/features/auth/authApiSlice';
 import { IRequestUser } from '@/features/auth/types';
+import { PATHS } from '@/routes/paths';
 import { LockOutlined, LoginOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router';
@@ -12,7 +13,7 @@ export default function SignIn() {
   const onFinish = async (values: IRequestUser) => {
     try {
       await signIn(values).unwrap();
-      navigate('/registries');
+      navigate('/' + PATHS.REGISTRIES);
     } catch (error) {
       console.log('error', error);
     }

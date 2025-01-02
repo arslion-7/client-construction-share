@@ -4,7 +4,7 @@ import { paginationInit } from '@/utils/requestUtils';
 import { IRegistry, IRegistryRequest } from './types';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['REGISTRIES', 'REGISTRY']
+  addTagTypes: ['REGISTRIES', 'REGISTRY'],
 });
 
 export const registriesApiSlice = apiWithTag.injectEndpoints({
@@ -16,36 +16,23 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
       query: ({
         page = paginationInit.page,
         pageSize = paginationInit.pageSize,
-        search = ''
+        search = '',
       }) => `/registries?page=${page}&pageSize=${pageSize}&search=${search}`,
-      providesTags: ['REGISTRIES']
+      providesTags: ['REGISTRIES'],
       // keepUnusedDataFor: 5,
     }),
 
     getRegistry: builder.query<IRegistry, string>({
       query: (id) => `/registries/${id}`,
-      providesTags: ['REGISTRY']
+      providesTags: ['REGISTRY'],
     }),
     createRegistry: builder.mutation<IRegistry, void>({
       query: () => ({
         method: 'POST',
-        url: '/registries'
+        url: '/registries',
         // body,
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY']
-    }),
-    selectGeneralContractor: builder.mutation<
-      IRegistry,
-      { id: string; general_contractor_id: number }
-    >({
-      query: ({ id, general_contractor_id }) => ({
-        method: 'PUT',
-        url: `/registries/${id}/update_general_contractor`,
-        body: {
-          general_contractor_id
-        }
-      }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY']
+      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
     }),
     updateRegistryNumber: builder.mutation<
       IRegistry,
@@ -55,11 +42,38 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
         method: 'PUT',
         url: `/registries/${id}/update_registry_number`,
         body: {
-          t_b
-        }
+          t_b,
+        },
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY']
-    })
+      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+    }),
+    selectGeneralContractor: builder.mutation<
+      IRegistry,
+      { id: string; general_contractor_id: number }
+    >({
+      query: ({ id, general_contractor_id }) => ({
+        method: 'PUT',
+        url: `/registries/${id}/update_general_contractor`,
+        body: {
+          general_contractor_id,
+        },
+      }),
+      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+    }),
+    selectBuilding: builder.mutation<
+      IRegistry,
+      { id: string; building_id: number }
+    >({
+      query: ({ id, building_id }) => ({
+        method: 'PUT',
+        url: `/registries/${id}/update_building`,
+        body: {
+          building_id,
+        },
+      }),
+      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+    }),
+
     // updateRegistryOrg: builder.mutation<
     //   string,
     //   { id: string; org: IOrg }
@@ -71,13 +85,14 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
     //   }),
     //   invalidatesTags: ['REGISTRIES', 'REGISTRY']
     // })
-  })
+  }),
 });
 
 export const {
   useGetRegistriesQuery,
   useGetRegistryQuery,
   useCreateRegistryMutation,
+  useUpdateRegistryNumberMutation,
   useSelectGeneralContractorMutation,
-  useUpdateRegistryNumberMutation
+  useSelectBuildingMutation,
 } = registriesApiSlice;

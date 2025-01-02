@@ -2,11 +2,13 @@ import {
   BarsOutlined,
   GroupOutlined,
   HddOutlined,
+  HomeOutlined,
   InboxOutlined,
+  LoginOutlined,
   PieChartOutlined,
   SettingOutlined,
   TableOutlined,
-  TeamOutlined
+  TeamOutlined,
 } from '@ant-design/icons';
 import { Image, Layout, Menu } from 'antd';
 import { useEffect, useState } from 'react';
@@ -15,6 +17,7 @@ import { useNavigate } from 'react-router';
 const { Sider } = Layout;
 
 import imgUrl from '@/assets/construction-share-small.webp';
+import { PATHS } from '@/routes/paths';
 
 export default function AppSider() {
   const navigate = useNavigate();
@@ -36,29 +39,29 @@ export default function AppSider() {
         {
           label: 'Reýestr',
           icon: <TableOutlined />,
-          key: '/registries'
+          key: PATHS.REGISTRIES,
         },
         {
           label: 'Baş potratçylar',
           icon: <GroupOutlined />,
-          key: '/general_contractors'
+          key: PATHS.GENERAL_CONTRACTORS,
         },
         {
           label: 'Kömekçi potratçylar',
           icon: <HddOutlined />,
-          key: '/'
+          key: '/',
         },
         {
-          label: 'Baş potratçylar',
-          icon: <InboxOutlined />,
-          key: '/about2'
+          label: 'Desgalar',
+          icon: <HomeOutlined />,
+          key: PATHS.BUILDINGS,
         },
         {
           label: 'Baş potratçylar',
           icon: <BarsOutlined />,
-          key: '/about3'
-        }
-      ]
+          key: '/about3',
+        },
+      ],
     },
     {
       label: 'Sazlamalar',
@@ -67,11 +70,16 @@ export default function AppSider() {
       children: [
         {
           label: 'Ulanyjylar',
-          key: '/users',
-          icon: <TeamOutlined />
-        }
-      ]
-    }
+          key: PATHS.USERS,
+          icon: <TeamOutlined />,
+        },
+        {
+          label: 'Ulgama gir',
+          key: PATHS.SIGNIN,
+          icon: <LoginOutlined />,
+        },
+      ],
+    },
   ];
 
   return (

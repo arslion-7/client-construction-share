@@ -4,11 +4,13 @@ import {
   BarsOutlined,
   GroupOutlined,
   HddOutlined,
+  HomeOutlined,
   InboxOutlined,
   ReloadOutlined,
-  SelectOutlined
+  SelectOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
+import { PATHS } from '@/routes/paths';
 
 interface IRegistryMainProps {
   registry: IRegistry;
@@ -25,7 +27,7 @@ export default function RegistryMain({ registry }: IRegistryMainProps) {
         ? registry.general_contractor.org_name
         : '?',
       selected: registry.general_contractor_id ? true : false,
-      url: 'general_contractors'
+      url: PATHS.GENERAL_CONTRACTORS,
     },
     {
       title: 'Kömekçi potratçy',
@@ -33,18 +35,18 @@ export default function RegistryMain({ registry }: IRegistryMainProps) {
       // description: registry.sub_contractor
       //   ? registry.sub_contractor.org_name
       //   : '?',
-      url: 'sub_contractors'
+      url: PATHS.SUB_CONTRACTORS,
     },
     {
-      title: 'Ant Design Title 3',
-      icon: <InboxOutlined />,
-      url: 'aaa'
+      title: 'Desga',
+      icon: <HomeOutlined />,
+      url: PATHS.BUILDINGS,
     },
     {
       title: 'Ant Design Title 4',
       icon: <BarsOutlined />,
-      url: 'bbb'
-    }
+      url: 'bbb',
+    },
   ];
 
   return (
@@ -60,7 +62,7 @@ export default function RegistryMain({ registry }: IRegistryMainProps) {
               icon={selected ? <SelectOutlined /> : <ReloadOutlined />}
             >
               "{title}" {selected ? 'täzele' : 'saýla'}
-            </Button>
+            </Button>,
           ]}
         >
           <List.Item.Meta

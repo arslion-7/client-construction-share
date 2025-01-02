@@ -1,4 +1,4 @@
-import SubmitButton from '@/components/SubmitButton';
+import SubmitButton from '@/components/button/SubmitButton';
 import { IUser } from '@/features/users/types';
 import {
   useCreateUserMutation,

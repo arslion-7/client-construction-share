@@ -1,5 +1,5 @@
 import { useFocusInput } from '@/components/common/hooks';
-import SubmitButton from '@/components/SubmitButton';
+import SubmitButton from '@/components/button/SubmitButton';
 import { useUpdateRegistryNumberMutation } from '@/features/registries/registriesApiSlice';
 import { IRegistry } from '@/features/registries/types';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
@@ -7,7 +7,7 @@ import { useMessageApi } from '@/utils/messages';
 import { Form, InputNumber } from 'antd';
 
 export default function RegistryNumberForm({
-  registry
+  registry,
 }: {
   registry: IRegistry;
 }) {
