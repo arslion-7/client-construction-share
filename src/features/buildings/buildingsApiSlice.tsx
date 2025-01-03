@@ -30,7 +30,7 @@ export const buildingsApiSlice = apiWithTag.injectEndpoints({
       query: (id) => `/buildings/${id}`,
       providesTags: ['BUILDING'],
     }),
-    createBuilding: builder.mutation<IBuilding, IOrg>({
+    createBuilding: builder.mutation<IBuilding, { areas: number[] }>({
       query: (body) => ({
         method: 'POST',
         url: '/buildings',
@@ -38,11 +38,14 @@ export const buildingsApiSlice = apiWithTag.injectEndpoints({
       }),
       invalidatesTags: ['BUILDINGS', 'BUILDING'],
     }),
-    updateBuildingOrg: builder.mutation<string, { id: string; org: IOrg }>({
-      query: ({ id, org }) => ({
-        url: `/buildings/${id}`,
+    updateBuildingAddress: builder.mutation<
+      string,
+      { id: string; areas: number[] }
+    >({
+      query: ({ id, areas }) => ({
+        url: `/buildings/${id}/update_address`,
         method: 'PUT',
-        body: org,
+        body: areas,
       }),
       invalidatesTags: ['BUILDINGS', 'BUILDING'],
     }),
@@ -61,5 +64,5 @@ export const {
   useGetBuildingsQuery,
   useGetBuildingQuery,
   useCreateBuildingMutation,
-  useUpdateBuildingOrgMutation,
+  useUpdateBuildingAddressMutation,
 } = buildingsApiSlice;
