@@ -1,7 +1,10 @@
 import {
   IBuilding,
+  IBuildingCert,
   IBuildingMain,
-  IBuildingRequest // IBuildingResponse,
+  IBuildingOrder,
+  IBuildingRequest, // IBuildingResponse,
+  IBuildingSquare
   // IBuildingCreate,
 } from '@/features/buildings/types';
 import { apiSlice } from '@/app/api/apiSlice';
@@ -63,6 +66,39 @@ export const buildingsApiSlice = apiWithTag.injectEndpoints({
         body
       }),
       invalidatesTags: ['BUILDINGS', 'BUILDING']
+    }),
+    updateBuildingOrder: builder.mutation<
+      string,
+      { id: string } & IBuildingOrder
+    >({
+      query: ({ id, ...body }) => ({
+        url: `/buildings/${id}/update_order`,
+        method: 'PUT',
+        body
+      }),
+      invalidatesTags: ['BUILDINGS', 'BUILDING']
+    }),
+    updateBuildingCert: builder.mutation<
+      string,
+      { id: string } & IBuildingCert
+    >({
+      query: ({ id, ...body }) => ({
+        url: `/buildings/${id}/update_cert`,
+        method: 'PUT',
+        body
+      }),
+      invalidatesTags: ['BUILDINGS', 'BUILDING']
+    }),
+    updateBuildingSquare: builder.mutation<
+      string,
+      { id: string } & IBuildingSquare
+    >({
+      query: ({ id, ...body }) => ({
+        url: `/buildings/${id}/update_square`,
+        method: 'PUT',
+        body
+      }),
+      invalidatesTags: ['BUILDINGS', 'BUILDING']
     })
 
     // deleteBuilding: builder.mutation<string, string>({
@@ -80,5 +116,8 @@ export const {
   useGetBuildingQuery,
   useCreateBuildingMutation,
   useUpdateBuildingAddressMutation,
-  useUpdateBuildingMainMutation
+  useUpdateBuildingMainMutation,
+  useUpdateBuildingOrderMutation,
+  useUpdateBuildingCertMutation,
+  useUpdateBuildingSquareMutation
 } = buildingsApiSlice;

@@ -8,6 +8,9 @@ import BuildingsBreadcrumb from '../buildings/BuildingsBreadcrumb';
 import { useGetBuildingQuery } from '@/features/buildings/buildingsApiSlice';
 import BuildingAddress from './BuildingAddress';
 import BuildingMain from './BuildingMain';
+import BuildingOrder from './BuildingOrder';
+import BuildingCert from './BuildingCert';
+import BuildingSquare from './BuildingSquare';
 
 export default function Building() {
   const { isNew, id } = useIsNew();
@@ -41,6 +44,36 @@ export default function Building() {
       children: (
         <Card>
           <BuildingMain building={building!} />
+        </Card>
+      ),
+      disabled: isNew
+    },
+    {
+      key: 'order',
+      label: 'Order',
+      children: (
+        <Card>
+          <BuildingOrder building={building!} />
+        </Card>
+      ),
+      disabled: isNew
+    },
+    {
+      key: 'cert',
+      label: 'Cert',
+      children: (
+        <Card>
+          <BuildingCert building={building!} />
+        </Card>
+      ),
+      disabled: isNew
+    },
+    {
+      key: 'square',
+      label: 'Square',
+      children: (
+        <Card>
+          <BuildingSquare building={building!} />
         </Card>
       ),
       disabled: isNew
