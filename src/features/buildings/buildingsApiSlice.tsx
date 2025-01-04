@@ -1,15 +1,15 @@
 import {
   IBuilding,
-  IBuildingRequest, // IBuildingResponse,
+  IBuildingRequest // IBuildingResponse,
   // IBuildingCreate,
 } from '@/features/buildings/types';
 import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
 import { paginationInit } from '@/utils/requestUtils';
-import { IOrg } from '../generalTypes';
+import { IAddressForm } from '@/components/form/AreaForm';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['BUILDINGS', 'BUILDING'],
+  addTagTypes: ['BUILDINGS', 'BUILDING']
 });
 
 export const buildingsApiSlice = apiWithTag.injectEndpoints({
@@ -21,34 +21,37 @@ export const buildingsApiSlice = apiWithTag.injectEndpoints({
       query: ({
         page = paginationInit.page,
         pageSize = paginationInit.pageSize,
-        search = '',
+        search = ''
       }) => `/buildings?page=${page}&pageSize=${pageSize}&search=${search}`,
-      providesTags: ['BUILDINGS'],
+      providesTags: ['BUILDINGS']
       // keepUnusedDataFor: 5,
     }),
     getBuilding: builder.query<IBuilding, string>({
       query: (id) => `/buildings/${id}`,
-      providesTags: ['BUILDING'],
+      providesTags: ['BUILDING']
     }),
-    createBuilding: builder.mutation<IBuilding, { areas: number[] }>({
+    createBuilding: builder.mutation<IBuilding, IAddressForm>({
       query: (body) => ({
         method: 'POST',
         url: '/buildings',
-        body,
+        body
       }),
-      invalidatesTags: ['BUILDINGS', 'BUILDING'],
+      invalidatesTags: ['BUILDINGS', 'BUILDING']
     }),
     updateBuildingAddress: builder.mutation<
       string,
-      { id: string; areas: number[] }
+      { id: string } & IAddressForm
     >({
-      query: ({ id, areas }) => ({
+      query: ({ id, areas, street }) => ({
         url: `/buildings/${id}/update_address`,
         method: 'PUT',
-        body: areas,
+        body: {
+          areas,
+          street
+        }
       }),
-      invalidatesTags: ['BUILDINGS', 'BUILDING'],
-    }),
+      invalidatesTags: ['BUILDINGS', 'BUILDING']
+    })
 
     // deleteBuilding: builder.mutation<string, string>({
     //   query: (id) => ({
@@ -57,12 +60,12 @@ export const buildingsApiSlice = apiWithTag.injectEndpoints({
     //   }),
     //   invalidatesTags: ['BUILDINGS'],
     // }),
-  }),
+  })
 });
 
 export const {
   useGetBuildingsQuery,
   useGetBuildingQuery,
   useCreateBuildingMutation,
-  useUpdateBuildingAddressMutation,
+  useUpdateBuildingAddressMutation
 } = buildingsApiSlice;

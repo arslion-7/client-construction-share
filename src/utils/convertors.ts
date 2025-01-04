@@ -1,4 +1,6 @@
+import { IArea } from '@/features/areas/types';
 import dayjs from 'dayjs';
+import { IAddressForm } from '@/components/form/AreaForm';
 
 interface ItemProps {
   label: string;
@@ -13,3 +15,19 @@ export const getDateOrNull = (
 ) => {
   return date ? dayjs(date) : null;
 };
+
+export function getAreasIDs(instance: { areas?: IArea[] }) {
+  return instance.areas ? instance.areas.map((area) => area.code) : [];
+}
+
+export function getAddressInitials(
+  isNew: boolean,
+  instance: { areas?: IArea[]; street: string }
+) {
+  return isNew
+    ? ({} as IAddressForm)
+    : {
+        street: instance.street,
+        areas: getAreasIDs(instance)
+      };
+}
