@@ -9,11 +9,11 @@ import { useMessageApi } from '@/utils/messages';
 import AreaForm, { IAddressForm } from '@/components/form/AreaForm';
 import { getAddressInitials } from '@/utils/convertors';
 
-interface IBuildingAddressProps {
+interface IProps {
   building: IBuilding;
 }
 
-export default function BuildingAddress({ building }: IBuildingAddressProps) {
+export default function BuildingAddress({ building }: IProps) {
   const { id, isNew } = useIsNew();
   const navigate = useNavigate();
   const { messageApi } = useMessageApi();

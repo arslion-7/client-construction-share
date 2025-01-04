@@ -6,16 +6,19 @@ export interface IBuildingRequest extends PaginatedRequest {
   some?: string;
 }
 
-export interface IBuilding {
-  id: number;
-  ident_number?: number;
-  areas: IArea[];
-  street: string;
+export interface IBuildingMain {
   kind: string;
   start_date: dayjs.Dayjs | null;
   end_date: dayjs.Dayjs | null;
   price: number;
   percentage: number;
+}
+
+export interface IBuilding extends IBuildingMain {
+  id: number;
+  ident_number?: number;
+  areas: IArea[];
+  street: string;
   order_whose_what: string;
   order_date?: dayjs.Dayjs | null;
   order_code?: string;

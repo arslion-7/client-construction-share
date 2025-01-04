@@ -1,5 +1,6 @@
 import {
   IBuilding,
+  IBuildingMain,
   IBuildingRequest // IBuildingResponse,
   // IBuildingCreate,
 } from '@/features/buildings/types';
@@ -51,6 +52,17 @@ export const buildingsApiSlice = apiWithTag.injectEndpoints({
         }
       }),
       invalidatesTags: ['BUILDINGS', 'BUILDING']
+    }),
+    updateBuildingMain: builder.mutation<
+      string,
+      { id: string } & IBuildingMain
+    >({
+      query: ({ id, ...body }) => ({
+        url: `/buildings/${id}/update_main`,
+        method: 'PUT',
+        body
+      }),
+      invalidatesTags: ['BUILDINGS', 'BUILDING']
     })
 
     // deleteBuilding: builder.mutation<string, string>({
@@ -67,5 +79,6 @@ export const {
   useGetBuildingsQuery,
   useGetBuildingQuery,
   useCreateBuildingMutation,
-  useUpdateBuildingAddressMutation
+  useUpdateBuildingAddressMutation,
+  useUpdateBuildingMainMutation
 } = buildingsApiSlice;

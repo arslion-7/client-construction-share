@@ -7,6 +7,7 @@ import { useSearchParams } from 'react-router';
 import BuildingsBreadcrumb from '../buildings/BuildingsBreadcrumb';
 import { useGetBuildingQuery } from '@/features/buildings/buildingsApiSlice';
 import BuildingAddress from './BuildingAddress';
+import BuildingMain from './BuildingMain';
 
 export default function Building() {
   const { isNew, id } = useIsNew();
@@ -32,8 +33,18 @@ export default function Building() {
         <Card>
           <BuildingAddress building={building!} />
         </Card>
-      ),
+      )
     },
+    {
+      key: 'main',
+      label: 'Esasy maglumaty',
+      children: (
+        <Card>
+          <BuildingMain building={building!} />
+        </Card>
+      ),
+      disabled: isNew
+    }
   ];
 
   return (
