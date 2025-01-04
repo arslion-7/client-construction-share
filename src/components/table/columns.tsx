@@ -3,18 +3,27 @@ import SelectButton from '../button/SelectButton';
 
 import { Button, type TableProps } from 'antd';
 import { useNavigate } from 'react-router';
+import { useGetRegistryQuery } from '@/features/registries/registriesApiSlice';
 interface Props {
   isLoadingSelect: boolean;
   onSelectClicked: (id: number) => void;
   registryId: string | number;
+  selectedId: 'building_id' | 'general_contractor_id' | 'sub_contractor_id';
 }
 
 export function useSufColumns({
   isLoadingSelect,
   onSelectClicked,
   registryId,
+  selectedId
 }: Props) {
   let sufColumns: TableProps<{ id: number }>['columns'] = [];
+
+  const { data: registry, isLoading: isLoadingRegistry } = useGetRegistryQuery(
+    registryId.toString()
+  );
+
+  console.log('registry', registry);
 
   if (registryId)
     sufColumns = [
@@ -22,13 +31,17 @@ export function useSufColumns({
         title: 'Saýla',
         dataIndex: 'select',
         key: 'select',
-        render: (_, record) => (
-          <SelectButton
-            loading={isLoadingSelect}
-            onClick={() => onSelectClicked(record.id)}
-          />
-        ),
-      },
+        render: (_, record) => {
+          if (isLoadingRegistry || !registry) return <></>;
+          return (
+            <SelectButton
+              loading={isLoadingSelect}
+              onClick={() => onSelectClicked(record.id)}
+              selected={registry[selectedId] === record.id}
+            />
+          );
+        }
+      }
     ];
 
   return { sufColumns };
@@ -52,11 +65,11 @@ export function useEditColumns() {
             navigate(record.id.toString());
           }}
         />
-      ),
-    },
+      )
+    }
   ];
 
   return {
-    editColumns,
+    editColumns
   };
 }

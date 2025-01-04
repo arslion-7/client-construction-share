@@ -14,6 +14,8 @@ export interface IRegistry extends IGeneral {
   user: IUser | null;
   general_contractor_id?: number;
   general_contractor: IContractor;
+  sub_contractor_id: number;
+  sub_contractor: IContractor;
   building_id?: number;
   building: IBuilding;
 }

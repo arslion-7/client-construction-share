@@ -42,6 +42,18 @@ export default function BuildingMain({ building }: IProps) {
       }}
       onFinish={onFinish}
     >
+      <Form.Item<IBuildingMain> name='t_b' label='Tertip belgisi'>
+        <InputNumber style={{ width: 300 }} />
+      </Form.Item>
+      <Form.Item<IBuildingMain>
+        name='ident_number'
+        label='Identifikasiýa belgisi'
+      >
+        <InputNumber style={{ width: 300 }} />
+      </Form.Item>
+      <Form.Item<IBuildingMain> name='kind' label='Görnüşi'>
+        <Input />
+      </Form.Item>
       <Form.Item<IBuildingMain> name='kind' label='Görnüşi'>
         <Input />
       </Form.Item>

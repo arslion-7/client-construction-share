@@ -7,7 +7,7 @@ import { PaginatedResponse } from '@/utils/responseUtils';
 import { IBuilding } from '@/features/buildings/types';
 
 export default function BuildingsTable({
-  paginatedData,
+  paginatedData
 }: {
   paginatedData: PaginatedResponse<IBuilding[]>;
 }) {

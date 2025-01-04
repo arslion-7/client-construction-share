@@ -12,6 +12,8 @@ export interface IBuildingAddress {
 }
 
 export interface IBuildingMain {
+  t_b: number;
+  ident_number?: number;
   kind: string;
   start_date: dayjs.Dayjs | null;
   end_date: dayjs.Dayjs | null;
@@ -51,7 +53,6 @@ export interface IBuilding
     IBuildingCert,
     IBuildingSquare {
   id: number;
-  ident_number?: number;
 
   full_name?: string;
   area_full_name?: string;
