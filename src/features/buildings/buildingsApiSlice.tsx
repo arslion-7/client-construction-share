@@ -10,7 +10,7 @@ import {
 import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
 import { paginationInit } from '@/utils/requestUtils';
-import { IAddressForm } from '@/components/form/AreaForm';
+import { IAreaStreetForm } from '@/components/form/AreaStreetForm';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ['BUILDINGS', 'BUILDING']
@@ -34,7 +34,7 @@ export const buildingsApiSlice = apiWithTag.injectEndpoints({
       query: (id) => `/buildings/${id}`,
       providesTags: ['BUILDING']
     }),
-    createBuilding: builder.mutation<IBuilding, IAddressForm>({
+    createBuilding: builder.mutation<IBuilding, IAreaStreetForm>({
       query: (body) => ({
         method: 'POST',
         url: '/buildings',
@@ -44,7 +44,7 @@ export const buildingsApiSlice = apiWithTag.injectEndpoints({
     }),
     updateBuildingAddress: builder.mutation<
       string,
-      { id: string } & IAddressForm
+      { id: string } & IAreaStreetForm
     >({
       query: ({ id, areas, street }) => ({
         url: `/buildings/${id}/update_address`,

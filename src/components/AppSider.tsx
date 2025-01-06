@@ -3,7 +3,6 @@ import {
   GroupOutlined,
   HddOutlined,
   HomeOutlined,
-  InboxOutlined,
   LoginOutlined,
   PieChartOutlined,
   SettingOutlined,

@@ -7,8 +7,12 @@ import { useGetRegistryQuery } from '@/features/registries/registriesApiSlice';
 interface Props {
   isLoadingSelect: boolean;
   onSelectClicked: (id: number) => void;
-  registryId: string | number;
-  selectedId: 'building_id' | 'general_contractor_id' | 'sub_contractor_id';
+  registryId?: string | number;
+  selectedId:
+    | 'building_id'
+    | 'general_contractor_id'
+    | 'sub_contractor_id'
+    | 'builder_id';
 }
 
 export function useSufColumns({
@@ -17,13 +21,14 @@ export function useSufColumns({
   registryId,
   selectedId
 }: Props) {
-  let sufColumns: TableProps<{ id: number }>['columns'] = [];
+  let sufColumns: TableProps['columns'] = [];
 
   const { data: registry, isLoading: isLoadingRegistry } = useGetRegistryQuery(
-    registryId.toString()
+    registryId ? registryId.toString() : '0',
+    { skip: !registryId }
   );
 
-  console.log('registry', registry);
+  console.log('registry in useSufColumns', registry);
 
   if (registryId)
     sufColumns = [
@@ -50,7 +55,7 @@ export function useSufColumns({
 export function useEditColumns() {
   const navigate = useNavigate();
 
-  let editColumns: TableProps<{ id: number }>['columns'] = [];
+  let editColumns: TableProps<{ edit: string }>['columns'] = [];
 
   editColumns = [
     {

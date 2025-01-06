@@ -3,6 +3,7 @@ import { IGeneral } from '../generalTypes';
 import { IContractor } from '../generalContractors/types';
 import { IUser } from '../users/types';
 import { IBuilding } from '../buildings/types';
+import { IBuilder } from '../builders/types';
 
 export interface IRegistryRequest extends PaginatedRequest {
   some?: string;
@@ -18,4 +19,6 @@ export interface IRegistry extends IGeneral {
   sub_contractor: IContractor;
   building_id?: number;
   building: IBuilding;
+  builder_id?: number;
+  builder: IBuilder;
 }

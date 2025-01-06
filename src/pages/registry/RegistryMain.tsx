@@ -5,9 +5,8 @@ import {
   GroupOutlined,
   HddOutlined,
   HomeOutlined,
-  InboxOutlined,
   ReloadOutlined,
-  SelectOutlined,
+  SelectOutlined
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 import { PATHS } from '@/routes/paths';
@@ -27,12 +26,12 @@ export default function RegistryMain({ registry }: IRegistryMainProps) {
       description: registry.general_contractor
         ? registry.general_contractor.org_name
         : '?',
-      selected: registry.general_contractor_id ? true : false,
+      selected: registry.general_contractor_id ? true : false
     },
     {
       title: 'Kömekçi potratçy',
       icon: <HddOutlined />,
-      url: PATHS.SUB_CONTRACTORS,
+      url: PATHS.SUB_CONTRACTORS
       // description: registry.sub_contractor
       //   ? registry.sub_contractor.org_name
       //   : '?',
@@ -42,13 +41,15 @@ export default function RegistryMain({ registry }: IRegistryMainProps) {
       url: PATHS.BUILDINGS,
       icon: <HomeOutlined />,
       selected: registry.building ? true : false,
-      description: registry.building ? registry.building.ident_number : '?',
+      description: registry.building ? registry.building.ident_number : '?'
     },
     {
-      title: 'Ant Design Title 4',
+      title: 'Gurujy',
+      url: PATHS.BUILDERS,
       icon: <BarsOutlined />,
-      url: 'bbb',
-    },
+      selected: registry.builder ? true : false,
+      description: registry.builder ? registry.builder.org_name : '?'
+    }
   ];
 
   return (
@@ -59,12 +60,12 @@ export default function RegistryMain({ registry }: IRegistryMainProps) {
         <List.Item
           actions={[
             <Button
-              onClick={() => navigate(`/${url}?registryId=${registry.id}`)}
+              onClick={() => navigate(`${url}?registryId=${registry.id}`)}
               type={selected ? 'primary' : 'default'}
               icon={selected ? <SelectOutlined /> : <ReloadOutlined />}
             >
               "{title}" {selected ? 'täzele' : 'saýla'}
-            </Button>,
+            </Button>
           ]}
         >
           <List.Item.Meta

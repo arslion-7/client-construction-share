@@ -1,17 +1,18 @@
 import GeneralBreadCrumb from '@/components/GeneralBreadCrumb';
+import { PATHS } from '@/routes/paths';
 
 export default function GeneralContractorsBreadcrumb({
   withLeftArrow,
-  withId,
+  withId
 }: {
   withLeftArrow?: boolean;
   withId?: boolean;
 }) {
   const items = [
     {
-      href: '/general_contractors',
-      title: 'Baş potratçylar',
-    },
+      href: PATHS.GENERAL_CONTRACTORS,
+      title: 'Baş potratçylar'
+    }
   ];
 
   return (

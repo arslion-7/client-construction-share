@@ -1,4 +1,5 @@
 import GeneralBreadCrumb from '@/components/GeneralBreadCrumb';
+import { PATHS } from '@/routes/paths';
 
 export default function UsersBreadcrumb({
   withLeftArrow,
@@ -9,7 +10,7 @@ export default function UsersBreadcrumb({
 }) {
   const items = [
     {
-      href: '/users',
+      href: PATHS.USERS,
       title: 'Ulanyjylar'
     }
   ];

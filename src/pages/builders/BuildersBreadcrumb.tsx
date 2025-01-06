@@ -1,7 +1,7 @@
 import GeneralBreadCrumb from '@/components/GeneralBreadCrumb';
 import { PATHS } from '@/routes/paths';
 
-export default function RegistriesBreadcrumb({
+export default function BuildersBreadcrumb({
   withLeftArrow,
   withId
 }: {
@@ -10,8 +10,8 @@ export default function RegistriesBreadcrumb({
 }) {
   const items = [
     {
-      href: PATHS.REGISTRIES,
-      title: 'Reýestr'
+      href: PATHS.BUILDERS,
+      title: 'Gurujylar'
     }
   ];
 

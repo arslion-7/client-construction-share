@@ -1,15 +1,15 @@
-import { IContractor } from '@/features/generalContractors/types';
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
 import { Table } from 'antd';
 import type { TablePaginationConfig, TableProps } from 'antd';
 import { FilterValue } from 'antd/es/table/interface';
-import { useColumns } from './hooks';
 import { PaginatedResponse } from '@/utils/responseUtils';
+import { IBuilder } from '@/features/builders/types';
+import { useColumns } from './hooks';
 
-export default function GeneralContractorsTable({
+export default function BuildersTable({
   paginatedData
 }: {
-  paginatedData: PaginatedResponse<IContractor[]>;
+  paginatedData: PaginatedResponse<IBuilder[]>;
 }) {
   const { onChangePagination, getPagination } = usePaginationSearch();
 
@@ -19,9 +19,7 @@ export default function GeneralContractorsTable({
     console.log('filters', filters);
   };
 
-  const onChange: TableProps<
-    IContractor & { edit?: string; select?: string }
-  >['onChange'] = (
+  const onChange: TableProps<IBuilder>['onChange'] = (
     pagination: TablePaginationConfig,
     filters
     // sorter: any,
@@ -34,10 +32,9 @@ export default function GeneralContractorsTable({
   return (
     <Table
       rowKey='id'
-      // @ts-ignore
       columns={columns}
       dataSource={paginatedData?.data}
-      pagination={getPagination<IContractor[]>(paginatedData!)}
+      pagination={getPagination<IBuilder[]>(paginatedData!)}
       onChange={onChange}
     />
   );

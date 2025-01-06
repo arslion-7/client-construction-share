@@ -12,7 +12,7 @@ export default function GeneralContractors() {
     useGetGeneralContractorsQuery({
       page,
       pageSize,
-      search,
+      search
     });
 
   return (

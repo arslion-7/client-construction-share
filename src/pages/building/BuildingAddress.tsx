@@ -6,8 +6,8 @@ import {
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 import { useNavigate } from 'react-router';
 import { useMessageApi } from '@/utils/messages';
-import AreaForm, { IAddressForm } from '@/components/form/AreaForm';
-import { getAddressInitials } from '@/utils/convertors';
+import AreaForm, { IAreaStreetForm } from '@/components/form/AreaStreetForm';
+import { getAreaStreetInitials } from '@/utils/convertors';
 
 interface IProps {
   building: IBuilding;
@@ -24,7 +24,7 @@ export default function BuildingAddress({ building }: IProps) {
   const [updateAddress, { isLoading: isLoadingUpdateAddress }] =
     useUpdateBuildingAddressMutation();
 
-  const onFinish = async (values: IAddressForm) => {
+  const onFinish = async (values: IAreaStreetForm) => {
     if (!isNew) {
       await updateAddress({
         id: id!,
@@ -41,7 +41,7 @@ export default function BuildingAddress({ building }: IProps) {
 
   return (
     <AreaForm
-      initialValues={getAddressInitials(isNew, building)}
+      initialValues={getAreaStreetInitials(isNew, building)}
       onFinish={onFinish}
       isSubmitLoading={isLoadingUpdateAddress || isLoadingCreate}
     />

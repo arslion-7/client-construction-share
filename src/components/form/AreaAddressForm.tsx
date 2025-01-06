@@ -10,14 +10,15 @@ import type { CascaderProps, GetProp } from 'antd';
 
 type DefaultOptionType = GetProp<CascaderProps, 'options'>[number];
 
-export interface IAddressForm {
+export interface IAreaAddressForm {
   areas: number[];
-  street: string;
+  address: string;
+  address_additional_info: string;
 }
 
 interface AreaFormProps {
-  initialValues: IAddressForm;
-  onFinish: (values: IAddressForm) => void;
+  initialValues: IAreaAddressForm;
+  onFinish: (values: IAreaAddressForm) => void;
   isSubmitLoading: boolean;
 }
 
@@ -28,7 +29,7 @@ export default function AreaForm({
 }: AreaFormProps) {
   const { data: areas, isLoading: isLoadingAreas } = useGetAreaHierarchyQuery();
 
-  const [form] = Form.useForm<IAddressForm>();
+  const [form] = Form.useForm<IAreaAddressForm>();
 
   if (isLoadingAreas) return <Skeleton />;
 
@@ -63,8 +64,14 @@ export default function AreaForm({
           onSearch={(value) => console.log(value)}
         />
       </Form.Item>
-      <Form.Item name='street' label='Köçe/çatryk'>
+      <Form.Item name='address' label='Address'>
         <Input />
+      </Form.Item>
+      <Form.Item
+        name='address_additional_info'
+        label='Address goşmaça maglumaty'
+      >
+        <Input.TextArea rows={4} />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 21, span: 3 }}>
         <SubmitButton loading={isSubmitLoading} size='middle' />

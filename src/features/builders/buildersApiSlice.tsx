@@ -2,7 +2,7 @@ import { IBuilder, IBuilderRequest } from '@/features/builders/types';
 import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
 import { paginationInit } from '@/utils/requestUtils';
-import { IAddressForm } from '@/components/form/AreaForm';
+import { IAreaAddressForm } from '@/components/form/AreaAddressForm';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ['BUILDERS', 'BUILDER']
@@ -23,7 +23,7 @@ export const buildersApiSlice = apiWithTag.injectEndpoints({
       query: (id) => `/builders/${id}`,
       providesTags: ['BUILDER']
     }),
-    createBuilder: builder.mutation<IBuilder, IAddressForm>({
+    createBuilder: builder.mutation<IBuilder, IAreaAddressForm>({
       query: (body) => ({
         method: 'POST',
         url: '/builders',
@@ -33,18 +33,20 @@ export const buildersApiSlice = apiWithTag.injectEndpoints({
     }),
     updateBuilderAddress: builder.mutation<
       string,
-      { id: string } & IAddressForm
+      { id: string } & IAreaAddressForm
     >({
-      query: ({ id, areas, street }) => ({
+      query: ({ id, areas, address, address_additional_info }) => ({
         url: `/builders/${id}/update_address`,
         method: 'PUT',
         body: {
           areas,
-          street
+          address,
+          address_additional_info
         }
       }),
       invalidatesTags: ['BUILDERS', 'BUILDER']
     })
+
     // deleteBuilder: builder.mutation<string, string>({
     //   query: (id) => ({
     //     method: 'DELETE',
@@ -58,5 +60,6 @@ export const buildersApiSlice = apiWithTag.injectEndpoints({
 export const {
   useGetBuildersQuery,
   useGetBuilderQuery,
-  useCreateBuilderMutation
+  useCreateBuilderMutation,
+  useUpdateBuilderAddressMutation
 } = buildersApiSlice;
