@@ -14,6 +14,8 @@ import User from '../pages/user/User';
 import { PATHS } from './paths';
 import Buildings from '@/pages/buildings/Buildings';
 import Building from '@/pages/building/Building';
+import Builders from '@/pages/builders/Builders';
+import Builder from '@/pages/builder/Builder';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -34,6 +36,10 @@ const AppRoutes: React.FC = () => {
         <Route path={PATHS.BUILDINGS}>
           <Route index element={<Buildings />} />
           <Route path=':id' element={<Building />} />
+        </Route>
+        <Route path={PATHS.BUILDERS}>
+          <Route index element={<Builders />} />
+          <Route path=':id' element={<Builder />} />
         </Route>
 
         <Route path='about' element={<About />} />
