@@ -13,7 +13,7 @@ export default function SignIn() {
   const onFinish = async (values: IRequestUser) => {
     try {
       await signIn(values).unwrap();
-      navigate('/' + PATHS.REGISTRIES);
+      navigate(PATHS.REGISTRIES);
     } catch (error) {
       console.log('error', error);
     }
