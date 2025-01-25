@@ -1,4 +1,4 @@
-import { Flex, Skeleton, Spin } from 'antd';
+import { Flex, Skeleton } from 'antd';
 import GeneralContractorsTable from './GeneralContractorsTable';
 import TableHeader from '@/components/TableHeader/TableHeader';
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
@@ -12,7 +12,7 @@ export default function GeneralContractors() {
     useGetGeneralContractorsQuery({
       page,
       pageSize,
-      search
+      search,
     });
 
   return (

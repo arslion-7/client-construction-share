@@ -7,7 +7,7 @@ import { IBuilder } from '@/features/builders/types';
 import { useColumns } from './hooks';
 
 export default function BuildersTable({
-  paginatedData
+  paginatedData,
 }: {
   paginatedData: PaginatedResponse<IBuilder[]>;
 }) {
@@ -32,6 +32,7 @@ export default function BuildersTable({
   return (
     <Table
       rowKey='id'
+      // @ts-expect-error
       columns={columns}
       dataSource={paginatedData?.data}
       pagination={getPagination<IBuilder[]>(paginatedData!)}

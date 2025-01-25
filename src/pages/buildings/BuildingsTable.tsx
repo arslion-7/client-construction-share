@@ -7,7 +7,7 @@ import { PaginatedResponse } from '@/utils/responseUtils';
 import { IBuilding } from '@/features/buildings/types';
 
 export default function BuildingsTable({
-  paginatedData
+  paginatedData,
 }: {
   paginatedData: PaginatedResponse<IBuilding[]>;
 }) {
@@ -32,6 +32,7 @@ export default function BuildingsTable({
   return (
     <Table
       rowKey='id'
+      // @ts-expect-error
       columns={columns}
       dataSource={paginatedData?.data}
       pagination={getPagination<IBuilding[]>(paginatedData!)}

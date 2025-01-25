@@ -19,7 +19,7 @@ export function useSufColumns({
   isLoadingSelect,
   onSelectClicked,
   registryId,
-  selectedId
+  selectedId,
 }: Props) {
   let sufColumns: TableProps['columns'] = [];
 
@@ -45,8 +45,8 @@ export function useSufColumns({
               selected={registry[selectedId] === record.id}
             />
           );
-        }
-      }
+        },
+      },
     ];
 
   return { sufColumns };
@@ -55,7 +55,7 @@ export function useSufColumns({
 export function useEditColumns() {
   const navigate = useNavigate();
 
-  let editColumns: TableProps<{ edit: string }>['columns'] = [];
+  let editColumns: TableProps<{ id: number; edit: string }>['columns'] = [];
 
   editColumns = [
     {
@@ -70,11 +70,11 @@ export function useEditColumns() {
             navigate(record.id.toString());
           }}
         />
-      )
-    }
+      ),
+    },
   ];
 
   return {
-    editColumns
+    editColumns,
   };
 }
