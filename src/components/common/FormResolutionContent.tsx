@@ -38,7 +38,7 @@ const ResolutionContent = ({
       wrapperCol={{ span: 20 }}
     >
       <Form.Item
-        label='resolution_code'
+        label='Ygtyýarnama belgisi'
         name='resolution_code'
         rules={[rules.non_required()]}
         hasFeedback
@@ -46,7 +46,7 @@ const ResolutionContent = ({
         <Input ref={focusInput} />
       </Form.Item>
       <Form.Item
-        label='resolution_begin_date'
+        label='Ygtyýarnama başy'
         name='resolution_begin_date'
         rules={[rules.non_required()]}
         hasFeedback
@@ -54,7 +54,7 @@ const ResolutionContent = ({
         <DatePicker format={dateFormat} />
       </Form.Item>
       <Form.Item
-        label='resolution_end_date'
+        label='Ygtyýarnama soňy'
         name='resolution_end_date'
         rules={[rules.non_required()]}
         hasFeedback

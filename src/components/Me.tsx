@@ -9,6 +9,8 @@ function Me() {
 
   const navigate = useNavigate();
 
+  console.log('me', me);
+
   const content = (
     <div>
       <p>{me?.full_name}</p>

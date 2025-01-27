@@ -7,13 +7,13 @@ import { rtkQueryErrorLogger } from './api/errorResponseMiddleware';
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
-    auth
+    auth,
   },
   middleware: (getDefaultMiddleware) =>
     //  errorResponseMiddleware
     getDefaultMiddleware().concat(apiSlice.middleware, rtkQueryErrorLogger),
 
-  devTools: true
+  devTools: true,
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

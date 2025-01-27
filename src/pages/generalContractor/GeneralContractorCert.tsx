@@ -3,6 +3,7 @@ import { useUpdateGeneralContractorCertMutation } from '@/features/generalContra
 import { IContractor } from '@/features/generalContractors/types';
 import { ICert } from '@/features/generalTypes';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
+import { useMessageApi } from '@/utils/messages';
 
 export default function GeneralContractorCert({
   generalContractor,
@@ -11,13 +12,19 @@ export default function GeneralContractorCert({
 }) {
   const { isNew, id } = useIsNew();
 
+  const { messageApi } = useMessageApi();
+
   const [updateGeneralContractorCert, { isLoading: isLoadingUpdateCert }] =
     useUpdateGeneralContractorCertMutation();
 
   const onFinish = async (values: ICert) => {
     if (!isNew) {
-      await updateGeneralContractorCert({ id: id!, cert: values });
-      return;
+      try {
+        await updateGeneralContractorCert({ id: id!, cert: values });
+        messageApi.success('Ygtyýarnama maglumaty täzelendi');
+      } catch (error) {
+        console.log('error', error);
+      }
     }
   };
 

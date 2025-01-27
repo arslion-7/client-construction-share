@@ -26,13 +26,13 @@ const FormOrgContent = ({ org, onFinish, loading }: IFormOrgContent) => {
       <Form.Item name='t_b' label='t_b'>
         <InputNumber ref={focusInput} />
       </Form.Item>
-      <Form.Item name='org_name' label='org_name'>
+      <Form.Item name='org_name' label='Guramanyň ady'>
         <TextArea rows={2} />
       </Form.Item>
-      <Form.Item name='head_position' label='head_position'>
+      <Form.Item name='head_position' label='Ýolbaşçynyň wezipesi'>
         <Input />
       </Form.Item>
-      <Form.Item name='head_full_name' label='head_full_name'>
+      <Form.Item name='head_full_name' label='Ýolbaşçynyň AFAa'>
         <Input />
       </Form.Item>
       <Form.Item name='org_additional_info' label='Goşmaça maglumat'>

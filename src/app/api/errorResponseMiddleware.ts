@@ -1,3 +1,4 @@
+import { PATHS } from '@/routes/paths';
 import { isRejectedWithValue } from '@reduxjs/toolkit';
 import type { MiddlewareAPI, Middleware } from '@reduxjs/toolkit';
 import { message } from 'antd';
@@ -16,6 +17,11 @@ export const rtkQueryErrorLogger: Middleware =
     if (isRejectedWithValue(action)) {
       console.warn('We got a rejected action!');
       const payload = action.payload as CustomError;
+
+      // Check for 401 status code and dispatch redirect action
+      if (payload?.status === 401) {
+        window.location.href = PATHS.SIGNIN;
+      }
 
       message.error(
         'data' in payload

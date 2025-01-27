@@ -3,6 +3,7 @@ import { useUpdateGeneralContractorResolutionMutation } from '@/features/general
 import { IContractor } from '@/features/generalContractors/types';
 import { IResolution } from '@/features/generalTypes';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
+import { useMessageApi } from '@/utils/messages';
 
 export default function GeneralContractorResolution({
   generalContractor,
@@ -10,6 +11,7 @@ export default function GeneralContractorResolution({
   generalContractor: IContractor;
 }) {
   const { isNew, id } = useIsNew();
+  const { messageApi } = useMessageApi();
 
   const [
     updateGeneralContractorResolution,
@@ -18,8 +20,15 @@ export default function GeneralContractorResolution({
 
   const onFinish = async (values: IResolution) => {
     if (!isNew) {
-      await updateGeneralContractorResolution({ id: id!, resolution: values });
-      return;
+      try {
+        await updateGeneralContractorResolution({
+          id: id!,
+          resolution: values,
+        });
+        messageApi.success('Ygtyýarnama maglumaty täzelendi');
+      } catch (error) {
+        console.log('error', error);
+      }
     }
   };
 

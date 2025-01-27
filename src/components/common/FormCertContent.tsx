@@ -27,10 +27,10 @@ const CertContent = ({ cert, loading, onFinish }: ICertContent) => {
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 20 }}
     >
-      <Form.Item label='cert_number' name='cert_number' hasFeedback>
+      <Form.Item label='Şahadatnama belgisi' name='cert_number' hasFeedback>
         <InputNumber ref={focusInput} style={{ width: 200 }} />
       </Form.Item>
-      <Form.Item label='cert_date' name='cert_date' hasFeedback>
+      <Form.Item label='Şahadatnama sene' name='cert_date' hasFeedback>
         <DatePicker format={dateFormat} />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 21, span: 3 }}>

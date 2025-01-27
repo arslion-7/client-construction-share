@@ -45,7 +45,7 @@ export default function GeneralContractor() {
     },
     {
       key: 'resolution',
-      label: 'Rugsatnama maglumaty',
+      label: 'Ygtyýarnama maglumaty',
       children: (
         <Card>
           <GeneralContractorResolution generalContractor={generalContractor!} />
