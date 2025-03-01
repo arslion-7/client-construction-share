@@ -11,7 +11,7 @@ interface AuthState {
 // Define the initial state using that type
 const initialState: AuthState = {
   user: null,
-  token: null,
+  token: null
 };
 
 interface IUser {
@@ -31,8 +31,8 @@ export const authSlice = createSlice({
     logOut: (state) => {
       state.user = null;
       state.token = null;
-    },
-  },
+    }
+  }
 });
 
 export const { setCredentials, logOut } = authSlice.actions;

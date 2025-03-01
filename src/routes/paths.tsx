@@ -4,6 +4,7 @@ export const PATHS = {
   REGISTRIES: '/registries',
   GENERAL_CONTRACTORS: '/general_contractors',
   SUB_CONTRACTORS: '/sub_contractors',
+  RECEIVERS: '/receivers',
 
   //
   USERS: '/users',

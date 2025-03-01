@@ -12,14 +12,15 @@ interface Props {
     | 'building_id'
     | 'general_contractor_id'
     | 'sub_contractor_id'
-    | 'builder_id';
+    | 'builder_id'
+    | 'receiver_id';
 }
 
 export function useSufColumns({
   isLoadingSelect,
   onSelectClicked,
   registryId,
-  selectedId,
+  selectedId
 }: Props) {
   let sufColumns: TableProps['columns'] = [];
 
@@ -45,8 +46,8 @@ export function useSufColumns({
               selected={registry[selectedId] === record.id}
             />
           );
-        },
-      },
+        }
+      }
     ];
 
   return { sufColumns };
@@ -70,11 +71,11 @@ export function useEditColumns() {
             navigate(record.id.toString());
           }}
         />
-      ),
-    },
+      )
+    }
   ];
 
   return {
-    editColumns,
+    editColumns
   };
 }

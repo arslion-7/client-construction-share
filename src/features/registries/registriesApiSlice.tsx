@@ -85,19 +85,20 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
         }
       }),
       invalidatesTags: ['REGISTRIES', 'REGISTRY']
+    }),
+    selectReceiver: builder.mutation<
+      IRegistry,
+      { id: string; receiver_id: number }
+    >({
+      query: ({ id, receiver_id }) => ({
+        method: 'PUT',
+        url: `/registries/${id}/update_receiver`,
+        body: {
+          receiver_id
+        }
+      }),
+      invalidatesTags: ['REGISTRIES', 'REGISTRY']
     })
-
-    // updateRegistryOrg: builder.mutation<
-    //   string,
-    //   { id: string; org: IOrg }
-    // >({
-    //   query: ({ id, org }) => ({
-    //     url: `/registries/${id}`,
-    //     method: 'PUT',
-    //     body: org
-    //   }),
-    //   invalidatesTags: ['REGISTRIES', 'REGISTRY']
-    // })
   })
 });
 
@@ -108,5 +109,6 @@ export const {
   useUpdateRegistryNumberMutation,
   useSelectGeneralContractorMutation,
   useSelectBuildingMutation,
-  useSelectBuilderMutation
+  useSelectBuilderMutation,
+  useSelectReceiverMutation
 } = registriesApiSlice;
