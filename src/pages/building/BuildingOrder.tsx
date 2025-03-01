@@ -37,25 +37,22 @@ export default function BuildingOrder({ building }: IProps) {
       wrapperCol={{ span: 20 }}
       initialValues={{
         ...building,
-        order_date: building.order_date && dayjs(building.order_date)
+        order_date: building.order_date && dayjs(building.order_date),
       }}
       onFinish={onFinish}
     >
-      <Form.Item<IBuildingOrder>
-        name='order_whose_what'
-        label='order_whose_what'
-      >
-        <Input />
+      <Form.Item<IBuildingOrder> name='order_whose_what' label='Kimiň, namesi'>
+        <Input placeholder='Ahal wel. häkimliginiň karary' />
       </Form.Item>
-      <Form.Item<IBuildingOrder> name='order_date' label='order_date'>
+      <Form.Item<IBuildingOrder> name='order_date' label='Senesi'>
         <DatePicker format={dateFormat} />
       </Form.Item>
-      <Form.Item<IBuildingOrder> name='order_code' label='order_code'>
+      <Form.Item<IBuildingOrder> name='order_code' label='Belgisi'>
         <Input />
       </Form.Item>
       <Form.Item<IBuildingOrder>
         name='order_additional_info'
-        label='order_additional_info'
+        label='Goşmaça maglumat'
       >
         <Input.TextArea rows={4} />
       </Form.Item>

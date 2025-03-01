@@ -3,11 +3,22 @@ import { useUpdateBuildingSquareMutation } from '@/features/buildings/buildingsA
 import { IBuilding, IBuildingSquare } from '@/features/buildings/types';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 import { useMessageApi } from '@/utils/messages';
-import { Form, Input, InputNumber } from 'antd';
+import { Divider, Form, Input, InputNumber, Select } from 'antd';
 
 interface IProps {
   building: IBuilding;
 }
+
+const squareUnits = [
+  {
+    label: 'm2',
+    value: 'm2',
+  },
+  {
+    label: 'ga',
+    value: 'ga',
+  },
+];
 
 export default function BuildingSquare({ building }: IProps) {
   const { id } = useIsNew();
@@ -34,31 +45,36 @@ export default function BuildingSquare({ building }: IProps) {
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 20 }}
       initialValues={{
-        ...building
+        ...building,
       }}
       onFinish={onFinish}
     >
-      <Form.Item<IBuildingSquare> name='square_1' label='square_1'>
-        <InputNumber />
+      <Divider>Umumy meýdan</Divider>
+      <Form.Item<IBuildingSquare> name='square_1' label='Umumy meýdany'>
+        <InputNumber style={{ width: 200 }} />
       </Form.Item>
-      <Form.Item<IBuildingSquare> name='square_1_name' label='square_1_name'>
-        <Input />
+      <Form.Item<IBuildingSquare> name='square_1_name' label='Ölçeg birligi'>
+        <Select options={squareUnits} style={{ width: 200 }} />
       </Form.Item>
-      <Form.Item<IBuildingSquare> name='square_2' label='square_2'>
-        <InputNumber />
+      <Divider>Goşmaça meýdan 1</Divider>
+      <Form.Item<IBuildingSquare> name='square_2' label='Goşmaça meýdan 1'>
+        <InputNumber style={{ width: 200 }} />
       </Form.Item>
-      <Form.Item<IBuildingSquare> name='square_2_name' label='square_2_name'>
-        <Input />
+      <Form.Item<IBuildingSquare> name='square_2_name' label='Ölçeg birligi'>
+        <Select options={squareUnits} style={{ width: 200 }} />
       </Form.Item>
-      <Form.Item<IBuildingSquare> name='square_3' label='square_3'>
-        <InputNumber />
+      <Divider>Goşmaça meýdan 2</Divider>
+      <Form.Item<IBuildingSquare> name='square_3' label='Goşmaça meýdan 2'>
+        <InputNumber style={{ width: 200 }} />
       </Form.Item>
-      <Form.Item<IBuildingSquare> name='square_3_name' label='square_3_name'>
-        <Input />
+
+      <Form.Item<IBuildingSquare> name='square_3_name' label='Ölçeg birligi'>
+        <Select options={squareUnits} style={{ width: 200 }} />
       </Form.Item>
+      <Divider />
       <Form.Item<IBuildingSquare>
         name='square_additional_info'
-        label='square_additional_info'
+        label='Goşmaça maglumat'
       >
         <Input.TextArea rows={4} />
       </Form.Item>

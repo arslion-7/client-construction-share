@@ -4,7 +4,7 @@ import { IBuilding, IBuildingCert } from '@/features/buildings/types';
 import { dateFormat } from '@/utils/formats';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 import { useMessageApi } from '@/utils/messages';
-import { DatePicker, Form, Input } from 'antd';
+import { DatePicker, Divider, Form, Input } from 'antd';
 import dayjs from 'dayjs';
 
 interface IProps {
@@ -38,23 +38,25 @@ export default function BuildingCert({ building }: IProps) {
       initialValues={{
         ...building,
         cert_1_date: building.cert_1_date && dayjs(building.cert_1_date),
-        cert_2_date: building.cert_2_date && dayjs(building.cert_2_date)
+        cert_2_date: building.cert_2_date && dayjs(building.cert_2_date),
       }}
       onFinish={onFinish}
     >
-      <Form.Item<IBuildingCert> name='cert_name' label='cert_name'>
+      <Form.Item<IBuildingCert> name='cert_name' label='Görnüşi'>
         <Input />
       </Form.Item>
-      <Form.Item<IBuildingCert> name='cert_1_date' label='cert_1_date'>
+      <Divider />
+      <Form.Item<IBuildingCert> name='cert_1_date' label='Senesi 1'>
         <DatePicker format={dateFormat} />
       </Form.Item>
-      <Form.Item<IBuildingCert> name='cert_1_code' label='cert_1_code'>
+      <Form.Item<IBuildingCert> name='cert_1_code' label='Belgisi 1'>
         <Input />
       </Form.Item>
-      <Form.Item<IBuildingCert> name='cert_2_date' label='cert_2_date'>
+      <Divider />
+      <Form.Item<IBuildingCert> name='cert_2_date' label='Senesi 2'>
         <DatePicker format={dateFormat} />
       </Form.Item>
-      <Form.Item<IBuildingCert> name='cert_2_code' label='cert_2_code'>
+      <Form.Item<IBuildingCert> name='cert_2_code' label='Belgisi 2'>
         <Input />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 21, span: 3 }}>

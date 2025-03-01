@@ -36,7 +36,7 @@ export default function Building() {
         <Card>
           <BuildingAddress building={building!} />
         </Card>
-      )
+      ),
     },
     {
       key: 'main',
@@ -46,38 +46,38 @@ export default function Building() {
           <BuildingMain building={building!} />
         </Card>
       ),
-      disabled: isNew
+      disabled: isNew,
     },
     {
       key: 'order',
-      label: 'Order',
+      label: 'Karar/Buýruk',
       children: (
         <Card>
           <BuildingOrder building={building!} />
         </Card>
       ),
-      disabled: isNew
+      disabled: isNew,
     },
     {
       key: 'cert',
-      label: 'Cert',
+      label: 'Döwletnama/Kepilnama',
       children: (
         <Card>
           <BuildingCert building={building!} />
         </Card>
       ),
-      disabled: isNew
+      disabled: isNew,
     },
     {
       key: 'square',
-      label: 'Square',
+      label: 'Meýdan',
       children: (
         <Card>
           <BuildingSquare building={building!} />
         </Card>
       ),
-      disabled: isNew
-    }
+      disabled: isNew,
+    },
   ];
 
   return (
