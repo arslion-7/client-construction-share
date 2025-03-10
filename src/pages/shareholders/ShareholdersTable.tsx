@@ -7,7 +7,7 @@ import { IShareholder } from '@/features/shareholders/types';
 import { useColumns } from './hooks';
 
 export default function ShareholdersTable({
-  paginatedData
+  paginatedData,
 }: {
   paginatedData: PaginatedResponse<IShareholder[]>;
 }) {

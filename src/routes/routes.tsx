@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router';
 
 import App from '@/App';
 import Registries from '@/pages/registries/Registries';
-import About from '@/pages/About';
 import AuthLayout from '@/layouts/AuthLayout';
 import SignIn from '@/pages/SignIn';
 import GeneralContractors from '@/pages/generalContractors/GeneralContractors';
@@ -19,6 +18,7 @@ import Builder from '@/pages/builder/Builder';
 import Receivers from '@/pages/receivers/Receivers';
 import Receiver from '@/pages/receiver/Receiver';
 import Shareholders from '@/pages/shareholders/Shareholders';
+import Shareholder from '@/pages/shareholder/Shareholder';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -47,12 +47,10 @@ const AppRoutes: React.FC = () => {
         <Route path={PATHS.RECEIVERS}>
           <Route index element={<Receivers />} />
           <Route path=':id' element={<Receiver />} />
-          <Route path={PATHS.SHAREHOLDERS}>
-            <Route index element={<Shareholders />} />
-            {/* <Route path=':id' element={<Builder />} /> */}
-          </Route>
-
-          <Route path='about' element={<About />} />
+        </Route>
+        <Route path={PATHS.SHAREHOLDERS}>
+          <Route index element={<Shareholders />} />
+          <Route path=':id' element={<Shareholder />} />
         </Route>
 
         <Route element={<AuthLayout />}>

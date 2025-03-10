@@ -25,7 +25,7 @@ interface AreaFormProps {
 export default function AreaForm({
   initialValues,
   onFinish,
-  isSubmitLoading
+  isSubmitLoading,
 }: AreaFormProps) {
   const { data: areas, isLoading: isLoadingAreas } = useGetAreaHierarchyQuery();
 
@@ -64,13 +64,10 @@ export default function AreaForm({
           onSearch={(value) => console.log(value)}
         />
       </Form.Item>
-      <Form.Item name='address' label='Address'>
+      <Form.Item name='address' label='Adresi'>
         <Input />
       </Form.Item>
-      <Form.Item
-        name='address_additional_info'
-        label='Address goşmaça maglumaty'
-      >
+      <Form.Item name='address_additional_info' label='Goşmaça maglumaty'>
         <Input.TextArea rows={4} />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 21, span: 3 }}>

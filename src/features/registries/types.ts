@@ -24,4 +24,6 @@ export interface IRegistry extends IGeneral {
   builder: IBuilder;
   receiver_id?: number;
   receiver: IReceiver;
+  shareholder_id?: number;
+  shareholder: IReceiver;
 }

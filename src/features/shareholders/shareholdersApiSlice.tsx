@@ -1,6 +1,7 @@
 import {
   IShareholder,
-  IShareholderRequest
+  IShareholderDocs,
+  IShareholderRequest,
 } from '@/features/shareholders/types';
 import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
@@ -8,7 +9,7 @@ import { paginationInit } from '@/utils/requestUtils';
 import { IAreaAddressForm } from '@/components/form/AreaAddressForm';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['SHAREHOLDERS', 'SHAREHOLDER']
+  addTagTypes: ['SHAREHOLDERS', 'SHAREHOLDER'],
 });
 
 export const shareholdersApiSlice = apiWithTag.injectEndpoints({
@@ -20,22 +21,22 @@ export const shareholdersApiSlice = apiWithTag.injectEndpoints({
       query: ({
         page = paginationInit.page,
         pageSize = paginationInit.pageSize,
-        search = ''
+        search = '',
       }) => `/shareholders?page=${page}&pageSize=${pageSize}&search=${search}`,
-      providesTags: ['SHAREHOLDERS']
+      providesTags: ['SHAREHOLDERS'],
       // keepUnusedDataFor: 5,
     }),
     getShareholder: shareholder.query<IShareholder, string>({
       query: (id) => `/shareholders/${id}`,
-      providesTags: ['SHAREHOLDER']
+      providesTags: ['SHAREHOLDER'],
     }),
     createShareholder: shareholder.mutation<IShareholder, IAreaAddressForm>({
       query: (body) => ({
         method: 'POST',
         url: '/shareholders',
-        body
+        body,
       }),
-      invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER']
+      invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER'],
     }),
     updateShareholderAddress: shareholder.mutation<
       string,
@@ -47,24 +48,38 @@ export const shareholdersApiSlice = apiWithTag.injectEndpoints({
         body: {
           areas,
           address,
-          address_additional_info
-        }
+          address_additional_info,
+        },
       }),
-      invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER']
+      invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER'],
+    }),
+    updateShareholderDocs: shareholder.mutation<
+      string,
+      { id: string } & IShareholderDocs
+    >({
+      query: ({ id, ...rest }) => ({
+        url: `/shareholders/${id}/update_docs`,
+        method: 'PUT',
+        body: {
+          ...rest,
+        },
+      }),
+      invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER'],
     }),
     deleteShareholder: shareholder.mutation<string, string>({
       query: (id) => ({
         method: 'DELETE',
-        url: `/shareholders/${id}`
+        url: `/shareholders/${id}`,
       }),
-      invalidatesTags: ['SHAREHOLDERS']
-    })
-  })
+      invalidatesTags: ['SHAREHOLDERS'],
+    }),
+  }),
 });
 
 export const {
   useGetShareholdersQuery,
   useGetShareholderQuery,
   useCreateShareholderMutation,
-  useUpdateShareholderAddressMutation
+  useUpdateShareholderAddressMutation,
+  useUpdateShareholderDocsMutation,
 } = shareholdersApiSlice;

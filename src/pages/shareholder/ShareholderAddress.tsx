@@ -1,8 +1,8 @@
-import { IBuilder } from '@/features/builders/types';
+import { IShareholder } from '@/features/shareholders/types';
 import {
-  useCreateBuilderMutation,
-  useUpdateBuilderAddressMutation,
-} from '@/features/builders/buildersApiSlice';
+  useCreateShareholderMutation,
+  useUpdateShareholderAddressMutation,
+} from '@/features/shareholders/shareholdersApiSlice';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 import { useNavigate } from 'react-router';
 import { useMessageApi } from '@/utils/messages';
@@ -10,19 +10,19 @@ import { getAreaAddressInitials } from '@/utils/convertors';
 import AreaForm, { IAreaAddressForm } from '@/components/form/AreaAddressForm';
 
 interface IProps {
-  builder: IBuilder;
+  shareholder: IShareholder;
 }
 
-export default function BuilderAddress({ builder }: IProps) {
+export default function ShareholderAddress({ shareholder }: IProps) {
   const { id, isNew } = useIsNew();
   const navigate = useNavigate();
   const { messageApi } = useMessageApi();
 
-  const [createBuilder, { isLoading: isLoadingCreate }] =
-    useCreateBuilderMutation();
+  const [createShareholder, { isLoading: isLoadingCreate }] =
+    useCreateShareholderMutation();
 
   const [updateAddress, { isLoading: isLoadingUpdateAddress }] =
-    useUpdateBuilderAddressMutation();
+    useUpdateShareholderAddressMutation();
 
   const onFinish = async (values: IAreaAddressForm) => {
     if (!isNew) {
@@ -30,18 +30,18 @@ export default function BuilderAddress({ builder }: IProps) {
         id: id!,
         ...values,
       });
-      messageApi.success('Gurujyň adresi täzelendi');
+      messageApi.success('Paýçyň adresi täzelendi');
       return;
     }
-    const createdBuilder = await createBuilder(values).unwrap();
-    console.log('createdBuilder', createdBuilder);
-    navigate(`/builders/${createdBuilder.id}`);
-    messageApi.success('Täze gurujy goşuldy');
+    const createdShareholder = await createShareholder(values).unwrap();
+    console.log('createdShareholder', createdShareholder);
+    navigate(`/shareholders/${createdShareholder.id}`);
+    messageApi.success('Täze paýçy goşuldy');
   };
 
   return (
     <AreaForm
-      initialValues={getAreaAddressInitials(isNew, builder)}
+      initialValues={getAreaAddressInitials(isNew, shareholder)}
       onFinish={onFinish}
       isSubmitLoading={isLoadingUpdateAddress || isLoadingCreate}
     />
