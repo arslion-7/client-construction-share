@@ -1,6 +1,6 @@
 import { PaginatedRequest } from '@/utils/requestUtils';
 import { IArea } from '../areas/types';
-import { IOrg } from '@/features/generalTypes';
+import { IGeneral, IOrg } from '@/features/generalTypes';
 
 export interface IBuilderRequest extends PaginatedRequest {
   some?: string;
@@ -12,6 +12,4 @@ export interface IBuilderAddress {
   address_additional_info: string;
 }
 
-export interface IBuilder extends IBuilderAddress, IOrg {
-  id: number;
-}
+export interface IBuilder extends IGeneral, IBuilderAddress, IOrg {}

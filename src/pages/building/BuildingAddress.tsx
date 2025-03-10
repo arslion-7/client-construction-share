@@ -1,7 +1,7 @@
 import { IBuilding } from '@/features/buildings/types';
 import {
   useCreateBuildingMutation,
-  useUpdateBuildingAddressMutation
+  useUpdateBuildingAddressMutation,
 } from '@/features/buildings/buildingsApiSlice';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 import { useNavigate } from 'react-router';
@@ -28,7 +28,7 @@ export default function BuildingAddress({ building }: IProps) {
     if (!isNew) {
       await updateAddress({
         id: id!,
-        ...values
+        ...values,
       });
       messageApi.success('Desga täzelendi');
       return;

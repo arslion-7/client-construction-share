@@ -2,9 +2,10 @@ import { IReceiver, IReceiverRequest } from '@/features/receivers/types';
 import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
 import { paginationInit } from '@/utils/requestUtils';
+import { IGeneral } from '../generalTypes';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['RECEIVERS', 'RECEIVER']
+  addTagTypes: ['RECEIVERS', 'RECEIVER'],
 });
 
 export const receiversApiSlice = apiWithTag.injectEndpoints({
@@ -16,42 +17,42 @@ export const receiversApiSlice = apiWithTag.injectEndpoints({
       query: ({
         page = paginationInit.page,
         pageSize = paginationInit.pageSize,
-        search = ''
+        search = '',
       }) => `/receivers?page=${page}&pageSize=${pageSize}&search=${search}`,
-      providesTags: ['RECEIVERS']
+      providesTags: ['RECEIVERS'],
       // keepUnusedDataFor: 5,
     }),
     getReceiver: builder.query<IReceiver, string>({
       query: (id) => `/receivers/${id}`,
-      providesTags: ['RECEIVER']
+      providesTags: ['RECEIVER'],
     }),
-    createReceiver: builder.mutation<IReceiver, IReceiver>({
+    createReceiver: builder.mutation<IReceiver & IGeneral, IReceiver>({
       query: (body) => ({
         method: 'POST',
         url: '/receivers',
-        body
+        body,
       }),
-      invalidatesTags: ['RECEIVERS', 'RECEIVER']
+      invalidatesTags: ['RECEIVERS', 'RECEIVER'],
     }),
     updateReceiverOrg: builder.mutation<
       IReceiver,
-      { id: string; receiver: IReceiver }
+      { id: string | number; receiver: IReceiver }
     >({
       query: ({ id, receiver }) => ({
         url: `/receivers/${id}`,
         method: 'PUT',
-        body: receiver
+        body: receiver,
       }),
-      invalidatesTags: ['RECEIVERS', 'RECEIVER']
+      invalidatesTags: ['RECEIVERS', 'RECEIVER'],
     }),
     deleteReceiver: builder.mutation<string, string>({
       query: (id) => ({
         method: 'DELETE',
-        url: `/receivers/${id}`
+        url: `/receivers/${id}`,
       }),
-      invalidatesTags: ['RECEIVERS']
-    })
-  })
+      invalidatesTags: ['RECEIVERS'],
+    }),
+  }),
 });
 
 export const {
@@ -59,5 +60,5 @@ export const {
   useGetReceiverQuery,
   useCreateReceiverMutation,
   useUpdateReceiverOrgMutation,
-  useDeleteReceiverMutation
+  useDeleteReceiverMutation,
 } = receiversApiSlice;

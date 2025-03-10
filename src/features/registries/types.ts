@@ -1,3 +1,4 @@
+import { IReceiver } from './../receivers/types';
 import { PaginatedRequest } from '@/utils/requestUtils';
 import { IGeneral } from '../generalTypes';
 import { IContractor } from '../generalContractors/types';
@@ -21,4 +22,6 @@ export interface IRegistry extends IGeneral {
   building: IBuilding;
   builder_id?: number;
   builder: IBuilder;
+  receiver_id?: number;
+  receiver: IReceiver;
 }

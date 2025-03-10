@@ -1,4 +1,5 @@
 import { PaginatedRequest } from '@/utils/requestUtils';
+// import { IGeneral } from '../generalTypes';
 
 export interface IReceiver {
   t_b: number;

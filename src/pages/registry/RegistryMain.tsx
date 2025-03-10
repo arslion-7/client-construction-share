@@ -7,6 +7,7 @@ import {
   HomeOutlined,
   ReloadOutlined,
   SelectOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 import { PATHS } from '@/routes/paths';
@@ -50,6 +51,13 @@ export default function RegistryMain({ registry }: IRegistryMainProps) {
       // description: registry.sub_contractor
       //   ? registry.sub_contractor.org_name
       //   : '?',
+    },
+    {
+      title: 'Almaga gelen',
+      url: PATHS.RECEIVERS,
+      icon: <UserOutlined />,
+      selected: registry.receiver ? true : false,
+      description: registry.receiver ? registry.receiver.org_name : '?',
     },
   ];
 
