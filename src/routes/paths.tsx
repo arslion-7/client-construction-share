@@ -5,8 +5,9 @@ export const PATHS = {
   GENERAL_CONTRACTORS: '/general_contractors',
   SUB_CONTRACTORS: '/sub_contractors',
   RECEIVERS: '/receivers',
+  SHAREHOLDERS: '/shareholders',
 
   //
   USERS: '/users',
-  SIGNIN: '/sign-in'
+  SIGNIN: '/sign-in',
 };

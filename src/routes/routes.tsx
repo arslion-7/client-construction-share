@@ -18,6 +18,7 @@ import Builders from '@/pages/builders/Builders';
 import Builder from '@/pages/builder/Builder';
 import Receivers from '@/pages/receivers/Receivers';
 import Receiver from '@/pages/receiver/Receiver';
+import Shareholders from '@/pages/shareholders/Shareholders';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -46,14 +47,18 @@ const AppRoutes: React.FC = () => {
         <Route path={PATHS.RECEIVERS}>
           <Route index element={<Receivers />} />
           <Route path=':id' element={<Receiver />} />
+          <Route path={PATHS.SHAREHOLDERS}>
+            <Route index element={<Shareholders />} />
+            {/* <Route path=':id' element={<Builder />} /> */}
+          </Route>
+
+          <Route path='about' element={<About />} />
         </Route>
 
-        <Route path='about' element={<About />} />
-      </Route>
-
-      <Route element={<AuthLayout />}>
-        <Route path={PATHS.SIGNIN} element={<SignIn />} />
-        {/* <Route path='register' element={<Register />} /> */}
+        <Route element={<AuthLayout />}>
+          <Route path={PATHS.SIGNIN} element={<SignIn />} />
+          {/* <Route path='register' element={<Register />} /> */}
+        </Route>
       </Route>
     </Routes>
   );

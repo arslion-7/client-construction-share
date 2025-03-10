@@ -1,10 +1,10 @@
 import { PaginatedRequest } from '@/utils/requestUtils';
 import { IAddress, IOrg } from '@/features/generalTypes';
 
-export interface IBuilderRequest extends PaginatedRequest {
+export interface IShareholderRequest extends PaginatedRequest {
   some?: string;
 }
 
-export interface IBuilder extends IAddress, IOrg {
+export interface IShareholder extends IAddress, IOrg {
   id: number;
 }
