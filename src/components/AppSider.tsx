@@ -7,7 +7,7 @@ import {
   PieChartOutlined,
   SettingOutlined,
   TableOutlined,
-  TeamOutlined,
+  TeamOutlined
 } from '@ant-design/icons';
 import { Image, Layout, Menu } from 'antd';
 import { useEffect, useState } from 'react';
@@ -38,30 +38,35 @@ export default function AppSider() {
         {
           label: 'Reýestr',
           icon: <TableOutlined />,
-          key: PATHS.REGISTRIES,
+          key: PATHS.REGISTRIES
         },
         {
           label: 'Baş potratçylar',
           icon: <GroupOutlined />,
-          key: PATHS.GENERAL_CONTRACTORS,
+          key: PATHS.GENERAL_CONTRACTORS
         },
 
         {
           label: 'Desgalar',
           icon: <HomeOutlined />,
-          key: PATHS.BUILDINGS,
+          key: PATHS.BUILDINGS
         },
         {
           label: 'Gurujylar',
           icon: <BarsOutlined />,
-          key: PATHS.BUILDERS,
+          key: PATHS.BUILDERS
         },
         {
           label: 'Kömekçi potratçylar',
           icon: <HddOutlined />,
-          key: '/',
+          key: '/'
         },
-      ],
+        {
+          label: 'Paýçylar',
+          icon: <PieChartOutlined />,
+          key: '/shareholders'
+        }
+      ]
     },
     {
       label: 'Sazlamalar',
@@ -71,15 +76,15 @@ export default function AppSider() {
         {
           label: 'Ulanyjylar',
           key: PATHS.USERS,
-          icon: <TeamOutlined />,
+          icon: <TeamOutlined />
         },
         {
           label: 'Ulgama gir',
           key: PATHS.SIGNIN,
-          icon: <LoginOutlined />,
-        },
-      ],
-    },
+          icon: <LoginOutlined />
+        }
+      ]
+    }
   ];
 
   return (
