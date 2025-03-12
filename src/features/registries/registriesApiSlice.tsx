@@ -40,7 +40,7 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
     >({
       query: ({ id, t_b }) => ({
         method: 'PUT',
-        url: `/registries/${id}/update_registry_number`,
+        url: `/registries/${id}/registry_number`,
         body: {
           t_b,
         },
@@ -53,7 +53,7 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
     >({
       query: ({ id, general_contractor_id }) => ({
         method: 'PUT',
-        url: `/registries/${id}/update_general_contractor`,
+        url: `/registries/${id}/general_contractor`,
         body: {
           general_contractor_id,
         },
@@ -66,7 +66,7 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
     >({
       query: ({ id, building_id }) => ({
         method: 'PUT',
-        url: `/registries/${id}/update_building`,
+        url: `/registries/${id}/building`,
         body: {
           building_id,
         },
@@ -79,7 +79,7 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
     >({
       query: ({ id, builder_id }) => ({
         method: 'PUT',
-        url: `/registries/${id}/update_builder`,
+        url: `/registries/${id}/builder`,
         body: {
           builder_id,
         },
@@ -92,9 +92,22 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
     >({
       query: ({ id, receiver_id }) => ({
         method: 'PUT',
-        url: `/registries/${id}/update_receiver`,
+        url: `/registries/${id}/receiver`,
         body: {
           receiver_id,
+        },
+      }),
+      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+    }),
+    selectShareholder: builder.mutation<
+      IRegistry,
+      { id: string; shareholder_id: number }
+    >({
+      query: ({ id, shareholder_id }) => ({
+        method: 'PUT',
+        url: `/registries/${id}/shareholder`,
+        body: {
+          shareholder_id,
         },
       }),
       invalidatesTags: ['REGISTRIES', 'REGISTRY'],
@@ -111,4 +124,5 @@ export const {
   useSelectBuildingMutation,
   useSelectBuilderMutation,
   useSelectReceiverMutation,
+  useSelectShareholderMutation,
 } = registriesApiSlice;

@@ -1,5 +1,5 @@
 import {
-  BarsOutlined,
+  BuildOutlined,
   GroupOutlined,
   HddOutlined,
   HomeOutlined,
@@ -42,20 +42,19 @@ export default function AppSider() {
           key: PATHS.REGISTRIES,
         },
         {
-          label: 'Baş potratçylar',
-          icon: <GroupOutlined />,
-          key: PATHS.GENERAL_CONTRACTORS,
+          label: 'Gurujylar',
+          icon: <BuildOutlined />,
+          key: PATHS.BUILDERS,
         },
-
         {
           label: 'Desgalar',
           icon: <HomeOutlined />,
           key: PATHS.BUILDINGS,
         },
         {
-          label: 'Gurujylar',
-          icon: <BarsOutlined />,
-          key: PATHS.BUILDERS,
+          label: 'Baş potratçylar',
+          icon: <GroupOutlined />,
+          key: PATHS.GENERAL_CONTRACTORS,
         },
         {
           label: 'Kömekçi potratçylar',

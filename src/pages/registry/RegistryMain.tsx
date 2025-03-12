@@ -5,6 +5,7 @@ import {
   GroupOutlined,
   HddOutlined,
   HomeOutlined,
+  PieChartOutlined,
   ReloadOutlined,
   SelectOutlined,
   UserOutlined,
@@ -58,6 +59,13 @@ export default function RegistryMain({ registry }: IRegistryMainProps) {
       icon: <UserOutlined />,
       selected: registry.receiver ? true : false,
       description: registry.receiver ? registry.receiver.org_name : '?',
+    },
+    {
+      title: 'Paýçy',
+      url: PATHS.SHAREHOLDERS,
+      icon: <PieChartOutlined />,
+      selected: registry.shareholder ? true : false,
+      description: registry.shareholder ? registry.shareholder.id : '?',
     },
   ];
 

@@ -8,6 +8,7 @@ import ShareholdersBreadcrumb from '../shareholders/ShareholdersBreadcrumb';
 import { useGetShareholderQuery } from '@/features/shareholders/shareholdersApiSlice';
 import ShareholderAddress from './ShareholderAddress';
 import ShareholderDocs from './ShareholderDocs';
+import ShareholderOrg from './ShareholderOrg';
 // import ShareholderAddress from './ShareholderAddress';
 // import ShareholderMain from './ShareholderMain';
 
@@ -32,6 +33,15 @@ export default function Shareholder() {
       children: (
         <Card>
           <ShareholderAddress shareholder={shareholder!} />
+        </Card>
+      ),
+    },
+    {
+      key: 'org',
+      label: 'Kärhana maglumaty',
+      children: (
+        <Card>
+          <ShareholderOrg shareholder={shareholder!} />
         </Card>
       ),
     },

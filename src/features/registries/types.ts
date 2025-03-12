@@ -5,6 +5,7 @@ import { IContractor } from '../generalContractors/types';
 import { IUser } from '../users/types';
 import { IBuilding } from '../buildings/types';
 import { IBuilder } from '../builders/types';
+import { IShareholder } from '../shareholders/types';
 
 export interface IRegistryRequest extends PaginatedRequest {
   some?: string;
@@ -25,5 +26,5 @@ export interface IRegistry extends IGeneral {
   receiver_id?: number;
   receiver: IReceiver;
   shareholder_id?: number;
-  shareholder: IReceiver;
+  shareholder: IShareholder;
 }
