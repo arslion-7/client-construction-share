@@ -5,7 +5,7 @@ import type { SizeType } from 'antd/es/config-provider/SizeContext';
 
 export default function SubmitButton({
   loading,
-  size = 'large'
+  size = 'large',
 }: {
   loading?: boolean;
   size?: SizeType;

@@ -36,6 +36,13 @@ const AppRoutes: React.FC = () => {
           <Route index element={<GeneralContractors />} />
           <Route path=':id' element={<GeneralContractor />} />
         </Route>
+        <Route path={PATHS.SUB_CONTRACTORS}>
+          <Route
+            index
+            element={<>Entak ishlanok. Bas potratcy doly bolan son islener.</>}
+          />
+          {/* <Route path=':id' element={<GeneralContractor />} /> */}
+        </Route>
         <Route path={PATHS.BUILDINGS}>
           <Route index element={<Buildings />} />
           <Route path=':id' element={<Building />} />

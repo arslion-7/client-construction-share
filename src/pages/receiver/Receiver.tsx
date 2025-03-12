@@ -24,7 +24,7 @@ export default function Receiver() {
   const items: TabsProps['items'] = [
     {
       key: 'org',
-      label: 'Kärhana maglumaty',
+      label: 'Esasy maglumaty',
       children: (
         <Card>
           <ReceiverMain receiver={receiver!} />
