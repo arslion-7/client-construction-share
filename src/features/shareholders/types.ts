@@ -5,11 +5,11 @@ export interface IShareholderRequest extends PaginatedRequest {
   some?: string;
 }
 
-interface Phone extends IGeneral {
+export interface IPhone extends IGeneral {
   kind: string;
   number: string;
   owner: string;
-  shareholder_id: number;
+  shareholder_id?: number;
 }
 
 export interface IShareholderDocs {
@@ -23,5 +23,5 @@ export interface IShareholderDocs {
 
 export interface IShareholder extends IAddress, IOrg, IShareholderDocs {
   id: number;
-  phones: Phone[];
+  phones: IPhone[];
 }

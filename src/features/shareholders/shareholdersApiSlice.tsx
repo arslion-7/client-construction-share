@@ -2,6 +2,7 @@ import {
   IShareholder,
   IShareholderDocs,
   IShareholderRequest,
+  IPhone,
 } from '@/features/shareholders/types';
 import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
@@ -75,6 +76,19 @@ export const shareholdersApiSlice = apiWithTag.injectEndpoints({
       }),
       invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER'],
     }),
+    updateShareholderPhones: builder.mutation<
+      string,
+      { id: string; phones: IPhone[] }
+    >({
+      query: ({ id, ...rest }) => ({
+        url: `/shareholders/${id}/phones`,
+        method: 'PUT',
+        body: {
+          ...rest,
+        },
+      }),
+      invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER'],
+    }),
     deleteShareholder: builder.mutation<string, string>({
       query: (id) => ({
         method: 'DELETE',
@@ -92,4 +106,5 @@ export const {
   useUpdateShareholderAddressMutation,
   useUpdateShareholderDocsMutation,
   useUpdateShareholderOrgMutation,
+  useUpdateShareholderPhonesMutation,
 } = shareholdersApiSlice;

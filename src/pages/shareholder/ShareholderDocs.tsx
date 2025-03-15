@@ -24,10 +24,10 @@ export default function ShareholderDocs({ shareholder }: IProps) {
         id: id!,
         ...values,
       });
-      messageApi.success('Paýçyň pasporty täzelendi.');
+      messageApi.success('Paýçyň resminamalary täzelendi.');
     } catch (error) {
       console.log('Error on update docs', error);
-      messageApi.error('Paýçyň pasporty täzelenende näsazlyk ýüze çykdy.');
+      messageApi.error('Paýçyň resminamalary täzelenende näsazlyk ýüze çykdy.');
     }
   };
 

@@ -9,6 +9,7 @@ import { useGetShareholderQuery } from '@/features/shareholders/shareholdersApiS
 import ShareholderAddress from './ShareholderAddress';
 import ShareholderDocs from './ShareholderDocs';
 import ShareholderOrg from './ShareholderOrg';
+import ShareholderPhones from './ShareholderPhones';
 // import ShareholderAddress from './ShareholderAddress';
 // import ShareholderMain from './ShareholderMain';
 
@@ -46,11 +47,21 @@ export default function Shareholder() {
       ),
     },
     {
-      key: 'main',
+      key: 'docs',
       label: 'Resminama maglumaty',
       children: (
         <Card>
           <ShareholderDocs shareholder={shareholder!} />
+        </Card>
+      ),
+      disabled: isNew,
+    },
+    {
+      key: 'phones',
+      label: 'Telefon belgileri',
+      children: (
+        <Card>
+          <ShareholderPhones shareholder={shareholder!} />
         </Card>
       ),
       disabled: isNew,
