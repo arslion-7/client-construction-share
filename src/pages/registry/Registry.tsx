@@ -9,6 +9,7 @@ import { useGetRegistryQuery } from '@/features/registries/registriesApiSlice';
 import RegistryMain from './RegistryMain';
 import AddNewRegistry from './AddNewRegistry';
 import RegistryNumberForm from './RegistryNumberForm';
+import ShareholderProperty from './ShareholderProperty';
 
 export default function Registry() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -16,7 +17,7 @@ export default function Registry() {
   const { isNew, id } = useIsNew();
 
   const { data: registry, isLoading } = useGetRegistryQuery(id!, {
-    skip: isNew
+    skip: isNew,
   });
 
   if (isLoading) return <Skeleton />;
@@ -30,14 +31,21 @@ export default function Registry() {
     {
       key: 'main',
       label: 'Esasy',
-      children: <Card>{!isNew && <RegistryMain registry={registry!} />}</Card>
+      children: <Card>{!isNew && <RegistryMain registry={registry!} />}</Card>,
     },
     {
-      key: 'old',
-      label: 'Öňki',
-      children: <Card></Card>,
-      disabled: isNew
-    }
+      key: 'shareholder_property',
+      label: 'Emläk paýçy',
+      children: (
+        <Card>{!isNew && <ShareholderProperty registry={registry!} />}</Card>
+      ),
+    },
+    // {
+    //   key: 'old',
+    //   label: 'Öňki',
+    //   children: <Card></Card>,
+    //   disabled: isNew
+    // }
   ];
 
   return (
