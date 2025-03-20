@@ -9,7 +9,7 @@ import { useGetRegistryQuery } from '@/features/registries/registriesApiSlice';
 import RegistryMain from './RegistryMain';
 import AddNewRegistry from './AddNewRegistry';
 import RegistryNumberForm from './RegistryNumberForm';
-import ShareholderProperty from './ShareholderProperty';
+import ShareholderProperty from './shareholderProperty/ShareholderProperty';
 
 export default function Registry() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,9 +36,7 @@ export default function Registry() {
     {
       key: 'shareholder_property',
       label: 'Emläk paýçy',
-      children: (
-        <Card>{!isNew && <ShareholderProperty registry={registry!} />}</Card>
-      ),
+      children: <Card>{!isNew && <ShareholderProperty />}</Card>,
     },
     // {
     //   key: 'old',
