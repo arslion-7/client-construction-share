@@ -10,6 +10,7 @@ import RegistryMain from './RegistryMain';
 import AddNewRegistry from './AddNewRegistry';
 import RegistryNumberForm from './RegistryNumberForm';
 import ShareholderProperty from './shareholderProperty/ShareholderProperty';
+import RegistryDatesForm from './dates/RegistryDatesForm';
 
 export default function Registry() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -53,16 +54,19 @@ export default function Registry() {
         {isNew ? (
           <AddNewRegistry />
         ) : (
-          <>
+          <Flex vertical gap={12}>
             <Card>
               <RegistryNumberForm registry={registry!} />
+            </Card>
+            <Card>
+              <RegistryDatesForm registry={registry!} />
             </Card>
             <Tabs
               defaultActiveKey={searchParams.get('tab') || 'main'}
               items={items}
               onChange={onChange}
             />
-          </>
+          </Flex>
         )}
       </Flex>
     </>

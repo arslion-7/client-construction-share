@@ -1,7 +1,7 @@
 import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
 import { paginationInit } from '@/utils/requestUtils';
-import { IRegistry, IRegistryRequest } from './types';
+import { IRegistry, IRegistryDates, IRegistryRequest } from './types';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ['REGISTRIES', 'REGISTRY'],
@@ -43,6 +43,20 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
         url: `/registries/${id}/registry_number`,
         body: {
           t_b,
+        },
+      }),
+      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+    }),
+    updateRegistryDates: builder.mutation<
+      IRegistry,
+      { id: string } & IRegistryDates
+    >({
+      query: ({ id, reviewed_at, registered_at }) => ({
+        method: 'PUT',
+        url: `/registries/${id}/registry_dates`,
+        body: {
+          reviewed_at,
+          registered_at,
         },
       }),
       invalidatesTags: ['REGISTRIES', 'REGISTRY'],
@@ -120,6 +134,7 @@ export const {
   useGetRegistryQuery,
   useCreateRegistryMutation,
   useUpdateRegistryNumberMutation,
+  useUpdateRegistryDatesMutation,
   useSelectGeneralContractorMutation,
   useSelectBuildingMutation,
   useSelectBuilderMutation,

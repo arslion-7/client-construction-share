@@ -11,7 +11,12 @@ export interface IRegistryRequest extends PaginatedRequest {
   some?: string;
 }
 
-export interface IRegistry extends IGeneral {
+export interface IRegistryDates {
+  reviewed_at?: string;
+  registered_at?: string;
+}
+
+export interface IRegistry extends IGeneral, IRegistryDates {
   t_b: number;
   user_id: number | null;
   user: IUser | null;

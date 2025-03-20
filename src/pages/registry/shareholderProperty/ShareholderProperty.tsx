@@ -12,8 +12,6 @@ export default function ShareholderProperty() {
       registryId: id!,
     });
 
-  console.log('shareholderProperty', shareholderProperty);
-
   if (isLoading) return <Skeleton />;
 
   return <ShareholderPropertyForm shareholderProperty={shareholderProperty} />;

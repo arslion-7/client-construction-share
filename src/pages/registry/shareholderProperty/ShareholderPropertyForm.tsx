@@ -8,6 +8,8 @@ import { useIsNew } from '@/utils/hooks/paramsHooks';
 import { useMessageApi } from '@/utils/messages';
 import { Form, Input, InputNumber } from 'antd';
 
+const width = 300;
+
 export default function ShareholderPropertyForm({
   shareholderProperty,
 }: {
@@ -72,31 +74,31 @@ export default function ShareholderPropertyForm({
         <Input />
       </Form.Item>
       <Form.Item label='Bölüm' name='part' hasFeedback>
-        <InputNumber style={{ width: 200 }} />
+        <InputNumber style={{ width }} />
       </Form.Item>
       <Form.Item label='Jaý' name='building' hasFeedback>
-        <InputNumber style={{ width: 200 }} />
+        <InputNumber style={{ width }} />
       </Form.Item>
       <Form.Item label='Girelge' name='entrance' hasFeedback>
-        <InputNumber style={{ width: 200 }} />
+        <InputNumber style={{ width }} />
       </Form.Item>
       <Form.Item label='Gat' name='floor' hasFeedback>
-        <InputNumber style={{ width: 200 }} />
+        <InputNumber style={{ width }} />
       </Form.Item>
       <Form.Item label='Öý' name='apartment' hasFeedback>
-        <InputNumber style={{ width: 200 }} />
+        <InputNumber style={{ width }} />
       </Form.Item>
       <Form.Item label='Otag sany' name='room_count' hasFeedback>
-        <InputNumber style={{ width: 200 }} />
+        <InputNumber style={{ width }} />
       </Form.Item>
       <Form.Item label='Meýdan' name='square' hasFeedback>
-        <InputNumber style={{ width: 200 }} decimalSeparator=',' />
+        <InputNumber style={{ width }} decimalSeparator=',' prefix='m2' />
       </Form.Item>
       <Form.Item label='Bahasy' name='price' hasFeedback>
-        <InputNumber style={{ width: 200 }} decimalSeparator=',' />
+        <InputNumber style={{ width }} decimalSeparator=',' prefix='man.' />
       </Form.Item>
       <Form.Item label='Baha 1m2' name='price_1m2' hasFeedback>
-        <InputNumber style={{ width: 200 }} decimalSeparator=',' />
+        <InputNumber style={{ width }} decimalSeparator=',' prefix='man.' />
       </Form.Item>
       {/* <Form.Item label='number' name='building_ident_number' hasFeedback>
         <InputNumber style={{ width: 200 }} />
@@ -105,7 +107,10 @@ export default function ShareholderPropertyForm({
         <Input.TextArea rows={5} />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 21, span: 3 }}>
-        <SubmitButton loading={isLoadingCreate} />
+        <SubmitButton
+          loading={isLoadingCreate || isLoadingUpdate}
+          size='middle'
+        />
       </Form.Item>
     </Form>
   );
