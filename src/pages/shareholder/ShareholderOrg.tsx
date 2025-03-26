@@ -30,6 +30,7 @@ export default function ShareholderOrg({
       messageApi.success('Baş potratçy täzelendi');
       return;
     }
+    // @ts-expect-error
     const shareholder = await createShareholder(values).unwrap();
     navigate(`/general_contractors/${shareholder.id}`);
     messageApi.success('Täze baş potratçy goşuldy');

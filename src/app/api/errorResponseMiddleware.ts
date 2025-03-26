@@ -19,9 +19,9 @@ export const rtkQueryErrorLogger: Middleware =
       const payload = action.payload as CustomError;
 
       // Check for 401 status code and dispatch redirect action
-      if (payload?.status === 401) {
-        window.location.href = PATHS.SIGNIN;
-      }
+      // if (payload?.status === 401) {
+      //   window.location.href = PATHS.SIGNIN;
+      // }
 
       message.error(
         'data' in payload
