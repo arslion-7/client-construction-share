@@ -3,9 +3,10 @@ import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
 import { paginationInit } from '@/utils/requestUtils';
 import { IAreaAddressForm } from '@/components/form/AreaAddressForm';
+import { IOrg } from '../generalTypes';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['BUILDERS', 'BUILDER']
+  addTagTypes: ['BUILDERS', 'BUILDER'],
 });
 
 export const buildersApiSlice = apiWithTag.injectEndpoints({
@@ -14,23 +15,31 @@ export const buildersApiSlice = apiWithTag.injectEndpoints({
       query: ({
         page = paginationInit.page,
         pageSize = paginationInit.pageSize,
-        search = ''
+        search = '',
       }) => `/builders?page=${page}&pageSize=${pageSize}&search=${search}`,
-      providesTags: ['BUILDERS']
+      providesTags: ['BUILDERS'],
       // keepUnusedDataFor: 5,
     }),
     getBuilder: builder.query<IBuilder, string>({
       query: (id) => `/builders/${id}`,
-      providesTags: ['BUILDER']
+      providesTags: ['BUILDER'],
     }),
-    createBuilder: builder.mutation<IBuilder, IAreaAddressForm>({
+    createBuilder: builder.mutation<IBuilder, IOrg>({
       query: (body) => ({
         method: 'POST',
         url: '/builders',
-        body
+        body,
       }),
-      invalidatesTags: ['BUILDERS', 'BUILDER']
+      invalidatesTags: ['BUILDERS', 'BUILDER'],
     }),
+    // createBuilder: builder.mutation<IBuilder, IAreaAddressForm>({
+    //   query: (body) => ({
+    //     method: 'POST',
+    //     url: '/builders',
+    //     body,
+    //   }),
+    //   invalidatesTags: ['BUILDERS', 'BUILDER'],
+    // }),
     updateBuilderAddress: builder.mutation<
       string,
       { id: string } & IAreaAddressForm
@@ -41,11 +50,19 @@ export const buildersApiSlice = apiWithTag.injectEndpoints({
         body: {
           areas,
           address,
-          address_additional_info
-        }
+          address_additional_info,
+        },
       }),
-      invalidatesTags: ['BUILDERS', 'BUILDER']
-    })
+      invalidatesTags: ['BUILDERS', 'BUILDER'],
+    }),
+    updateBuilderOrg: builder.mutation<string, { id: string; org: IOrg }>({
+      query: ({ id, org }) => ({
+        url: `/builders/${id}/update_org`,
+        method: 'PUT',
+        body: org,
+      }),
+      invalidatesTags: ['BUILDERS', 'BUILDER'],
+    }),
 
     // deleteBuilder: builder.mutation<string, string>({
     //   query: (id) => ({
@@ -54,12 +71,13 @@ export const buildersApiSlice = apiWithTag.injectEndpoints({
     //   }),
     //   invalidatesTags: ['BUILDERS'],
     // }),
-  })
+  }),
 });
 
 export const {
   useGetBuildersQuery,
   useGetBuilderQuery,
   useCreateBuilderMutation,
-  useUpdateBuilderAddressMutation
+  useUpdateBuilderAddressMutation,
+  useUpdateBuilderOrgMutation,
 } = buildersApiSlice;

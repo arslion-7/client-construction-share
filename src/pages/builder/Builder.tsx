@@ -7,6 +7,7 @@ import { useSearchParams } from 'react-router';
 import BuildersBreadcrumb from '../builders/BuildersBreadcrumb';
 import { useGetBuilderQuery } from '@/features/builders/buildersApiSlice';
 import BuilderAddress from './BuilderAddress';
+import BuilderOrg from './BuilderOrg';
 // import BuilderAddress from './BuilderAddress';
 // import BuilderMain from './BuilderMain';
 
@@ -28,27 +29,31 @@ export default function Builder() {
 
   const items: TabsProps['items'] = [
     {
+      key: 'org',
+      label: 'Kärhana maglumaty',
+      children: (
+        <Card>
+          <BuilderOrg builder={builder!} />
+        </Card>
+      ),
+    },
+    {
       key: 'address',
       label: 'Adres maglumaty',
       children: (
         <Card>
           <BuilderAddress builder={builder!} />
         </Card>
-      )
+      ),
+      disabled: isNew,
     },
-    {
-      key: 'main',
-      label: 'Esasy maglumaty',
-      children: <Card>{/* <BuilderMain builder={builder!} /> */}</Card>,
-      disabled: isNew
-    }
   ];
 
   return (
     <Flex vertical gap={16}>
       <BuildersBreadcrumb withLeftArrow withId />
       <Tabs
-        defaultActiveKey={searchParams.get('tab') || 'address'}
+        defaultActiveKey={searchParams.get('tab') || 'org'}
         items={items}
         onChange={onChange}
       />

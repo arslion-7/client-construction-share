@@ -1,4 +1,4 @@
-import { PATHS } from '@/routes/paths';
+// import { PATHS } from '@/routes/paths';
 import { isRejectedWithValue } from '@reduxjs/toolkit';
 import type { MiddlewareAPI, Middleware } from '@reduxjs/toolkit';
 import { message } from 'antd';
