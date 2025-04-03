@@ -6,16 +6,18 @@ import RegistriesBreadcrumb from '../registries/RegistriesBreadcrumb';
 import { useSearchParams } from 'react-router';
 
 import { useGetRegistryQuery } from '@/features/registries/registriesApiSlice';
+import RegistryChoices from './RegistryChoices';
+// import AddNewRegistry from './AddNewRegistry';
 import RegistryMain from './RegistryMain';
-import AddNewRegistry from './AddNewRegistry';
-import RegistryNumberForm from './RegistryNumberForm';
 import ShareholderProperty from './shareholderProperty/ShareholderProperty';
-import RegistryDatesForm from './dates/RegistryDatesForm';
+// import RegistryDatesForm from './dates/RegistryDatesForm';
 
 export default function Registry() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { isNew, id } = useIsNew();
+
+  console.log('isNew', isNew);
 
   const { data: registry, isLoading } = useGetRegistryQuery(id!, {
     skip: isNew,
@@ -32,12 +34,21 @@ export default function Registry() {
     {
       key: 'main',
       label: 'Esasy',
-      children: <Card>{!isNew && <RegistryMain registry={registry!} />}</Card>,
+      children: <Card>{<RegistryMain registry={registry!} />}</Card>,
+    },
+    {
+      key: 'choices',
+      label: 'Saýlamalylar',
+      children: (
+        <Card>{!isNew && <RegistryChoices registry={registry!} />}</Card>
+      ),
+      disabled: isNew,
     },
     {
       key: 'shareholder_property',
       label: 'Emläk paýçy',
       children: <Card>{!isNew && <ShareholderProperty />}</Card>,
+      disabled: isNew,
     },
     // {
     //   key: 'old',
@@ -51,23 +62,23 @@ export default function Registry() {
     <>
       <Flex vertical gap={16}>
         <RegistriesBreadcrumb withLeftArrow withId />
-        {isNew ? (
+        {/* {isNew ? (
           <AddNewRegistry />
-        ) : (
-          <Flex vertical gap={12}>
-            <Card>
-              <RegistryNumberForm registry={registry!} />
-            </Card>
-            <Card>
+        ) : ( */}
+        <Flex vertical gap={12}>
+          {/* <Card>
+              <RegistryMain registry={registry!} />
+            </Card> */}
+          {/* <Card>
               <RegistryDatesForm registry={registry!} />
-            </Card>
-            <Tabs
-              defaultActiveKey={searchParams.get('tab') || 'main'}
-              items={items}
-              onChange={onChange}
-            />
-          </Flex>
-        )}
+            </Card> */}
+          <Tabs
+            defaultActiveKey={searchParams.get('tab') || 'main'}
+            items={items}
+            onChange={onChange}
+          />
+        </Flex>
+        {/* )} */}
       </Flex>
     </>
   );

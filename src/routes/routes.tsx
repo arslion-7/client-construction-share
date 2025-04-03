@@ -59,11 +59,10 @@ const AppRoutes: React.FC = () => {
           <Route index element={<Shareholders />} />
           <Route path=':id' element={<Shareholder />} />
         </Route>
-
-        <Route element={<AuthLayout />}>
-          <Route path={PATHS.SIGNIN} element={<SignIn />} />
-          {/* <Route path='register' element={<Register />} /> */}
-        </Route>
+      </Route>
+      <Route element={<AuthLayout />}>
+        <Route path={PATHS.SIGNIN} element={<SignIn />} />
+        {/* <Route path='register' element={<Register />} /> */}
       </Route>
     </Routes>
   );

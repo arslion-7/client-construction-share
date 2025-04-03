@@ -16,17 +16,17 @@ export function useColumns() {
   const onSelectClicked = async (id: number) => {
     await select({
       id: registryId.toString(),
-      building_id: id
+      building_id: id,
     });
     messageApi.success('Desga saýlandy');
-    navigate(`/registries/${registryId}`);
+    navigate(`/registries/${registryId}?tab=choices`);
   };
 
   const { sufColumns } = useSufColumns({
     isLoadingSelect,
     onSelectClicked,
     registryId,
-    selectedId: 'building_id'
+    selectedId: 'building_id',
   });
 
   const { editColumns } = useEditColumns();
@@ -35,33 +35,33 @@ export function useColumns() {
     {
       title: 'id',
       dataIndex: 'id',
-      key: 'id'
+      key: 'id',
     },
     {
       title: 't_b',
       dataIndex: 't_b',
-      key: 't_b'
+      key: 't_b',
     },
     {
       title: 'ident_number',
       dataIndex: 'ident_number',
-      key: 'ident_number'
+      key: 'ident_number',
     },
     {
       title: 'area_full_name',
       dataIndex: 'area_full_name',
-      key: 'area_full_name'
+      key: 'area_full_name',
     },
     {
       title: 'Street',
       dataIndex: 'street',
-      key: 'street'
+      key: 'street',
     },
     {
       title: 'Karar',
       dataIndex: 'order_code',
-      key: 'order_code'
-    }
+      key: 'order_code',
+    },
   ];
 
   return [...preColumns, ...editColumns, ...sufColumns];

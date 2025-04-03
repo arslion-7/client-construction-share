@@ -20,7 +20,7 @@ export function useColumns() {
       shareholder_id: id,
     });
     messageApi.success('Paýçy saýlandy');
-    navigate(`/registries/${registryId}`);
+    navigate(`/registries/${registryId}?tab=choices`);
   };
 
   const { sufColumns } = useSufColumns({

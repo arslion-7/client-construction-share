@@ -16,17 +16,17 @@ export function useColumns() {
   const onSelectClicked = async (id: number) => {
     await select({
       id: registryId.toString(),
-      receiver_id: id
+      receiver_id: id,
     });
     messageApi.success('Almaga gelen saýlandy');
-    navigate(`/registries/${registryId}`);
+    navigate(`/registries/${registryId}?tab=choices`);
   };
 
   const { sufColumns } = useSufColumns({
     isLoadingSelect,
     onSelectClicked,
     registryId,
-    selectedId: 'receiver_id'
+    selectedId: 'receiver_id',
   });
 
   const { editColumns } = useEditColumns();
@@ -35,48 +35,48 @@ export function useColumns() {
     {
       title: 'id',
       dataIndex: 'id',
-      key: 'id'
+      key: 'id',
     },
     {
       title: 't_b',
       dataIndex: 't_b',
-      key: 't_b'
+      key: 't_b',
     },
     {
       title: 'citizen_status',
       dataIndex: 'citizen_status',
-      key: 'citizen_status'
+      key: 'citizen_status',
     },
     {
       title: 'department',
       dataIndex: 'department',
-      key: 'department'
+      key: 'department',
     },
     {
       title: 'position',
       dataIndex: 'position',
-      key: 'position'
+      key: 'position',
     },
     {
       title: 'firstname',
       dataIndex: 'firstname',
-      key: 'firstname'
+      key: 'firstname',
     },
     {
       title: 'lastname',
       dataIndex: 'lastname',
-      key: 'lastname'
+      key: 'lastname',
     },
     {
       title: 'patronymic',
       dataIndex: 'patronymic',
-      key: 'patronymic'
+      key: 'patronymic',
     },
     {
       title: 'additional_info',
       dataIndex: 'additional_info',
-      key: 'additional_info'
-    }
+      key: 'additional_info',
+    },
   ];
 
   return [...preColumns, ...editColumns, ...sufColumns];

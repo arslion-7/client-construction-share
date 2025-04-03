@@ -1,102 +1,98 @@
-import { Avatar, Button, List } from 'antd';
-import { IRegistry } from '@/features/registries/types';
+import { useFocusInput } from '@/components/common/hooks';
+import SubmitButton from '@/components/button/SubmitButton';
 import {
-  BarsOutlined,
-  GroupOutlined,
-  HddOutlined,
-  HomeOutlined,
-  PieChartOutlined,
-  ReloadOutlined,
-  SelectOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+  useCreateRegistryMutation,
+  useUpdateRegistryMutation,
+} from '@/features/registries/registriesApiSlice';
+import { IRegistry, IRegistryDates } from '@/features/registries/types';
+import { useIsNew } from '@/utils/hooks/paramsHooks';
+import { useMessageApi } from '@/utils/messages';
+import { DatePicker, Form, InputNumber } from 'antd';
+import { dateFormat } from '@/utils/formats';
+import dayjs from 'dayjs';
 import { useNavigate } from 'react-router';
-import { PATHS } from '@/routes/paths';
 
-interface IRegistryMainProps {
-  registry: IRegistry;
-}
-
-export default function RegistryMain({ registry }: IRegistryMainProps) {
+export default function RegistryMain({ registry }: { registry: IRegistry }) {
+  const { isNew, id } = useIsNew();
+  const { messageApi } = useMessageApi();
   const navigate = useNavigate();
+  const focusInput = useFocusInput();
 
-  const data = [
-    {
-      title: 'Baş potratçy',
-      url: PATHS.GENERAL_CONTRACTORS,
-      icon: <GroupOutlined />,
-      description: registry.general_contractor
-        ? registry.general_contractor.org_name
-        : '?',
-      selected: registry.general_contractor_id ? true : false,
-    },
+  const [form] = Form.useForm<{ t_b: number }>();
 
-    {
-      title: 'Desga',
-      url: PATHS.BUILDINGS,
-      icon: <HomeOutlined />,
-      selected: registry.building ? true : false,
-      description: registry.building ? registry.building.ident_number : '?',
-    },
-    {
-      title: 'Gurujy',
-      url: PATHS.BUILDERS,
-      icon: <BarsOutlined />,
-      selected: registry.builder ? true : false,
-      description: registry.builder ? registry.builder.org_name : '?',
-    },
-    {
-      title: 'Kömekçi potratçy (entak ishlanok)',
-      icon: <HddOutlined />,
-      url: PATHS.SUB_CONTRACTORS,
-      // description: registry.sub_contractor
-      //   ? registry.sub_contractor.org_name
-      //   : '?',
-    },
-    {
-      title: 'Almaga gelen',
-      url: PATHS.RECEIVERS,
-      icon: <UserOutlined />,
-      selected: registry.receiver ? true : false,
-      description: registry.receiver ? registry.receiver.org_name : '?',
-    },
-    {
-      title: 'Paýçy',
-      url: PATHS.SHAREHOLDERS,
-      icon: <PieChartOutlined />,
-      selected: registry.shareholder ? true : false,
-      description: registry.shareholder ? registry.shareholder.id : '?',
-    },
-  ];
+  const [createRegistry, { isLoading: isLoadingCreate }] =
+    useCreateRegistryMutation();
+
+  const [updateRegistry, { isLoading: isLoadingUpdate }] =
+    useUpdateRegistryMutation();
+
+  const onFinish = async (values: { t_b: number } & IRegistryDates) => {
+    console.log('values', values);
+    if (isNew) {
+      try {
+        const createdRegistry = await createRegistry(values).unwrap();
+        navigate(`/registries/${createdRegistry.id}`);
+        messageApi.success('Reýestr ýazgysy täze goşuldy');
+      } catch (error) {
+        console.log('error', error);
+        messageApi.success(
+          'Reýestr ýazgysy täze goşulanda ýalňyşlyk ýüze çykdy'
+        );
+      }
+    } else {
+      try {
+        await updateRegistry({ id: id!, ...values });
+        messageApi.success('Reýestr ýazgysy täzelendi');
+      } catch (error) {
+        console.log('error', error);
+        messageApi.error('Reýestr ýazgysy täzelenende ýalňyşlyk ýüze çykdy');
+      }
+    }
+  };
 
   return (
-    <List
-      itemLayout='horizontal'
-      dataSource={data}
-      renderItem={({ icon, title, description, url, selected }, _) => (
-        <List.Item
-          actions={[
-            <Button
-              onClick={() => navigate(`${url}?registryId=${registry.id}`)}
-              type={selected ? 'primary' : 'default'}
-              icon={selected ? <SelectOutlined /> : <ReloadOutlined />}
-            >
-              "{title}" {selected ? 'täzele' : 'saýla'}
-            </Button>,
-          ]}
-        >
-          <List.Item.Meta
-            avatar={
-              <Avatar
-                icon={icon}
-                style={{ color: selected ? 'green' : 'gray' }}
-              />
-            }
-            title={<a href='https://ant.design'>{title}</a>}
-            description={description}
-          />
-        </List.Item>
-      )}
-    />
+    <Form
+      form={form}
+      name='registry_update_registry_number_form'
+      // layout='inline'
+      initialValues={
+        registry && {
+          t_b: registry.t_b,
+          reviewed_at: registry.reviewed_at && dayjs(registry.reviewed_at),
+          registered_at:
+            registry.registered_at && dayjs(registry.registered_at),
+        }
+      }
+      onFinish={onFinish}
+      labelCol={{ span: 4 }}
+      wrapperCol={{ span: 20 }}
+    >
+      <Form.Item<{ t_b: number } & IRegistryDates>
+        name='t_b'
+        label='Hasaba alyş belgisi'
+      >
+        <InputNumber ref={focusInput} style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<{ t_b: number } & IRegistryDates>
+        label='Seredilen senesi'
+        name='reviewed_at'
+        hasFeedback
+      >
+        <DatePicker format={dateFormat} />
+      </Form.Item>
+      <Form.Item<{ t_b: number } & IRegistryDates>
+        label='Hasaba alnan senesi'
+        name='registered_at'
+        hasFeedback
+      >
+        <DatePicker format={dateFormat} />
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 21, span: 3 }}>
+        <SubmitButton
+          loading={isLoadingCreate || isLoadingUpdate}
+          size='middle'
+        />
+      </Form.Item>
+    </Form>
   );
 }

@@ -21,7 +21,7 @@ export function useColumns() {
       general_contractor_id: id,
     });
     messageApi.success('Baş potratçy saýlandy');
-    navigate(`/registries/${registryId}`);
+    navigate(`/registries/${registryId}?tab=choices`);
   };
 
   const { sufColumns } = useSufColumns({

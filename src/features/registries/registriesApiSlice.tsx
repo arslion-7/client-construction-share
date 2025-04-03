@@ -26,11 +26,25 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
       query: (id) => `/registries/${id}`,
       providesTags: ['REGISTRY'],
     }),
-    createRegistry: builder.mutation<IRegistry, void>({
-      query: () => ({
+    createRegistry: builder.mutation<
+      IRegistry,
+      { t_b: number } & IRegistryDates
+    >({
+      query: (body) => ({
         method: 'POST',
         url: '/registries',
-        // body,
+        body,
+      }),
+      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+    }),
+    updateRegistry: builder.mutation<
+      IRegistry,
+      { id: string } & { t_b: number } & IRegistryDates
+    >({
+      query: ({ id, ...body }) => ({
+        method: 'PUT',
+        url: `/registries/${id}`,
+        body,
       }),
       invalidatesTags: ['REGISTRIES', 'REGISTRY'],
     }),
@@ -133,6 +147,7 @@ export const {
   useGetRegistriesQuery,
   useGetRegistryQuery,
   useCreateRegistryMutation,
+  useUpdateRegistryMutation,
   useUpdateRegistryNumberMutation,
   useUpdateRegistryDatesMutation,
   useSelectGeneralContractorMutation,
