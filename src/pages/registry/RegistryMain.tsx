@@ -53,7 +53,7 @@ export default function RegistryMain({ registry }: { registry: IRegistry }) {
   return (
     <Form
       form={form}
-      name='registry_update_registry_number_form'
+      name='main_form'
       // layout='inline'
       initialValues={
         registry && {

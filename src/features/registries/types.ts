@@ -16,7 +16,16 @@ export interface IRegistryDates {
   registered_at?: string;
 }
 
-export interface IRegistry extends IGeneral, IRegistryDates {
+export interface IRegistryMail {
+  mail_date?: string; // ISO string format for time
+  mail_number?: string;
+  delivered_date?: string; // ISO string format for time
+  count?: number;
+  queue?: number;
+  min_to_mud_date?: string; // ISO string format for time
+}
+
+export interface IRegistry extends IGeneral, IRegistryDates, IRegistryMail {
   t_b: number;
   user_id: number | null;
   user: IUser | null;

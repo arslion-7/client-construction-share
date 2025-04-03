@@ -10,6 +10,7 @@ import RegistryChoices from './RegistryChoices';
 // import AddNewRegistry from './AddNewRegistry';
 import RegistryMain from './RegistryMain';
 import ShareholderProperty from './shareholderProperty/ShareholderProperty';
+import RegistryMail from './RegistryMail';
 // import RegistryDatesForm from './dates/RegistryDatesForm';
 
 export default function Registry() {
@@ -35,6 +36,11 @@ export default function Registry() {
       key: 'main',
       label: 'Esasy',
       children: <Card>{<RegistryMain registry={registry!} />}</Card>,
+    },
+    {
+      key: 'mail',
+      label: 'Hat',
+      children: <Card>{<RegistryMail registry={registry!} />}</Card>,
     },
     {
       key: 'choices',
