@@ -5,7 +5,12 @@ import { Button, Popover, Spin } from 'antd';
 import { useNavigate } from 'react-router';
 
 function Me() {
-  const { data: me, isLoading: isMeLoading } = useGetMeQuery(null);
+  const {
+    data: me,
+    isLoading: isLoadingMe,
+    isError,
+    error,
+  } = useGetMeQuery(null);
 
   const navigate = useNavigate();
 
@@ -20,10 +25,13 @@ function Me() {
       </Button>
     </div>
   );
+  if (isLoadingMe) return <Spin />;
 
-  return isMeLoading ? (
-    <Spin />
-  ) : (
+  if (isError) {
+    console.log('error on me', error);
+  }
+
+  return (
     <Popover content={content} title='Men barada maglumat'>
       <Button icon={<UserOutlined />}>{me?.email}</Button>
     </Popover>

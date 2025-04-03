@@ -8,13 +8,13 @@ export function useColumns() {
   const navigate = useNavigate();
 
   const columns: TableProps<IRegistry>['columns'] = [
+    // {
+    //   title: 'id',
+    //   dataIndex: 'id',
+    //   key: 'id',
+    // },
     {
-      title: 'id',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: 't_b',
+      title: 'PGGŞ №',
       dataIndex: 't_b',
       key: 't_b',
     },
