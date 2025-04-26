@@ -4,7 +4,7 @@ import {
   IBuildingMain,
   IBuildingOrder,
   IBuildingRequest, // IBuildingResponse,
-  IBuildingSquare
+  IBuildingSquare,
   // IBuildingCreate,
 } from '@/features/buildings/types';
 import { apiSlice } from '@/app/api/apiSlice';
@@ -13,7 +13,7 @@ import { paginationInit } from '@/utils/requestUtils';
 import { IAreaStreetForm } from '@/components/form/AreaStreetForm';
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['BUILDINGS', 'BUILDING']
+  addTagTypes: ['BUILDINGS', 'BUILDING'],
 });
 
 export const buildingsApiSlice = apiWithTag.injectEndpoints({
@@ -25,81 +25,81 @@ export const buildingsApiSlice = apiWithTag.injectEndpoints({
       query: ({
         page = paginationInit.page,
         pageSize = paginationInit.pageSize,
-        search = ''
+        search = '',
       }) => `/buildings?page=${page}&pageSize=${pageSize}&search=${search}`,
-      providesTags: ['BUILDINGS']
+      providesTags: ['BUILDINGS'],
       // keepUnusedDataFor: 5,
     }),
     getBuilding: builder.query<IBuilding, string>({
       query: (id) => `/buildings/${id}`,
-      providesTags: ['BUILDING']
+      providesTags: ['BUILDING'],
     }),
     createBuilding: builder.mutation<IBuilding, IAreaStreetForm>({
       query: (body) => ({
         method: 'POST',
         url: '/buildings',
-        body
+        body,
       }),
-      invalidatesTags: ['BUILDINGS', 'BUILDING']
+      invalidatesTags: ['BUILDINGS', 'BUILDING'],
     }),
     updateBuildingAddress: builder.mutation<
       string,
       { id: string } & IAreaStreetForm
     >({
       query: ({ id, areas, street }) => ({
-        url: `/buildings/${id}/update_address`,
+        url: `/buildings/${id}/address`,
         method: 'PUT',
         body: {
           areas,
-          street
-        }
+          street,
+        },
       }),
-      invalidatesTags: ['BUILDINGS', 'BUILDING']
+      invalidatesTags: ['BUILDINGS', 'BUILDING'],
     }),
     updateBuildingMain: builder.mutation<
       string,
       { id: string } & IBuildingMain
     >({
       query: ({ id, ...body }) => ({
-        url: `/buildings/${id}/update_main`,
+        url: `/buildings/${id}/main`,
         method: 'PUT',
-        body
+        body,
       }),
-      invalidatesTags: ['BUILDINGS', 'BUILDING']
+      invalidatesTags: ['BUILDINGS', 'BUILDING'],
     }),
     updateBuildingOrder: builder.mutation<
       string,
       { id: string } & IBuildingOrder
     >({
       query: ({ id, ...body }) => ({
-        url: `/buildings/${id}/update_order`,
+        url: `/buildings/${id}/order`,
         method: 'PUT',
-        body
+        body,
       }),
-      invalidatesTags: ['BUILDINGS', 'BUILDING']
+      invalidatesTags: ['BUILDINGS', 'BUILDING'],
     }),
     updateBuildingCert: builder.mutation<
       string,
       { id: string } & IBuildingCert
     >({
       query: ({ id, ...body }) => ({
-        url: `/buildings/${id}/update_cert`,
+        url: `/buildings/${id}/cert`,
         method: 'PUT',
-        body
+        body,
       }),
-      invalidatesTags: ['BUILDINGS', 'BUILDING']
+      invalidatesTags: ['BUILDINGS', 'BUILDING'],
     }),
     updateBuildingSquare: builder.mutation<
       string,
       { id: string } & IBuildingSquare
     >({
       query: ({ id, ...body }) => ({
-        url: `/buildings/${id}/update_square`,
+        url: `/buildings/${id}/square`,
         method: 'PUT',
-        body
+        body,
       }),
-      invalidatesTags: ['BUILDINGS', 'BUILDING']
-    })
+      invalidatesTags: ['BUILDINGS', 'BUILDING'],
+    }),
 
     // deleteBuilding: builder.mutation<string, string>({
     //   query: (id) => ({
@@ -108,7 +108,7 @@ export const buildingsApiSlice = apiWithTag.injectEndpoints({
     //   }),
     //   invalidatesTags: ['BUILDINGS'],
     // }),
-  })
+  }),
 });
 
 export const {
@@ -119,5 +119,5 @@ export const {
   useUpdateBuildingMainMutation,
   useUpdateBuildingOrderMutation,
   useUpdateBuildingCertMutation,
-  useUpdateBuildingSquareMutation
+  useUpdateBuildingSquareMutation,
 } = buildingsApiSlice;

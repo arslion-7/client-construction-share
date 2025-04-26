@@ -45,7 +45,7 @@ export const shareholdersApiSlice = apiWithTag.injectEndpoints({
       { id: string } & IAreaAddressForm
     >({
       query: ({ id, areas, address, address_additional_info }) => ({
-        url: `/shareholders/${id}/update_address`,
+        url: `/shareholders/${id}/address`,
         method: 'PUT',
         body: {
           areas,
@@ -60,7 +60,7 @@ export const shareholdersApiSlice = apiWithTag.injectEndpoints({
       { id: string } & IShareholderDocs
     >({
       query: ({ id, ...rest }) => ({
-        url: `/shareholders/${id}/update_docs`,
+        url: `/shareholders/${id}/docs`,
         method: 'PUT',
         body: {
           ...rest,

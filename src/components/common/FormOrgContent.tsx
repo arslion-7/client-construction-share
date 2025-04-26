@@ -56,7 +56,7 @@ const FormOrgContent = ({ org, onFinish, loading }: IFormOrgContent) => {
       <Form.Item name='head_position' label='Ýolbaşçynyň wezipesi'>
         <Input />
       </Form.Item>
-      <Form.Item name='head_full_name' label='Ýolbaşçynyň AFAa'>
+      <Form.Item name='head_full_name' label='Ýolbaşçynyň A.F.Aa'>
         <Input />
       </Form.Item>
       <Form.Item name='org_additional_info' label='Goşmaça maglumat'>

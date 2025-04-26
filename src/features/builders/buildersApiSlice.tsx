@@ -45,7 +45,7 @@ export const buildersApiSlice = apiWithTag.injectEndpoints({
       { id: string } & IAreaAddressForm
     >({
       query: ({ id, areas, address, address_additional_info }) => ({
-        url: `/builders/${id}/update_address`,
+        url: `/builders/${id}/address`,
         method: 'PUT',
         body: {
           areas,
@@ -57,7 +57,7 @@ export const buildersApiSlice = apiWithTag.injectEndpoints({
     }),
     updateBuilderOrg: builder.mutation<string, { id: string; org: IOrg }>({
       query: ({ id, org }) => ({
-        url: `/builders/${id}/update_org`,
+        url: `/builders/${id}/org`,
         method: 'PUT',
         body: org,
       }),
