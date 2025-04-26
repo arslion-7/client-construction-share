@@ -11,6 +11,7 @@ import RegistryChoices from './RegistryChoices';
 import RegistryMain from './RegistryMain';
 import ShareholderProperty from './shareholderProperty/ShareholderProperty';
 import RegistryMail from './RegistryMail';
+import Contract from './contract/Contract';
 // import RegistryDatesForm from './dates/RegistryDatesForm';
 
 export default function Registry() {
@@ -56,6 +57,13 @@ export default function Registry() {
       children: <Card>{!isNew && <ShareholderProperty />}</Card>,
       disabled: isNew,
     },
+    {
+      key: 'contract',
+      label: 'Şertnama',
+      children: <Card>{!isNew && <Contract registry={registry!} />}</Card>,
+      disabled: isNew,
+    },
+
     // {
     //   key: 'old',
     //   label: 'Öňki',

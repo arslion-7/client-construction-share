@@ -6,6 +6,7 @@ import { IUser } from '../users/types';
 import { IBuilding } from '../buildings/types';
 import { IBuilder } from '../builders/types';
 import { IShareholder } from '../shareholders/types';
+import { IAreaStreetForm } from '@/components/form/AreaStreetForm';
 
 export interface IRegistryRequest extends PaginatedRequest {
   some?: string;
@@ -25,7 +26,24 @@ export interface IRegistryMail {
   min_to_mud_date?: string; // ISO string format for time
 }
 
-export interface IRegistry extends IGeneral, IRegistryDates, IRegistryMail {
+export interface IContract {
+  builder_shareholder_number: string;
+  builder_shareholder_date: string;
+  contract_builder_shareholder_areas: IAreaStreetForm;
+  contract_builder_shareholder_street: string;
+  builder_contractor_number: string;
+  builder_contractor_date: string;
+  contract_builder_contractor_areas: IAreaStreetForm;
+  contract_builder_contractor_street: string;
+  builder_shareholder_additional_info: string;
+  builder_contractor_additional_info: string;
+}
+
+export interface IRegistry
+  extends IGeneral,
+    IRegistryDates,
+    IRegistryMail,
+    IContract {
   t_b: number;
   user_id: number | null;
   user: IUser | null;

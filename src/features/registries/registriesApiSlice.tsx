@@ -2,6 +2,7 @@ import { apiSlice } from '@/app/api/apiSlice';
 import { PaginatedResponse } from '@/utils/responseUtils';
 import { paginationInit } from '@/utils/requestUtils';
 import {
+  IContract,
   IRegistry,
   IRegistryDates,
   IRegistryMail,
@@ -91,6 +92,17 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
       }),
       invalidatesTags: ['REGISTRIES', 'REGISTRY'],
     }),
+    updateRegistryContract: builder.mutation<
+      IRegistry,
+      { id: string } & IContract
+    >({
+      query: ({ id, ...body }) => ({
+        method: 'PUT',
+        url: `/registries/${id}/contract`,
+        body,
+      }),
+      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+    }),
     selectGeneralContractor: builder.mutation<
       IRegistry,
       { id: string; general_contractor_id: number }
@@ -167,6 +179,7 @@ export const {
   useUpdateRegistryMailMutation,
   useUpdateRegistryNumberMutation,
   useUpdateRegistryDatesMutation,
+  useUpdateRegistryContractMutation,
   useSelectGeneralContractorMutation,
   useSelectBuildingMutation,
   useSelectBuilderMutation,
