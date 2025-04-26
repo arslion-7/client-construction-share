@@ -6,7 +6,7 @@ import { IUser } from '../users/types';
 import { IBuilding } from '../buildings/types';
 import { IBuilder } from '../builders/types';
 import { IShareholder } from '../shareholders/types';
-import { IAreaStreetForm } from '@/components/form/AreaStreetForm';
+// import { IAreaStreetForm } from '@/components/form/AreaStreetForm';
 
 export interface IRegistryRequest extends PaginatedRequest {
   some?: string;
@@ -29,12 +29,12 @@ export interface IRegistryMail {
 export interface IContract {
   builder_shareholder_number: string;
   builder_shareholder_date: string;
-  contract_builder_shareholder_areas: IAreaStreetForm;
-  contract_builder_shareholder_street: string;
+  // contract_builder_shareholder_areas: IAreaStreetForm;
+  // contract_builder_shareholder_street: string;
   builder_contractor_number: string;
   builder_contractor_date: string;
-  contract_builder_contractor_areas: IAreaStreetForm;
-  contract_builder_contractor_street: string;
+  // contract_builder_contractor_areas: IAreaStreetForm;
+  // contract_builder_contractor_street: string;
   builder_shareholder_additional_info: string;
   builder_contractor_additional_info: string;
 }
