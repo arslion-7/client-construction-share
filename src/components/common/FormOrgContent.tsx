@@ -1,8 +1,10 @@
-import { Form, Input, InputNumber } from 'antd';
+import { Form, Input, InputNumber, Select } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import SubmitButton from '../button/SubmitButton';
 import { IOrg } from '@/features/generalTypes';
 import { useFocusInput } from './hooks';
+import { orgTypeOptions } from '@/utils/commonOptions';
+import { useEffect, useState } from 'react';
 
 interface IFormOrgContent {
   org: IOrg;
@@ -13,7 +15,21 @@ interface IFormOrgContent {
 const FormOrgContent = ({ org, onFinish, loading }: IFormOrgContent) => {
   const [form] = Form.useForm<IOrg>();
 
+  const defaultOrgNameLabel = 'Guramanyň ady';
+
+  const [orgNameLabel, setOrgNameLabel] = useState(defaultOrgNameLabel);
+
   const focusInput = useFocusInput();
+
+  const orgType = Form.useWatch('org_type', form);
+
+  useEffect(() => {
+    if (orgType === 'Raýat') {
+      setOrgNameLabel('Raýat A.F.Aa');
+    } else {
+      setOrgNameLabel(defaultOrgNameLabel);
+    }
+  }, [orgType]);
 
   return (
     <Form
@@ -26,7 +42,15 @@ const FormOrgContent = ({ org, onFinish, loading }: IFormOrgContent) => {
       <Form.Item name='t_b' label='t_b'>
         <InputNumber ref={focusInput} />
       </Form.Item>
-      <Form.Item name='org_name' label='Guramanyň ady'>
+      <Form.Item name='org_type' label='Gurama görnüşi'>
+        <Select
+          options={orgTypeOptions.map((orgType) => ({
+            label: orgType,
+            value: orgType,
+          }))}
+        />
+      </Form.Item>
+      <Form.Item name='org_name' label={orgNameLabel}>
         <TextArea rows={2} />
       </Form.Item>
       <Form.Item name='head_position' label='Ýolbaşçynyň wezipesi'>
