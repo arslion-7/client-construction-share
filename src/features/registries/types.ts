@@ -59,4 +59,8 @@ export interface IRegistry
   receiver: IReceiver;
   shareholder_id?: number;
   shareholder: IShareholder;
+  shareholder_description?: string;
+  general_contractor_description?: string;
+  building_description?: string;
+  builder_description?: string;
 }

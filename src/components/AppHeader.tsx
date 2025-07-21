@@ -9,12 +9,12 @@ export default function AppHeader() {
       style={{
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
       }}
       // style={{ padding: 0, textAlign: 'center' }}
     >
       {/* Paýly gurluşyk işini utgaşdyrýan bölümi */}
-      ""
+      Paýly-R
       <Me />
     </Header>
   );

@@ -13,6 +13,7 @@ export interface IResponse<T> {
 }
 
 export interface IOrg extends IGeneral {
+  org_type: string | null;
   org_name: string;
   head_position: string | null;
   head_full_name: string;
