@@ -1,23 +1,18 @@
 import { Card } from 'antd';
-
-const style: React.CSSProperties = {
-  padding: '4px 0',
-  margin: '4px 0 0 4px'
-};
+import { ReactNode } from 'react';
 
 interface IFormCardProps {
   title: string;
-  children: JSX.Element[];
+  children: ReactNode;
 }
+
+const style = {
+  width: '100%',
+};
 
 const FormCard = ({ title, children }: IFormCardProps) => {
   return (
-    <Card
-      hoverable
-      title={title}
-      style={style}
-      styles={{ header: { backgroundColor: '#d9d9d9' } }}
-    >
+    <Card hoverable title={title} style={style}>
       {children}
     </Card>
   );

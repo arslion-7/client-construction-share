@@ -162,7 +162,7 @@ export function useColumns() {
               </div>
             ))}
             {record.phones.length > 2 && (
-              <span style={{ fontSize: '11px', color: '#666' }}>
+              <span style={{ fontSize: '11px' }}>
                 +{record.phones.length - 2} more
               </span>
             )}

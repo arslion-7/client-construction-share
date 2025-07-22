@@ -1,5 +1,12 @@
 import { Card, Flex, Skeleton, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
+import {
+  HomeOutlined,
+  MailOutlined,
+  SettingOutlined,
+  FileTextOutlined,
+  BankOutlined,
+} from '@ant-design/icons';
 
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 import RegistriesBreadcrumb from '../registries/RegistriesBreadcrumb';
@@ -35,17 +42,32 @@ export default function Registry() {
   const items: TabsProps['items'] = [
     {
       key: 'main',
-      label: 'Esasy',
+      label: (
+        <span>
+          <HomeOutlined style={{ marginRight: 8 }} />
+          Esasy
+        </span>
+      ),
       children: <Card>{<RegistryMain registry={registry!} />}</Card>,
     },
     {
       key: 'mail',
-      label: 'Hat',
+      label: (
+        <span>
+          <MailOutlined style={{ marginRight: 8 }} />
+          Hat
+        </span>
+      ),
       children: <Card>{<RegistryMail registry={registry!} />}</Card>,
     },
     {
       key: 'choices',
-      label: 'Saýlamalylar',
+      label: (
+        <span>
+          <SettingOutlined style={{ marginRight: 8 }} />
+          Saýlamalylar
+        </span>
+      ),
       children: (
         <Card>{!isNew && <RegistryChoices registry={registry!} />}</Card>
       ),
@@ -53,13 +75,23 @@ export default function Registry() {
     },
     {
       key: 'shareholder_property',
-      label: 'Emläk paýçy',
+      label: (
+        <span>
+          <BankOutlined style={{ marginRight: 8 }} />
+          Emläk paýçy
+        </span>
+      ),
       children: <Card>{!isNew && <ShareholderProperty />}</Card>,
       disabled: isNew,
     },
     {
       key: 'contract',
-      label: 'Şertnama',
+      label: (
+        <span>
+          <FileTextOutlined style={{ marginRight: 8 }} />
+          Şertnama
+        </span>
+      ),
       children: <Card>{!isNew && <Contract registry={registry!} />}</Card>,
       disabled: isNew,
     },

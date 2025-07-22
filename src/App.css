@@ -16,11 +16,6 @@
   min-height: 280px;
 }
 
-.ant-layout-header {
-  background-color: #001529;
-  color: white;
-}
-
 .ant-layout-footer {
   text-align: center;
 }
@@ -31,6 +26,16 @@
   left: 50%;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
+}
+
+/* Theme switcher styles */
+.theme-switcher-btn {
+  transition: all 0.3s ease;
+}
+
+.theme-switcher-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  transform: scale(1.1);
 }
 
 /* #root {

@@ -8,30 +8,33 @@ import { ConfigProvider } from 'antd';
 import tkTK from 'antd/locale/tk_TK';
 import { Provider } from 'react-redux';
 import { store } from './app/store.ts';
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import { lightTheme, darkTheme } from './utils/themes';
 
 import 'dayjs/locale/tk';
 
-// const theme = {
-//   token: {
-//     // Seed Token
-//     colorPrimary: '#B54629', // Brick-like orange
-//     borderRadius: 4, // Slightly rounded corners
-//     // Alias Tokens (optional for customization)
-//     colorBgContainer: '#FFEFE6', // Light orange background for containers
-//     colorText: '#000', // Black text color for better readability
-//     colorLink: '#B54629', // Brick-like orange links
-//     colorLinkHover: '#7A301C', // Darker brick-like orange for hover effect
-//   },
-// };
+// Component to apply theme to ConfigProvider
+function ThemedApp() {
+  const { theme } = useTheme();
+
+  return (
+    <ConfigProvider
+      locale={tkTK}
+      theme={theme === 'light' ? lightTheme : darkTheme}
+    >
+      <AppRoutes />
+    </ConfigProvider>
+  );
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <ConfigProvider locale={tkTK}>
-        <Provider store={store}>
-          <AppRoutes />
-        </Provider>
-      </ConfigProvider>
+      <Provider store={store}>
+        <ThemeProvider>
+          <ThemedApp />
+        </ThemeProvider>
+      </Provider>
     </BrowserRouter>
   </StrictMode>
 );

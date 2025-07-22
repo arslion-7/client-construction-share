@@ -99,7 +99,6 @@ export default function AppSider() {
         <Image className='logo' width={40} src={imgUrl} />
       </div>
       <Menu
-        theme='dark'
         onClick={(item) => {
           //item.key
           navigate(item.key);
