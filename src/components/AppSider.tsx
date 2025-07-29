@@ -9,6 +9,7 @@ import {
   TableOutlined,
   TeamOutlined,
   UserOutlined,
+  DashboardOutlined,
 } from '@ant-design/icons';
 import { Image, Layout, Menu } from 'antd';
 import { useEffect, useState } from 'react';
@@ -36,6 +37,11 @@ export default function AppSider() {
       icon: <PieChartOutlined />,
       key: 'share',
       children: [
+        {
+          label: 'Dashboard',
+          icon: <DashboardOutlined />,
+          key: PATHS.DASHBOARD,
+        },
         {
           label: 'Reýestr',
           icon: <TableOutlined />,
@@ -74,6 +80,18 @@ export default function AppSider() {
       ],
     },
     {
+      label: 'Köne Maglumatlar',
+      icon: <TableOutlined />,
+      key: 'old-data',
+      children: [
+        {
+          label: 'Köne Reýestr',
+          icon: <TableOutlined />,
+          key: PATHS.OLD_REGISTRIES,
+        },
+      ],
+    },
+    {
       label: 'Sazlamalar',
       icon: <SettingOutlined />,
       key: 'settings',
@@ -106,7 +124,7 @@ export default function AppSider() {
         mode='inline'
         // defaultSelectedKeys={[]}
         selectedKeys={[selectedKeys]}
-        defaultOpenKeys={['share', 'settings']}
+        defaultOpenKeys={['share', 'old-data', 'settings']}
         items={items}
       />
       {/* <Menu.Item key='1' icon={<OrderedListOutlined />}>

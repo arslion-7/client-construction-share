@@ -19,6 +19,9 @@ import Receivers from '@/pages/receivers/Receivers';
 import Receiver from '@/pages/receiver/Receiver';
 import Shareholders from '@/pages/shareholders/Shareholders';
 import Shareholder from '@/pages/shareholder/Shareholder';
+import OldRegistries from '@/pages/oldRegistries/OldRegistries';
+import OldRegistry from '@/pages/oldRegistry/OldRegistry';
+import Dashboard from '@/pages/dashboard/Dashboard';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -59,6 +62,11 @@ const AppRoutes: React.FC = () => {
           <Route index element={<Shareholders />} />
           <Route path=':id' element={<Shareholder />} />
         </Route>
+        <Route path={PATHS.OLD_REGISTRIES}>
+          <Route index element={<OldRegistries />} />
+          <Route path=':id' element={<OldRegistry />} />
+        </Route>
+        <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
       </Route>
       <Route element={<AuthLayout />}>
         <Route path={PATHS.SIGNIN} element={<SignIn />} />

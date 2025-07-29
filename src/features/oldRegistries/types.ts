@@ -1,0 +1,37 @@
+export interface OldRegistry {
+  id: number;
+  t_b: number;
+  min_hat?: string;
+  sene_hat_min_to_mud?: string;
+  gurujy?: string;
+  paychy?: string;
+  sertnama_gurujy_paychy?: string;
+  desga?: string;
+  baha_umumy?: string;
+  meydan_umumy?: string;
+  kep_resminama?: string;
+  emlak_paychy?: string;
+  baha_paychy?: string;
+  baha_1m2_paychy?: string;
+  salgy_desga?: string;
+  salgy_gurujy?: string;
+  salgy_paychy?: string;
+  bash_potr?: string;
+  sertnama_gur_potr?: string;
+  potratchy_komek?: string;
+  shahadatnama?: string;
+  ygtyyarnama?: string;
+  patent_pasport?: string;
+  sene_bashy_songy?: string;
+  sene_seredilen?: string;
+  sene_hasaba_alnan?: string;
+  wezipe_alan_adam?: string;
+  ady_alan_adam?: string;
+  sene_san_sertnama?: string;
+  ady_paychy_alan?: string;
+  sene_paychy_alan?: string;
+  login?: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string;
+}
