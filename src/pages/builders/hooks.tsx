@@ -1,5 +1,5 @@
 import React from 'react';
-import { type TableProps, Button } from 'antd';
+import { type TableProps } from 'antd';
 import { useNavigate } from 'react-router';
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
 import { useMessageApi } from '@/utils/messages';
@@ -9,12 +9,11 @@ import { useSelectBuilderMutation } from '@/features/registries/registriesApiSli
 import { UndefinedTag } from '@/components/table/UndefinedTag';
 
 // Component for expandable text
-const ExpandableText: React.FC<{ text: string; maxLength?: number }> = ({
-  text,
-  maxLength = 60,
-}) => {
-  const [expanded, setExpanded] = React.useState(false);
-
+const ExpandableText: React.FC<{
+  text: string;
+  maxLength?: number;
+  isRowExpanded?: boolean;
+}> = ({ text, maxLength = 60, isRowExpanded = false }) => {
   if (!text) return <UndefinedTag />;
 
   // Convert newlines to HTML line breaks and make values bold
@@ -45,15 +44,7 @@ const ExpandableText: React.FC<{ text: string; maxLength?: number }> = ({
 
   return (
     <span>
-      {expanded ? formatText(text) : `${text.slice(0, maxLength)}...`}
-      <Button
-        type='link'
-        size='small'
-        onClick={() => setExpanded(!expanded)}
-        style={{ padding: '0 4px', height: 'auto' }}
-      >
-        {expanded ? 'Gizle' : 'Giňelt'}
-      </Button>
+      {isRowExpanded ? formatText(text) : `${text.slice(0, maxLength)}...`}
     </span>
   );
 };
@@ -62,6 +53,9 @@ export function useColumns() {
   const navigate = useNavigate();
   const { registryId } = usePaginationSearch();
   const { messageApi } = useMessageApi();
+  const [expandedRows, setExpandedRows] = React.useState<
+    Record<number, boolean>
+  >({});
 
   const [select, { isLoading: isLoadingSelect }] = useSelectBuilderMutation();
 
@@ -101,7 +95,11 @@ export function useColumns() {
       key: 'org_name',
       width: 250,
       render: (_, record) => (
-        <ExpandableText text={record.org_name || ''} maxLength={50} />
+        <ExpandableText
+          text={record.org_name || ''}
+          maxLength={50}
+          isRowExpanded={expandedRows[record.id] || false}
+        />
       ),
     },
     {
@@ -133,7 +131,13 @@ export function useColumns() {
           addressParts.push(record.address);
         }
         const fullAddress = addressParts.join(' | ');
-        return <ExpandableText text={fullAddress || ''} maxLength={50} />;
+        return (
+          <ExpandableText
+            text={fullAddress || ''}
+            maxLength={50}
+            isRowExpanded={expandedRows[record.id] || false}
+          />
+        );
       },
     },
     {
@@ -144,10 +148,15 @@ export function useColumns() {
         <ExpandableText
           text={record.org_additional_info || ''}
           maxLength={50}
+          isRowExpanded={expandedRows[record.id] || false}
         />
       ),
     },
   ];
 
-  return [...preColumns, ...editColumns, ...sufColumns];
+  return {
+    columns: [...preColumns, ...editColumns, ...sufColumns],
+    expandedRows,
+    setExpandedRows,
+  };
 }

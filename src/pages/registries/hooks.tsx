@@ -5,13 +5,12 @@ import { useNavigate } from 'react-router';
 import { IRegistry } from '@/features/registries/types';
 import { UndefinedTag } from '@/components/table/UndefinedTag';
 
-// Component for expandable text
-const ExpandableText: React.FC<{ text: string; maxLength?: number }> = ({
-  text,
-  maxLength = 80,
-}) => {
-  const [expanded, setExpanded] = React.useState(false);
-
+// Component for expandable text with row expand state
+const ExpandableText: React.FC<{
+  text: string;
+  maxLength?: number;
+  isRowExpanded?: boolean;
+}> = ({ text, maxLength = 80, isRowExpanded = false }) => {
   if (!text) return <UndefinedTag />;
 
   // Convert newlines to HTML line breaks and make values bold
@@ -42,21 +41,16 @@ const ExpandableText: React.FC<{ text: string; maxLength?: number }> = ({
 
   return (
     <span>
-      {expanded ? formatText(text) : `${text.slice(0, maxLength)}...`}
-      <Button
-        type='link'
-        size='small'
-        onClick={() => setExpanded(!expanded)}
-        style={{ padding: '0 4px', height: 'auto' }}
-      >
-        {expanded ? 'Gizle' : 'Giňelt'}
-      </Button>
+      {isRowExpanded ? formatText(text) : `${text.slice(0, maxLength)}...`}
     </span>
   );
 };
 
 export function useColumns() {
   const navigate = useNavigate();
+  const [expandedRows, setExpandedRows] = React.useState<
+    Record<number, boolean>
+  >({});
 
   const columns: TableProps<IRegistry>['columns'] = [
     // {
@@ -93,28 +87,40 @@ export function useColumns() {
       title: 'Paýçy maglumaty',
       key: 'shareholder_description',
       render: (_, record) => (
-        <ExpandableText text={record.shareholder_description || ''} />
+        <ExpandableText
+          text={record.shareholder_description || ''}
+          isRowExpanded={expandedRows[record.id] || false}
+        />
       ),
     },
     {
       title: 'Baş potratçy maglumaty',
       key: 'general_contractor_description',
       render: (_, record) => (
-        <ExpandableText text={record.general_contractor_description || ''} />
+        <ExpandableText
+          text={record.general_contractor_description || ''}
+          isRowExpanded={expandedRows[record.id] || false}
+        />
       ),
     },
     {
       title: 'Desga maglumaty',
       key: 'building_description',
       render: (_, record) => (
-        <ExpandableText text={record.building_description || ''} />
+        <ExpandableText
+          text={record.building_description || ''}
+          isRowExpanded={expandedRows[record.id] || false}
+        />
       ),
     },
     {
       title: 'Gurujy maglumaty',
       key: 'builder_description',
       render: (_, record) => (
-        <ExpandableText text={record.builder_description || ''} />
+        <ExpandableText
+          text={record.builder_description || ''}
+          isRowExpanded={expandedRows[record.id] || false}
+        />
       ),
     },
     {
@@ -134,5 +140,9 @@ export function useColumns() {
     },
   ];
 
-  return columns;
+  return {
+    columns,
+    expandedRows,
+    setExpandedRows,
+  };
 }

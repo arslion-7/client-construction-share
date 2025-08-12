@@ -7,13 +7,13 @@ import { PaginatedResponse } from '@/utils/responseUtils';
 import { IReceiver } from '@/features/receivers/types';
 
 export default function ReceiversTable({
-  paginatedData
+  paginatedData,
 }: {
   paginatedData: PaginatedResponse<IReceiver[]>;
 }) {
   const { onChangePagination, getPagination } = usePaginationSearch();
 
-  const columns = useColumns();
+  const { columns, expandedRows, setExpandedRows } = useColumns();
 
   const onChangeFilters = (filters: Record<string, FilterValue | null>) => {
     console.log('filters', filters);
@@ -32,11 +32,20 @@ export default function ReceiversTable({
   return (
     <Table
       rowKey='id'
-      // @ts-expect-error
+      // @ts-expect-error - columns type mismatch
       columns={columns}
       dataSource={paginatedData?.data}
       pagination={getPagination<IReceiver[]>(paginatedData!)}
       onChange={onChange}
+      onRow={(record) => ({
+        onClick: () => {
+          // Toggle expand state for this specific row
+          const newExpandedRows = { ...expandedRows };
+          newExpandedRows[record.t_b] = !newExpandedRows[record.t_b];
+          setExpandedRows(newExpandedRows);
+        },
+        style: { cursor: 'pointer' },
+      })}
     />
   );
 }

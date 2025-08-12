@@ -9,7 +9,7 @@ const { Search } = Input;
 export default function SearchInput() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const onSearch: SearchProps['onSearch'] = (value, _, __) => {
+  const onSearch: SearchProps['onSearch'] = (value) => {
     searchParams.set('search', value);
     searchParams.delete('page');
     searchParams.delete('pageSize');
@@ -19,7 +19,7 @@ export default function SearchInput() {
 
   return (
     <Search
-      placeholder='Gözle'
+      placeholder='Gözle (order, cert, kind, street, price, etc.)'
       allowClear
       // enterButton='Search'
       onSearch={onSearch}

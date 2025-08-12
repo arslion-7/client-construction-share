@@ -146,7 +146,7 @@ const OldRegistries: React.FC = () => {
         <div style={{ marginBottom: '16px' }}>
           <Space>
             <Input
-              placeholder='Search by min hat, gurujy, paychy, desga, addresses, or login...'
+              placeholder='Search by T/B number, min hat, gurujy, paychy, desga, addresses, or login...'
               prefix={<SearchOutlined />}
               value={searchInput}
               onChange={handleSearchChange}

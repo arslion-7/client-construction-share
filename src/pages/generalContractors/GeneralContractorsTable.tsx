@@ -7,13 +7,13 @@ import { useColumns } from './hooks';
 import { PaginatedResponse } from '@/utils/responseUtils';
 
 export default function GeneralContractorsTable({
-  paginatedData
+  paginatedData,
 }: {
   paginatedData: PaginatedResponse<IContractor[]>;
 }) {
   const { onChangePagination, getPagination } = usePaginationSearch();
 
-  const columns = useColumns();
+  const { columns, expandedRows, setExpandedRows } = useColumns();
 
   const onChangeFilters = (filters: Record<string, FilterValue | null>) => {
     console.log('filters', filters);
@@ -34,11 +34,20 @@ export default function GeneralContractorsTable({
   return (
     <Table
       rowKey='id'
-      // @ts-ignore
+      // @ts-expect-error - columns type mismatch
       columns={columns}
       dataSource={paginatedData?.data}
       pagination={getPagination<IContractor[]>(paginatedData!)}
       onChange={onChange}
+      onRow={(record) => ({
+        onClick: () => {
+          // Toggle expand state for this specific row
+          const newExpandedRows = { ...expandedRows };
+          newExpandedRows[record.id] = !newExpandedRows[record.id];
+          setExpandedRows(newExpandedRows);
+        },
+        style: { cursor: 'pointer' },
+      })}
     />
   );
 }

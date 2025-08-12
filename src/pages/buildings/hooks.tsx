@@ -1,5 +1,5 @@
 import React from 'react';
-import { type TableProps, Button } from 'antd';
+import { type TableProps } from 'antd';
 import { useNavigate } from 'react-router';
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
 import { useSelectBuildingMutation } from '@/features/registries/registriesApiSlice';
@@ -9,13 +9,12 @@ import { useEditColumns, useSufColumns } from '@/components/table/columns';
 import { UndefinedTag } from '@/components/table/UndefinedTag';
 import dayjs from 'dayjs';
 
-// Component for expandable text
-const ExpandableText: React.FC<{ text: string; maxLength?: number }> = ({
-  text,
-  maxLength = 60,
-}) => {
-  const [expanded, setExpanded] = React.useState(false);
-
+// Component for expandable text with row expand state
+const ExpandableText: React.FC<{
+  text: string;
+  maxLength?: number;
+  isRowExpanded?: boolean;
+}> = ({ text, maxLength = 60, isRowExpanded = false }) => {
   if (!text) return <UndefinedTag />;
 
   // Convert newlines to HTML line breaks and make values bold
@@ -46,15 +45,7 @@ const ExpandableText: React.FC<{ text: string; maxLength?: number }> = ({
 
   return (
     <span>
-      {expanded ? formatText(text) : `${text.slice(0, maxLength)}...`}
-      <Button
-        type='link'
-        size='small'
-        onClick={() => setExpanded(!expanded)}
-        style={{ padding: '0 4px', height: 'auto' }}
-      >
-        {expanded ? 'Gizle' : 'Giňelt'}
-      </Button>
+      {isRowExpanded ? formatText(text) : `${text.slice(0, maxLength)}...`}
     </span>
   );
 };
@@ -63,6 +54,9 @@ export function useColumns() {
   const navigate = useNavigate();
   const { registryId } = usePaginationSearch();
   const { messageApi } = useMessageApi();
+  const [expandedRows, setExpandedRows] = React.useState<
+    Record<number, boolean>
+  >({});
 
   const [select, { isLoading: isLoadingSelect }] = useSelectBuildingMutation();
 
@@ -124,7 +118,13 @@ export function useColumns() {
           addressParts.push(record.street);
         }
         const fullAddress = addressParts.join(' | ');
-        return <ExpandableText text={fullAddress || ''} maxLength={50} />;
+        return (
+          <ExpandableText
+            text={fullAddress || ''}
+            maxLength={50}
+            isRowExpanded={expandedRows[record.id] || false}
+          />
+        );
       },
     },
     {
@@ -168,7 +168,13 @@ export function useColumns() {
           orderInfo.push(`Goşmaça: ${record.order_additional_info}`);
         }
         const orderText = orderInfo.join('\n');
-        return <ExpandableText text={orderText || ''} maxLength={50} />;
+        return (
+          <ExpandableText
+            text={orderText || ''}
+            maxLength={50}
+            isRowExpanded={expandedRows[record.id] || false}
+          />
+        );
       },
     },
     {
@@ -190,29 +196,59 @@ export function useColumns() {
           squareInfo.push(`Goşmaça: ${record.square_additional_info}`);
         }
         const squareText = squareInfo.join('\n');
-        return <ExpandableText text={squareText || ''} maxLength={50} />;
+        return (
+          <ExpandableText
+            text={squareText || ''}
+            maxLength={50}
+            isRowExpanded={expandedRows[record.id] || false}
+          />
+        );
       },
     },
     {
       title: 'Sertifikatlar',
       key: 'certs',
-      width: 150,
+      width: 200,
       render: (_, record) => {
         const certInfo = [];
         if (record.cert_name) {
           certInfo.push(`Ady: ${record.cert_name}`);
         }
         if (record.cert_1_code) {
-          certInfo.push(`1-nji: ${record.cert_1_code}`);
+          certInfo.push(`1-nji belgisi: ${record.cert_1_code}`);
+        }
+        if (record.cert_1_date) {
+          const cert1Date =
+            typeof record.cert_1_date === 'string'
+              ? dayjs(record.cert_1_date)
+              : record.cert_1_date;
+          certInfo.push(`1-nji senesi: ${cert1Date.format('DD.MM.YYYY')}`);
         }
         if (record.cert_2_code) {
-          certInfo.push(`2-nji: ${record.cert_2_code}`);
+          certInfo.push(`2-nji belgisi: ${record.cert_2_code}`);
+        }
+        if (record.cert_2_date) {
+          const cert2Date =
+            typeof record.cert_2_date === 'string'
+              ? dayjs(record.cert_2_date)
+              : record.cert_2_date;
+          certInfo.push(`2-nji senesi: ${cert2Date.format('DD.MM.YYYY')}`);
         }
         const certText = certInfo.join('\n');
-        return <ExpandableText text={certText || ''} maxLength={50} />;
+        return (
+          <ExpandableText
+            text={certText || ''}
+            maxLength={50}
+            isRowExpanded={expandedRows[record.id] || false}
+          />
+        );
       },
     },
   ];
 
-  return [...preColumns, ...editColumns, ...sufColumns];
+  return {
+    columns: [...preColumns, ...editColumns, ...sufColumns],
+    expandedRows,
+    setExpandedRows,
+  };
 }

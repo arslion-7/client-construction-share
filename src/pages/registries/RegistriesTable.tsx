@@ -7,13 +7,13 @@ import { useColumns } from './hooks';
 import { IRegistry } from '@/features/registries/types';
 
 export default function RegistriesTable({
-  paginatedData
+  paginatedData,
 }: {
   paginatedData: PaginatedResponse<IRegistry[]>;
 }) {
   const { onChangePagination, getPagination } = usePaginationSearch();
 
-  const columns = useColumns();
+  const { columns, expandedRows, setExpandedRows } = useColumns();
 
   const onChangeFilters = (filters: Record<string, FilterValue | null>) => {
     console.log('filters', filters);
@@ -36,6 +36,15 @@ export default function RegistriesTable({
       dataSource={paginatedData?.data}
       pagination={getPagination<IRegistry[]>(paginatedData!)}
       onChange={onChange}
+      onRow={(record) => ({
+        onClick: () => {
+          // Toggle expand state for this specific row
+          const newExpandedRows = { ...expandedRows };
+          newExpandedRows[record.id] = !newExpandedRows[record.id];
+          setExpandedRows(newExpandedRows);
+        },
+        style: { cursor: 'pointer' },
+      })}
     />
   );
 }

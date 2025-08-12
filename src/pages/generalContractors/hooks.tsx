@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { IContractor } from '@/features/generalContractors/types';
-import { type TableProps, Button } from 'antd';
+import { type TableProps } from 'antd';
 import { useNavigate } from 'react-router';
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
 import { useSelectGeneralContractorMutation } from '@/features/registries/registriesApiSlice';
@@ -10,12 +10,11 @@ import { useEditColumns, useSufColumns } from '@/components/table/columns';
 import { UndefinedTag } from '@/components/table/UndefinedTag';
 
 // Component for expandable text
-const ExpandableText: React.FC<{ text: string; maxLength?: number }> = ({
-  text,
-  maxLength = 60,
-}) => {
-  const [expanded, setExpanded] = React.useState(false);
-
+const ExpandableText: React.FC<{
+  text: string;
+  maxLength?: number;
+  isRowExpanded?: boolean;
+}> = ({ text, maxLength = 60, isRowExpanded = false }) => {
   if (!text) return <UndefinedTag />;
 
   // Convert newlines to HTML line breaks and make values bold
@@ -46,15 +45,7 @@ const ExpandableText: React.FC<{ text: string; maxLength?: number }> = ({
 
   return (
     <span>
-      {expanded ? formatText(text) : `${text.slice(0, maxLength)}...`}
-      <Button
-        type='link'
-        size='small'
-        onClick={() => setExpanded(!expanded)}
-        style={{ padding: '0 4px', height: 'auto' }}
-      >
-        {expanded ? 'Gizle' : 'Giňelt'}
-      </Button>
+      {isRowExpanded ? formatText(text) : `${text.slice(0, maxLength)}...`}
     </span>
   );
 };
@@ -62,6 +53,9 @@ const ExpandableText: React.FC<{ text: string; maxLength?: number }> = ({
 export function useColumns() {
   const navigate = useNavigate();
   const { registryId } = usePaginationSearch();
+  const [expandedRows, setExpandedRows] = React.useState<
+    Record<number, boolean>
+  >({});
 
   const { messageApi } = useMessageApi();
 
@@ -110,7 +104,11 @@ export function useColumns() {
       key: 'org_name',
       width: 250,
       render: (_, record) => (
-        <ExpandableText text={record.org_name || ''} maxLength={50} />
+        <ExpandableText
+          text={record.org_name || ''}
+          maxLength={50}
+          isRowExpanded={expandedRows[record.id] || false}
+        />
       ),
     },
     {
@@ -146,7 +144,13 @@ export function useColumns() {
           certInfo.push(`Senesi: ${certDate.format('DD.MM.YYYY')}`);
         }
         const certText = certInfo.join('\n');
-        return <ExpandableText text={certText || ''} maxLength={50} />;
+        return (
+          <ExpandableText
+            text={certText || ''}
+            maxLength={50}
+            isRowExpanded={expandedRows[record.id] || false}
+          />
+        );
       },
     },
     {
@@ -173,7 +177,13 @@ export function useColumns() {
           resolutionInfo.push(`Soňy: ${endDate.format('DD.MM.YYYY')}`);
         }
         const resolutionText = resolutionInfo.join('\n');
-        return <ExpandableText text={resolutionText || ''} maxLength={50} />;
+        return (
+          <ExpandableText
+            text={resolutionText || ''}
+            maxLength={50}
+            isRowExpanded={expandedRows[record.id] || false}
+          />
+        );
       },
     },
     {
@@ -184,10 +194,15 @@ export function useColumns() {
         <ExpandableText
           text={record.org_additional_info || ''}
           maxLength={50}
+          isRowExpanded={expandedRows[record.id] || false}
         />
       ),
     },
   ];
 
-  return [...preColumns, ...editColumns, ...sufColumns];
+  return {
+    columns: [...preColumns, ...editColumns, ...sufColumns],
+    expandedRows,
+    setExpandedRows,
+  };
 }

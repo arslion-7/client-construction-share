@@ -1,3 +1,4 @@
+import React from 'react';
 import { type TableProps } from 'antd';
 import { useNavigate } from 'react-router';
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
@@ -10,6 +11,9 @@ export function useColumns() {
   const navigate = useNavigate();
   const { registryId } = usePaginationSearch();
   const { messageApi } = useMessageApi();
+  const [expandedRows, setExpandedRows] = React.useState<
+    Record<number, boolean>
+  >({});
 
   const [select, { isLoading: isLoadingSelect }] = useSelectReceiverMutation(); // TODO
 
@@ -79,5 +83,9 @@ export function useColumns() {
     },
   ];
 
-  return [...preColumns, ...editColumns, ...sufColumns];
+  return {
+    columns: [...preColumns, ...editColumns, ...sufColumns],
+    expandedRows,
+    setExpandedRows,
+  };
 }
