@@ -1,15 +1,41 @@
-import React from 'react';
-import { Card, Descriptions, Typography, Spin, Button, Space } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import {
+  Card,
+  Descriptions,
+  Typography,
+  Spin,
+  Button,
+  Space,
+  Divider,
+  Modal,
+  Form,
+  Input,
+  DatePicker,
+  message,
+} from 'antd';
+import { ArrowLeftOutlined, EditOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router';
-import { useGetOldRegistryQuery } from '../../features/oldRegistries/oldRegistriesApiSlice';
+import {
+  useGetOldRegistryQuery,
+  useUpdateOldRegistryMutation,
+} from '../../features/oldRegistries/oldRegistriesApiSlice';
 import OldRegistryBreadcrumb from './OldRegistryBreadcrumb';
+import dayjs from 'dayjs';
 
 const { Title, Text } = Typography;
+
+interface AlanFormData {
+  wezipe_alan_adam?: string;
+  ady_alan_adam?: string;
+  sene_san_sertnama?: any; // Using any for DatePicker compatibility
+}
 
 const OldRegistry: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [form] = Form.useForm<AlanFormData>();
+  const [messageApi, contextHolder] = message.useMessage();
 
   const {
     data: oldRegistry,
@@ -17,8 +43,71 @@ const OldRegistry: React.FC = () => {
     error,
   } = useGetOldRegistryQuery(id || '');
 
+  const [updateOldRegistry, { isLoading: isUpdating }] =
+    useUpdateOldRegistryMutation();
+
   const handleBack = () => {
     navigate('/old-registries');
+  };
+
+  // Handle Alan button click
+  const handleAlanClick = () => {
+    // Pre-fill form with existing data
+    form.setFieldsValue({
+      wezipe_alan_adam: oldRegistry?.wezipe_alan_adam || '',
+      ady_alan_adam: oldRegistry?.ady_alan_adam || '',
+      sene_san_sertnama: oldRegistry?.sene_san_sertnama
+        ? dayjs(oldRegistry.sene_san_sertnama)
+        : undefined,
+    });
+    setIsModalVisible(true);
+  };
+
+  // Handle form submission
+  const handleFormSubmit = async (values: AlanFormData) => {
+    try {
+      // Prepare data for API call
+      const updateData = {
+        wezipe_alan_adam: values.wezipe_alan_adam,
+        ady_alan_adam: values.ady_alan_adam,
+        sene_san_sertnama: values.sene_san_sertnama
+          ? dayjs(values.sene_san_sertnama).format('YYYY-MM-DD')
+          : undefined,
+      };
+
+      // Call the API
+      await updateOldRegistry({
+        id: id || '',
+        data: updateData,
+      }).unwrap();
+
+      messageApi.success('Alan maglumatlary üstünlikli täzelendi!');
+      setIsModalVisible(false);
+    } catch {
+      messageApi.error('Alan maglumatlary täzelenende ýalňyşlyk ýüze çykdy!');
+    }
+  };
+
+  // Handle modal cancel
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+    form.resetFields();
+  };
+
+  // Helper function to format dates
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return '-';
+    try {
+      return dayjs(dateString).format('DD.MM.YYYY');
+    } catch {
+      return dateString;
+    }
+  };
+
+  // Helper function to format long text
+  const formatLongText = (text?: string) => {
+    if (!text) return '-';
+    return text.length > 100 ? `${text.substring(0, 100)}...` : text;
   };
 
   if (error) {
@@ -38,6 +127,7 @@ const OldRegistry: React.FC = () => {
 
   return (
     <div style={{ padding: '24px' }}>
+      {contextHolder}
       <div style={{ marginBottom: '16px' }}>
         <OldRegistryBreadcrumb />
       </div>
@@ -47,6 +137,13 @@ const OldRegistry: React.FC = () => {
           <Space>
             <Button onClick={handleBack} icon={<ArrowLeftOutlined />}>
               Back to List
+            </Button>
+            <Button
+              type='primary'
+              icon={<EditOutlined />}
+              onClick={handleAlanClick}
+            >
+              Alan
             </Button>
           </Space>
         </div>
@@ -72,12 +169,14 @@ const OldRegistry: React.FC = () => {
                   {oldRegistry.min_hat || '-'}
                 </Descriptions.Item>
                 <Descriptions.Item label='Sene Hat Min To Mud' span={1}>
-                  {oldRegistry.sene_hat_min_to_mud || '-'}
+                  {formatDate(oldRegistry.sene_hat_min_to_mud)}
                 </Descriptions.Item>
                 <Descriptions.Item label='Login' span={1}>
                   {oldRegistry.login || '-'}
                 </Descriptions.Item>
               </Descriptions>
+
+              <Divider />
 
               <Descriptions
                 title='Contractor Information'
@@ -135,7 +234,7 @@ const OldRegistry: React.FC = () => {
                   {oldRegistry.sene_bashy_songy || '-'}
                 </Descriptions.Item>
                 <Descriptions.Item label='Sene Seredilen' span={1}>
-                  {oldRegistry.sene_seredilen || '-'}
+                  {formatDate(oldRegistry.sene_seredilen)}
                 </Descriptions.Item>
                 <Descriptions.Item label='Sene Hasaba Alnan' span={1}>
                   {oldRegistry.sene_hasaba_alnan || '-'}
@@ -180,10 +279,10 @@ const OldRegistry: React.FC = () => {
                 style={{ marginTop: '24px' }}
               >
                 <Descriptions.Item label='Ygtyyarnama' span={2}>
-                  {oldRegistry.ygtyyarnama || '-'}
+                  {formatLongText(oldRegistry.ygtyyarnama)}
                 </Descriptions.Item>
                 <Descriptions.Item label='Patent Pasport' span={2}>
-                  {oldRegistry.patent_pasport || '-'}
+                  {formatLongText(oldRegistry.patent_pasport)}
                 </Descriptions.Item>
                 <Descriptions.Item label='Sene San Sertnama' span={1}>
                   {oldRegistry.sene_san_sertnama || '-'}
@@ -203,17 +302,82 @@ const OldRegistry: React.FC = () => {
                 size='small'
                 style={{ marginTop: '24px' }}
               >
+                <Descriptions.Item label='ID' span={1}>
+                  {oldRegistry.id || '-'}
+                </Descriptions.Item>
                 <Descriptions.Item label='Created At' span={1}>
-                  {oldRegistry.created_at || '-'}
+                  {formatDate(oldRegistry.created_at)}
                 </Descriptions.Item>
                 <Descriptions.Item label='Updated At' span={1}>
-                  {oldRegistry.updated_at || '-'}
+                  {formatDate(oldRegistry.updated_at)}
+                </Descriptions.Item>
+                <Descriptions.Item label='Deleted At' span={1}>
+                  {formatDate(oldRegistry.deleted_at)}
                 </Descriptions.Item>
               </Descriptions>
             </>
           )}
         </Spin>
       </Card>
+
+      {/* Alan Modal */}
+      <Modal
+        title='Alan Maglumatlary Täzelemek'
+        open={isModalVisible}
+        onCancel={handleModalCancel}
+        footer={null}
+        width={600}
+      >
+        <Form
+          form={form}
+          layout='vertical'
+          onFinish={handleFormSubmit}
+          style={{ marginTop: '16px' }}
+        >
+          <Form.Item
+            label='Wezipe Alan Adam'
+            name='wezipe_alan_adam'
+            rules={[
+              { required: true, message: 'Wezipe alan adamyň adyny giriziň!' },
+            ]}
+          >
+            <Input placeholder='Wezipe alan adamyň ady' />
+          </Form.Item>
+
+          <Form.Item
+            label='Ady Alan Adam'
+            name='ady_alan_adam'
+            rules={[
+              { required: true, message: 'Ady alan adamyň adyny giriziň!' },
+            ]}
+          >
+            <Input placeholder='Ady alan adamyň ady' />
+          </Form.Item>
+
+          <Form.Item
+            label='Sene San Sertnama'
+            name='sene_san_sertnama'
+            rules={[
+              { required: true, message: 'Sene san sertnamasyny saýlaň!' },
+            ]}
+          >
+            <DatePicker
+              placeholder='Sene san sertnama'
+              style={{ width: '100%' }}
+              format='DD.MM.YYYY'
+            />
+          </Form.Item>
+
+          <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
+            <Space>
+              <Button onClick={handleModalCancel}>Ýatyr</Button>
+              <Button type='primary' htmlType='submit' loading={isUpdating}>
+                Ýatda Sakla
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

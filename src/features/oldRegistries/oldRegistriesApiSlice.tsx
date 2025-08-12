@@ -14,6 +14,19 @@ interface OldRegistriesResponse {
   };
 }
 
+// Define the update request structure
+interface UpdateOldRegistryRequest {
+  wezipe_alan_adam?: string;
+  ady_alan_adam?: string;
+  sene_san_sertnama?: string;
+}
+
+// Define the update response structure
+interface UpdateOldRegistryResponse {
+  message: string;
+  data: OldRegistry;
+}
+
 const apiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ['OLD_REGISTRIES', 'OLD_REGISTRY'],
 });
@@ -32,8 +45,22 @@ export const oldRegistriesApiSlice = apiWithTag.injectEndpoints({
       query: (id) => `/old-registries/${id}`,
       providesTags: ['OLD_REGISTRY'],
     }),
+    updateOldRegistry: builder.mutation<
+      UpdateOldRegistryResponse,
+      { id: string; data: UpdateOldRegistryRequest }
+    >({
+      query: ({ id, data }) => ({
+        url: `/old-registries/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['OLD_REGISTRY', 'OLD_REGISTRIES'],
+    }),
   }),
 });
 
-export const { useGetOldRegistriesQuery, useGetOldRegistryQuery } =
-  oldRegistriesApiSlice;
+export const {
+  useGetOldRegistriesQuery,
+  useGetOldRegistryQuery,
+  useUpdateOldRegistryMutation,
+} = oldRegistriesApiSlice;
