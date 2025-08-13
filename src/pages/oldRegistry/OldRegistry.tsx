@@ -27,7 +27,7 @@ const { Title, Text } = Typography;
 interface AlanFormData {
   wezipe_alan_adam?: string;
   ady_alan_adam?: string;
-  sene_san_sertnama?: any; // Using any for DatePicker compatibility
+  sene_san_sertnama?: dayjs.Dayjs | string; // Using dayjs.Dayjs for DatePicker compatibility
 }
 
 const OldRegistry: React.FC = () => {
@@ -53,12 +53,16 @@ const OldRegistry: React.FC = () => {
   // Handle Alan button click
   const handleAlanClick = () => {
     // Pre-fill form with existing data
+    let dateValue = undefined;
+    if (oldRegistry?.sene_san_sertnama) {
+      const parsed = dayjs(oldRegistry.sene_san_sertnama);
+      dateValue = parsed.isValid() ? parsed : undefined;
+    }
+
     form.setFieldsValue({
       wezipe_alan_adam: oldRegistry?.wezipe_alan_adam || '',
       ady_alan_adam: oldRegistry?.ady_alan_adam || '',
-      sene_san_sertnama: oldRegistry?.sene_san_sertnama
-        ? dayjs(oldRegistry.sene_san_sertnama)
-        : undefined,
+      sene_san_sertnama: dateValue,
     });
     setIsModalVisible(true);
   };
@@ -98,7 +102,13 @@ const OldRegistry: React.FC = () => {
   const formatDate = (dateString?: string) => {
     if (!dateString) return '-';
     try {
-      return dayjs(dateString).format('DD.MM.YYYY');
+      // Try to parse with dayjs - it's more flexible with date formats
+      const parsed = dayjs(dateString);
+      if (parsed.isValid()) {
+        return parsed.format('DD.MM.YYYY');
+      }
+      // If dayjs can't parse it, return the original string
+      return dateString;
     } catch {
       return dateString;
     }
@@ -285,7 +295,7 @@ const OldRegistry: React.FC = () => {
                   {formatLongText(oldRegistry.patent_pasport)}
                 </Descriptions.Item>
                 <Descriptions.Item label='Sene San Sertnama' span={1}>
-                  {oldRegistry.sene_san_sertnama || '-'}
+                  {formatDate(oldRegistry.sene_san_sertnama)}
                 </Descriptions.Item>
                 <Descriptions.Item label='Wezipe Alan Adam' span={1}>
                   {oldRegistry.wezipe_alan_adam || '-'}

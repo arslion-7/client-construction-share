@@ -24,7 +24,7 @@ interface AreaFormProps {
 export default function AreaForm({
   initialValues,
   onFinish,
-  isSubmitLoading
+  isSubmitLoading,
 }: AreaFormProps) {
   const { data: areas, isLoading: isLoadingAreas } = useGetAreaHierarchyQuery();
 

@@ -13,7 +13,10 @@ export default function ShareholdersTable({
 }) {
   const { onChangePagination, getPagination } = usePaginationSearch();
 
-  const columns = useColumns();
+  const { columns } = useColumns();
+
+  // Ensure columns is always an array
+  const safeColumns = Array.isArray(columns) ? columns : [];
 
   const onChangeFilters = (filters: Record<string, FilterValue | null>) => {
     console.log('filters', filters);
@@ -33,7 +36,7 @@ export default function ShareholdersTable({
     <Table
       rowKey='id'
       // @ts-expect-error
-      columns={columns}
+      columns={safeColumns}
       dataSource={paginatedData?.data}
       pagination={getPagination<IShareholder[]>(paginatedData!)}
       onChange={onChange}

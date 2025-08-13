@@ -14,4 +14,7 @@ plink itadmin@192.168.0.10 "sudo systemctl restart nginx"
 
 1q2w3e!@A98lk
 
+# Check file permissions
 
+sudo chown -R www-data:www-data /var/www/payly/client/
+sudo chmod -R 755 /var/www/payly/client/

@@ -221,7 +221,11 @@ export function useColumns() {
   ];
 
   return {
-    columns: [...preColumns, ...editColumns, ...sufColumns],
+    columns: [
+      ...(preColumns || []),
+      ...(editColumns || []),
+      ...(sufColumns || []),
+    ],
     expandedRows,
     setExpandedRows,
   };
