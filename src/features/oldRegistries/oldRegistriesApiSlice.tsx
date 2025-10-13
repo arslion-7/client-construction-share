@@ -19,6 +19,8 @@ interface UpdateOldRegistryRequest {
   wezipe_alan_adam?: string;
   ady_alan_adam?: string;
   sene_san_sertnama?: string;
+  ady_paychy_alan?: string;
+  sene_paychy_alan?: string;
 }
 
 // Define the update response structure

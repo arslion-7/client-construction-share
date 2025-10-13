@@ -1,23 +1,32 @@
-import React, { useState } from 'react';
-import { Card, Table, Input, Typography, Spin, Button, Space } from 'antd';
-import { SearchOutlined, EyeOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Card, Table, Input, Typography, Spin, Button, Space, Tag } from 'antd';
+import { SearchOutlined, EyeOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { useGetOldRegistriesQuery } from '../../features/oldRegistries/oldRegistriesApiSlice';
 import OldRegistriesBreadcrumb from './OldRegistriesBreadcrumb';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const OldRegistries: React.FC = () => {
   const navigate = useNavigate();
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [searchInput, setSearchInput] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Get values from URL or defaults
+  const page = Number(searchParams.get('page')) || 1;
+  const pageSize = Number(searchParams.get('pageSize')) || 10;
+  const urlSearch = searchParams.get('search') || '';
+
+  const [searchInput, setSearchInput] = useState(urlSearch);
+
+  // Sync searchInput with URL on mount/change
+  useEffect(() => {
+    setSearchInput(urlSearch);
+  }, [urlSearch]);
 
   const { data, isLoading, error } = useGetOldRegistriesQuery({
     page,
     limit: pageSize,
-    search: searchTerm,
+    search: urlSearch,
   });
 
   const handleViewDetails = (record: { t_b: number }) => {
@@ -25,14 +34,18 @@ const OldRegistries: React.FC = () => {
   };
 
   const handleSearch = () => {
-    setSearchTerm(searchInput);
-    setPage(1); // Reset to first page when searching
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('search', searchInput);
+    newSearchParams.set('page', '1'); // Reset to first page when searching
+    setSearchParams(newSearchParams);
   };
 
   const handleClearSearch = () => {
     setSearchInput('');
-    setSearchTerm('');
-    setPage(1);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete('search');
+    newSearchParams.set('page', '1');
+    setSearchParams(newSearchParams);
   };
 
   const columns = [
@@ -106,8 +119,18 @@ const OldRegistries: React.FC = () => {
     current?: number;
     pageSize?: number;
   }) => {
-    if (pagination.current) setPage(pagination.current);
-    if (pagination.pageSize) setPageSize(pagination.pageSize);
+    const newSearchParams = new URLSearchParams(searchParams);
+
+    if (pagination.pageSize && pagination.pageSize !== pageSize) {
+      // Page size changed - reset to page 1
+      newSearchParams.set('pageSize', pagination.pageSize.toString());
+      newSearchParams.set('page', '1');
+    } else if (pagination.current) {
+      // Page changed
+      newSearchParams.set('page', pagination.current.toString());
+    }
+
+    setSearchParams(newSearchParams);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,6 +141,12 @@ const OldRegistries: React.FC = () => {
     if (e.key === 'Enter') {
       handleSearch();
     }
+  };
+
+  // Check if record contains OTKAZ text (case-insensitive)
+  const hasOtkazText = (record: any) => {
+    const adyPaychyAlan = record.ady_paychy_alan?.toLowerCase() || '';
+    return adyPaychyAlan.includes('otkaz');
   };
 
   if (error) {
@@ -144,29 +173,38 @@ const OldRegistries: React.FC = () => {
         </div>
 
         <div style={{ marginBottom: '16px' }}>
-          <Space>
-            <Input
-              placeholder='Search by T/B number, min hat, gurujy, paychy, desga, addresses, or login...'
-              prefix={<SearchOutlined />}
-              value={searchInput}
-              onChange={handleSearchChange}
-              onKeyPress={handleKeyPress}
-              style={{ width: '400px' }}
-              allowClear
-            />
-            <Button
-              type='primary'
-              onClick={handleSearch}
-              loading={isLoading}
-              disabled={isLoading}
-            >
-              Search
-            </Button>
-            {searchTerm && (
-              <Button onClick={handleClearSearch} disabled={isLoading}>
-                Clear
+          <Space direction='vertical' style={{ width: '100%' }}>
+            <Space>
+              <Input
+                placeholder='Search by T/B number, min hat, gurujy, paychy, desga, addresses, or login...'
+                prefix={<SearchOutlined />}
+                value={searchInput}
+                onChange={handleSearchChange}
+                onKeyPress={handleKeyPress}
+                style={{ width: '400px' }}
+                allowClear
+              />
+              <Button
+                type='primary'
+                onClick={handleSearch}
+                loading={isLoading}
+                disabled={isLoading}
+              >
+                Search
               </Button>
-            )}
+              {urlSearch && (
+                <Button onClick={handleClearSearch} disabled={isLoading}>
+                  Clear
+                </Button>
+              )}
+            </Space>
+            <Space>
+              <InfoCircleOutlined style={{ color: '#faad14' }} />
+              <Text type='secondary'>
+                <Tag color='gold' style={{ margin: 0 }}>Reňkli setirler</Tag>
+                - OTKAZ (çep tarapynda sarymtyl çyzyk)
+              </Text>
+            </Space>
           </Space>
         </div>
 
@@ -188,8 +226,15 @@ const OldRegistries: React.FC = () => {
             onChange={handleTableChange}
             onRow={(record) => ({
               onClick: () => handleViewDetails(record),
-              style: { cursor: 'pointer' },
+              style: {
+                cursor: 'pointer',
+                backgroundColor: hasOtkazText(record) ? '#fffbe6' : undefined,
+                borderLeft: hasOtkazText(record) ? '4px solid #faad14' : undefined,
+                color: hasOtkazText(record) ? '#000000' : undefined,
+                fontWeight: hasOtkazText(record) ? 500 : undefined,
+              },
             })}
+            rowClassName={(record) => hasOtkazText(record) ? 'otkaz-row' : ''}
             scroll={{ x: 1200 }}
             size='small'
           />

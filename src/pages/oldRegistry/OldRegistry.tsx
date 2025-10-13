@@ -34,7 +34,9 @@ const OldRegistry: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isPaychyModalVisible, setIsPaychyModalVisible] = useState(false);
   const [form] = Form.useForm<AlanFormData>();
+  const [paychyForm] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
 
   const {
@@ -98,6 +100,44 @@ const OldRegistry: React.FC = () => {
     form.resetFields();
   };
 
+  // Handle Paychy Alan button click
+  const handlePaychyAlanClick = () => {
+    paychyForm.setFieldsValue({
+      ady_paychy_alan: oldRegistry?.ady_paychy_alan || '',
+      sene_paychy_alan: oldRegistry?.sene_paychy_alan || '',
+    });
+    setIsPaychyModalVisible(true);
+  };
+
+  // Handle Paychy form submission
+  const handlePaychyFormSubmit = async (values: any) => {
+    try {
+      await updateOldRegistry({
+        id: id || '',
+        data: {
+          ady_paychy_alan: values.ady_paychy_alan,
+          sene_paychy_alan: values.sene_paychy_alan,
+        },
+      }).unwrap();
+
+      messageApi.success('Paychy alan maglumatlary üstünlikli täzelendi!');
+      setIsPaychyModalVisible(false);
+    } catch {
+      messageApi.error('Paychy alan maglumatlary täzelenende ýalňyşlyk ýüze çykdy!');
+    }
+  };
+
+  // Handle Paychy modal cancel
+  const handlePaychyModalCancel = () => {
+    setIsPaychyModalVisible(false);
+    paychyForm.resetFields();
+  };
+
+  // Handle quick fill button
+  const handleQuickFill = () => {
+    paychyForm.setFieldValue('ady_paychy_alan', 'OTKAZ gurujynyň delilnamasy esasynda');
+  };
+
   // Helper function to format dates
   const formatDate = (dateString?: string) => {
     if (!dateString) return '-';
@@ -154,6 +194,13 @@ const OldRegistry: React.FC = () => {
               onClick={handleAlanClick}
             >
               Alan
+            </Button>
+            <Button
+              type='default'
+              icon={<EditOutlined />}
+              onClick={handlePaychyAlanClick}
+            >
+              Paychy alan/yatyrma
             </Button>
           </Space>
         </div>
@@ -381,6 +428,61 @@ const OldRegistry: React.FC = () => {
           <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
             <Space>
               <Button onClick={handleModalCancel}>Ýatyr</Button>
+              <Button type='primary' htmlType='submit' loading={isUpdating}>
+                Ýatda Sakla
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* Paychy Alan/Yatyrma Modal */}
+      <Modal
+        title='Paychy Alan/Yatyrma Maglumatlary'
+        open={isPaychyModalVisible}
+        onCancel={handlePaychyModalCancel}
+        footer={null}
+        width={600}
+      >
+        <Form
+          form={paychyForm}
+          layout='vertical'
+          onFinish={handlePaychyFormSubmit}
+          style={{ marginTop: '16px' }}
+        >
+          <Form.Item
+            label='Ady Paychy Alan'
+            name='ady_paychy_alan'
+            rules={[
+              { required: true, message: 'Ady paychy alan maglumaty giriziň!' },
+            ]}
+          >
+            <Input.TextArea
+              placeholder='Ady paychy alan'
+              rows={3}
+              maxLength={255}
+            />
+          </Form.Item>
+
+          <Form.Item style={{ marginBottom: '16px' }}>
+            <Button onClick={handleQuickFill} type='dashed' block>
+              OTKAZ gurujynyň delilnamasy esasynda
+            </Button>
+          </Form.Item>
+
+          <Form.Item
+            label='Sene Paychy Alan'
+            name='sene_paychy_alan'
+            rules={[
+              { required: true, message: 'Sene paychy alan maglumaty giriziň!' },
+            ]}
+          >
+            <Input placeholder='Sene paychy alan' maxLength={255} />
+          </Form.Item>
+
+          <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
+            <Space>
+              <Button onClick={handlePaychyModalCancel}>Ýatyr</Button>
               <Button type='primary' htmlType='submit' loading={isUpdating}>
                 Ýatda Sakla
               </Button>

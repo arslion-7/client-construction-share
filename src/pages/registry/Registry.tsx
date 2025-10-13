@@ -6,6 +6,7 @@ import {
   SettingOutlined,
   FileTextOutlined,
   BankOutlined,
+  FileAddOutlined,
 } from '@ant-design/icons';
 
 import { useIsNew } from '@/utils/hooks/paramsHooks';
@@ -19,6 +20,7 @@ import RegistryMain from './RegistryMain';
 import ShareholderProperty from './shareholderProperty/ShareholderProperty';
 import RegistryMail from './RegistryMail';
 import Contract from './contract/Contract';
+import AdditionalAgreements from './additionalAgreements/AdditionalAgreements';
 // import RegistryDatesForm from './dates/RegistryDatesForm';
 
 export default function Registry() {
@@ -93,6 +95,23 @@ export default function Registry() {
         </span>
       ),
       children: <Card>{!isNew && <Contract registry={registry!} />}</Card>,
+      disabled: isNew,
+    },
+    {
+      key: 'additional_agreements',
+      label: (
+        <span>
+          <FileAddOutlined style={{ marginRight: 8 }} />
+          Goşmaça şertnama
+        </span>
+      ),
+      children: (
+        <Card>
+          {!isNew && registry && (
+            <AdditionalAgreements registryId={registry.id} />
+          )}
+        </Card>
+      ),
       disabled: isNew,
     },
 
