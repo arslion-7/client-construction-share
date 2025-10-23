@@ -7,6 +7,7 @@ import {
   FileTextOutlined,
   BankOutlined,
   FileAddOutlined,
+  CloseCircleOutlined,
 } from '@ant-design/icons';
 
 import { useIsNew } from '@/utils/hooks/paramsHooks';
@@ -21,6 +22,7 @@ import ShareholderProperty from './shareholderProperty/ShareholderProperty';
 import RegistryMail from './RegistryMail';
 import Contract from './contract/Contract';
 import AdditionalAgreements from './additionalAgreements/AdditionalAgreements';
+import Denial from './denial/Denial';
 // import RegistryDatesForm from './dates/RegistryDatesForm';
 
 export default function Registry() {
@@ -112,6 +114,17 @@ export default function Registry() {
           )}
         </Card>
       ),
+      disabled: isNew,
+    },
+    {
+      key: 'denial',
+      label: (
+        <span>
+          <CloseCircleOutlined style={{ marginRight: 8 }} />
+          Ret
+        </span>
+      ),
+      children: <Card>{!isNew && <Denial registry={registry!} />}</Card>,
       disabled: isNew,
     },
 

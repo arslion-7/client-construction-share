@@ -39,11 +39,18 @@ export interface IContract {
   builder_contractor_additional_info: string;
 }
 
+export interface IRegistryDenial {
+  denial_reason?: string;
+  denial_date?: string;
+  denial_additional_info?: string;
+}
+
 export interface IRegistry
   extends IGeneral,
     IRegistryDates,
     IRegistryMail,
-    IContract {
+    IContract,
+    IRegistryDenial {
   t_b: number;
   user_id: number | null;
   user: IUser | null;

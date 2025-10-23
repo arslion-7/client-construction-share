@@ -36,6 +36,13 @@ export default function RegistriesTable({
       dataSource={paginatedData?.data}
       pagination={getPagination<IRegistry[]>(paginatedData!)}
       onChange={onChange}
+      rowClassName={(record) => {
+        // Highlight rows with denial information
+        if (record.denial_reason || record.denial_date || record.denial_additional_info) {
+          return 'denial-row';
+        }
+        return '';
+      }}
       onRow={(record) => ({
         onClick: () => {
           // Toggle expand state for this specific row

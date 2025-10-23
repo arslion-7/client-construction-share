@@ -5,6 +5,7 @@ import {
   IContract,
   IRegistry,
   IRegistryDates,
+  IRegistryDenial,
   IRegistryMail,
   IRegistryRequest,
 } from './types';
@@ -103,6 +104,17 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
       }),
       invalidatesTags: ['REGISTRIES', 'REGISTRY'],
     }),
+    updateRegistryDenial: builder.mutation<
+      IRegistry,
+      { id: string } & IRegistryDenial
+    >({
+      query: ({ id, ...body }) => ({
+        method: 'PUT',
+        url: `/registries/${id}/denial`,
+        body,
+      }),
+      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+    }),
     selectGeneralContractor: builder.mutation<
       IRegistry,
       { id: string; general_contractor_id: number }
@@ -180,6 +192,7 @@ export const {
   useUpdateRegistryNumberMutation,
   useUpdateRegistryDatesMutation,
   useUpdateRegistryContractMutation,
+  useUpdateRegistryDenialMutation,
   useSelectGeneralContractorMutation,
   useSelectBuildingMutation,
   useSelectBuilderMutation,

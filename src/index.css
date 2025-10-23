@@ -90,3 +90,41 @@ body {
 [data-theme='dark'] .ant-layout-sider {
   background-color: #1b5e20 !important;
 }
+
+/* Denial row highlighting in registries table */
+[data-theme='light'] .denial-row {
+  background-color: #ffccc7 !important;
+  border-left: 6px solid #cf1322 !important;
+}
+
+[data-theme='light'] .denial-row:hover > td {
+  background-color: #ffa39e !important;
+}
+
+[data-theme='dark'] .denial-row {
+  background-color: #531dab !important;
+  border-left: 6px solid #f759ab !important;
+}
+
+[data-theme='dark'] .denial-row:hover > td {
+  background-color: #722ed1 !important;
+}
+
+/* OTKAZ row highlighting in old registries table - same as denial rows */
+[data-theme='light'] .otkaz-row {
+  background-color: #ffccc7 !important;
+  border-left: 6px solid #cf1322 !important;
+}
+
+[data-theme='light'] .otkaz-row:hover > td {
+  background-color: #ffa39e !important;
+}
+
+[data-theme='dark'] .otkaz-row {
+  background-color: #531dab !important;
+  border-left: 6px solid #f759ab !important;
+}
+
+[data-theme='dark'] .otkaz-row:hover > td {
+  background-color: #722ed1 !important;
+}

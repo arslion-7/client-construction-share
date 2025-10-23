@@ -1,6 +1,6 @@
 import React from 'react';
 import RegistriesTable from './RegistriesTable';
-import { Flex, Skeleton } from 'antd';
+import { Alert, Flex, Skeleton } from 'antd';
 import TableHeader from '@/components/TableHeader/TableHeader';
 import { usePaginationSearch } from '@/utils/hooks/paramsHooks';
 import RegistriesBreadcrumb from './RegistriesBreadcrumb';
@@ -20,6 +20,12 @@ const Registries: React.FC = () => {
     <Flex vertical gap={16}>
       <RegistriesBreadcrumb />
       <TableHeader />
+      <Alert
+        message="Reňkli setirler - Ret edilen ýazgylar (çep tarapynda gyzyl çyzyk)"
+        type="info"
+        showIcon
+        closable
+      />
       {isLoadingGeneralContractors ? (
         <Skeleton />
       ) : (

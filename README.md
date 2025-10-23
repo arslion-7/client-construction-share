@@ -8,6 +8,8 @@ sudo systemctl restart nginx.service
 
 # Deploy using PuTTY
 
+cd client-construction-share
+
 npm run build
 pscp -r dist/\* itadmin@192.168.0.10:/var/www/payly/client/
 plink itadmin@192.168.0.10 "sudo systemctl restart nginx"

@@ -199,10 +199,10 @@ const OldRegistries: React.FC = () => {
               )}
             </Space>
             <Space>
-              <InfoCircleOutlined style={{ color: '#faad14' }} />
+              <InfoCircleOutlined style={{ color: '#cf1322' }} />
               <Text type='secondary'>
-                <Tag color='gold' style={{ margin: 0 }}>Reňkli setirler</Tag>
-                - OTKAZ (çep tarapynda sarymtyl çyzyk)
+                <Tag color='red' style={{ margin: 0 }}>Reňkli setirler</Tag>
+                - OTKAZ (çep tarapynda gyzyl çyzyk)
               </Text>
             </Space>
           </Space>
@@ -226,13 +226,7 @@ const OldRegistries: React.FC = () => {
             onChange={handleTableChange}
             onRow={(record) => ({
               onClick: () => handleViewDetails(record),
-              style: {
-                cursor: 'pointer',
-                backgroundColor: hasOtkazText(record) ? '#fffbe6' : undefined,
-                borderLeft: hasOtkazText(record) ? '4px solid #faad14' : undefined,
-                color: hasOtkazText(record) ? '#000000' : undefined,
-                fontWeight: hasOtkazText(record) ? 500 : undefined,
-              },
+              style: { cursor: 'pointer' },
             })}
             rowClassName={(record) => hasOtkazText(record) ? 'otkaz-row' : ''}
             scroll={{ x: 1200 }}
