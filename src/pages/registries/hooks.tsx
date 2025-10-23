@@ -64,6 +64,22 @@ export function useColumns() {
       key: 't_b',
     },
     {
+      title: 'Hereket',
+      dataIndex: 'edit_start',
+      key: 'edit_start',
+      width: 80,
+      render: (_, record) => (
+        <Button
+          shape='circle'
+          icon={<EditOutlined />}
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent row click
+            navigate(record.id.toString());
+          }}
+        />
+      ),
+    },
+    {
       title: 'Baş potratçy',
       key: 'general_contractor',
       render: (_, record) => (
@@ -124,15 +140,16 @@ export function useColumns() {
       ),
     },
     {
-      title: 'Hekeket',
-      dataIndex: 'edit',
-      key: 'edit',
+      title: 'Hereket',
+      dataIndex: 'edit_end',
+      key: 'edit_end',
+      width: 80,
       render: (_, record) => (
         <Button
           shape='circle'
           icon={<EditOutlined />}
-          onClick={() => {
-            console.log('clicked', record.id);
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent row click
             navigate(record.id.toString());
           }}
         />

@@ -5,7 +5,7 @@ import { dateFormat } from '@/utils/formats';
 import { useIsNew } from '@/utils/hooks/paramsHooks';
 import { useMessageApi } from '@/utils/messages';
 import { rules } from '@/utils/rules';
-import { DatePicker, Form, Input } from 'antd';
+import { Button, DatePicker, Form, Input } from 'antd';
 import dayjs from 'dayjs';
 
 export default function DenialForm({ denial }: { denial: IRegistryDenial }) {
@@ -26,6 +26,12 @@ export default function DenialForm({ denial }: { denial: IRegistryDenial }) {
     }
   };
 
+  const handleQuickFillOtkaz = () => {
+    form.setFieldsValue({
+      denial_reason: 'OTKAZ gurujynyň delilnamasy esasynda',
+    });
+  };
+
   return (
     <Form
       form={form}
@@ -44,6 +50,15 @@ export default function DenialForm({ denial }: { denial: IRegistryDenial }) {
         hasFeedback
       >
         <Input.TextArea rows={3} placeholder='Ret sebäbini giriziň' />
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 4 }}>
+        <Button
+          type='dashed'
+          size='small'
+          onClick={handleQuickFillOtkaz}
+        >
+          OTKAZ gurujynyň delilnamasy esasynda
+        </Button>
       </Form.Item>
       <Form.Item
         label='Ret senesi'
