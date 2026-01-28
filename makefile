@@ -1,32 +1,38 @@
 # Variables
-BUILD_DIR = dist
 REMOTE_SERVER = payly
-REMOTE_PATH = /var/www/payly
-NGINX_SERVICE = nginx
+REMOTE_PATH = /var/www/payly/client/
 
 # Default target
-all: build deploy
+all: build
 
-# Build the React app
+# Run in development mode
+dev:
+	npm run dev
+
+# Build the client
 build:
-	# npm install
+	@echo "Building client..."
 	npm run build
 
-# Deploy to remote server
+# Deploy the client
 deploy: build
-	@echo "Copying files to $(REMOTE_SERVER)..."
-	scp -r $(BUILD_DIR)/* $(REMOTE_SERVER):$(REMOTE_PATH)/client
-	@echo "Restarting Nginx on $(REMOTE_SERVER)..."
-	ssh $(REMOTE_SERVER) "sudo systemctl restart $(NGINX_SERVICE)"
-	@echo "Deployment complete."
+	@echo "Deploying client..."
+	scp -r dist/* $(REMOTE_SERVER):$(REMOTE_PATH)
+	@echo "Client deployment complete."
 
-# Clean the build directory
+# Deploy all (API + client) using root Makefile
+deploy-all:
+	$(MAKE) -C .. deploy
+
+# Clean build artifacts
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf dist
 
 # Help target
 help:
 	@echo "Usage:"
-	@echo "  make build   - Build the React app"
-	@echo "  make deploy  - Deploy to remote server and restart Nginx"
-	@echo "  make clean   - Clean the build directory"
+	@echo "  make dev        - Run client in development mode"
+	@echo "  make build      - Build the client"
+	@echo "  make deploy     - Build and deploy client"
+	@echo "  make deploy-all - Deploy both API and client (uses root Makefile)"
+	@echo "  make clean      - Remove build artifacts"

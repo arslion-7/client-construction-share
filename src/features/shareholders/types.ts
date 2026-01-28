@@ -1,5 +1,5 @@
-import { PaginatedRequest } from '@/utils/requestUtils';
-import { IAddress, IGeneral, IOrg } from '@/features/generalTypes';
+import { PaginatedRequest } from "@/utils/requestUtils";
+import { IAddress, IGeneral, IOrg } from "@/features/generalTypes";
 
 export interface IShareholderRequest extends PaginatedRequest {
   some?: string;
@@ -14,7 +14,7 @@ export interface IPhone extends IGeneral {
 
 export interface IShareholderDocs {
   passport_series: string;
-  passport_number: number;
+  passport_number: string;
   patent_series: string;
   patent_number: number;
   cert_number: number;
@@ -24,4 +24,9 @@ export interface IShareholderDocs {
 export interface IShareholder extends IAddress, IOrg, IShareholderDocs {
   id: number;
   phones: IPhone[];
+}
+
+export interface IInvalidPassport {
+  id: number;
+  passport_number: string;
 }

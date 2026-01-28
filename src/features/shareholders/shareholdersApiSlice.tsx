@@ -3,15 +3,16 @@ import {
   IShareholderDocs,
   IShareholderRequest,
   IPhone,
-} from '@/features/shareholders/types';
-import { apiSlice } from '@/app/api/apiSlice';
-import { PaginatedResponse } from '@/utils/responseUtils';
-import { paginationInit } from '@/utils/requestUtils';
-import { IAreaAddressForm } from '@/components/form/AreaAddressForm';
-import { IOrg } from '../generalTypes';
+  IInvalidPassport,
+} from "@/features/shareholders/types";
+import { apiSlice } from "@/app/api/apiSlice";
+import { PaginatedResponse } from "@/utils/responseUtils";
+import { paginationInit } from "@/utils/requestUtils";
+import { IAreaAddressForm } from "@/components/form/AreaAddressForm";
+import { IOrg } from "../generalTypes";
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['SHAREHOLDERS', 'SHAREHOLDER'],
+  addTagTypes: ["SHAREHOLDERS", "SHAREHOLDER"],
 });
 
 export const shareholdersApiSlice = apiWithTag.injectEndpoints({
@@ -23,22 +24,22 @@ export const shareholdersApiSlice = apiWithTag.injectEndpoints({
       query: ({
         page = paginationInit.page,
         pageSize = paginationInit.pageSize,
-        search = '',
+        search = "",
       }) => `/shareholders?page=${page}&pageSize=${pageSize}&search=${search}`,
-      providesTags: ['SHAREHOLDERS'],
+      providesTags: ["SHAREHOLDERS"],
       // keepUnusedDataFor: 5,
     }),
     getShareholder: builder.query<IShareholder, string>({
       query: (id) => `/shareholders/${id}`,
-      providesTags: ['SHAREHOLDER'],
+      providesTags: ["SHAREHOLDER"],
     }),
     createShareholder: builder.mutation<IShareholder, IAreaAddressForm>({
       query: (body) => ({
-        method: 'POST',
-        url: '/shareholders',
+        method: "POST",
+        url: "/shareholders",
         body,
       }),
-      invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER'],
+      invalidatesTags: ["SHAREHOLDERS", "SHAREHOLDER"],
     }),
     updateShareholderAddress: builder.mutation<
       string,
@@ -46,14 +47,14 @@ export const shareholdersApiSlice = apiWithTag.injectEndpoints({
     >({
       query: ({ id, areas, address, address_additional_info }) => ({
         url: `/shareholders/${id}/address`,
-        method: 'PUT',
+        method: "PUT",
         body: {
           areas,
           address,
           address_additional_info,
         },
       }),
-      invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER'],
+      invalidatesTags: ["SHAREHOLDERS", "SHAREHOLDER"],
     }),
     updateShareholderDocs: builder.mutation<
       string,
@@ -61,20 +62,20 @@ export const shareholdersApiSlice = apiWithTag.injectEndpoints({
     >({
       query: ({ id, ...rest }) => ({
         url: `/shareholders/${id}/docs`,
-        method: 'PUT',
+        method: "PUT",
         body: {
           ...rest,
         },
       }),
-      invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER'],
+      invalidatesTags: ["SHAREHOLDERS", "SHAREHOLDER"],
     }),
     updateShareholderOrg: builder.mutation<string, { id: string; org: IOrg }>({
       query: ({ id, org }) => ({
         url: `/shareholders/${id}/org`,
-        method: 'PUT',
+        method: "PUT",
         body: org,
       }),
-      invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER'],
+      invalidatesTags: ["SHAREHOLDERS", "SHAREHOLDER"],
     }),
     updateShareholderPhones: builder.mutation<
       string,
@@ -82,19 +83,22 @@ export const shareholdersApiSlice = apiWithTag.injectEndpoints({
     >({
       query: ({ id, ...rest }) => ({
         url: `/shareholders/${id}/phones`,
-        method: 'PUT',
+        method: "PUT",
         body: {
           ...rest,
         },
       }),
-      invalidatesTags: ['SHAREHOLDERS', 'SHAREHOLDER'],
+      invalidatesTags: ["SHAREHOLDERS", "SHAREHOLDER"],
     }),
     deleteShareholder: builder.mutation<string, string>({
       query: (id) => ({
-        method: 'DELETE',
+        method: "DELETE",
         url: `/shareholders/${id}`,
       }),
-      invalidatesTags: ['SHAREHOLDERS'],
+      invalidatesTags: ["SHAREHOLDERS"],
+    }),
+    getInvalidPassports: builder.query<IInvalidPassport[], void>({
+      query: () => "/shareholders/invalid-passports",
     }),
   }),
 });
@@ -107,4 +111,5 @@ export const {
   useUpdateShareholderDocsMutation,
   useUpdateShareholderOrgMutation,
   useUpdateShareholderPhonesMutation,
+  useLazyGetInvalidPassportsQuery,
 } = shareholdersApiSlice;

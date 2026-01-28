@@ -1,11 +1,11 @@
-import { IReceiver } from './../receivers/types';
-import { PaginatedRequest } from '@/utils/requestUtils';
-import { IGeneral } from '../generalTypes';
-import { IContractor } from '../generalContractors/types';
-import { IUser } from '../users/types';
-import { IBuilding } from '../buildings/types';
-import { IBuilder } from '../builders/types';
-import { IShareholder } from '../shareholders/types';
+import { IReceiver } from "./../receivers/types";
+import { PaginatedRequest } from "@/utils/requestUtils";
+import { IGeneral } from "../generalTypes";
+import { IContractor } from "../generalContractors/types";
+import { IUser } from "../users/types";
+import { IBuilding } from "../buildings/types";
+import { IBuilder } from "../builders/types";
+import { IShareholder } from "../shareholders/types";
 // import { IAreaStreetForm } from '@/components/form/AreaStreetForm';
 
 export interface IRegistryRequest extends PaginatedRequest {
@@ -43,6 +43,11 @@ export interface IRegistryDenial {
   denial_reason?: string;
   denial_date?: string;
   denial_additional_info?: string;
+}
+
+export interface IDuplicateTB {
+  id: number;
+  t_b: number;
 }
 
 export interface IRegistry

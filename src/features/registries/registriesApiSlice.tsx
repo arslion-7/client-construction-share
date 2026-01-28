@@ -1,17 +1,18 @@
-import { apiSlice } from '@/app/api/apiSlice';
-import { PaginatedResponse } from '@/utils/responseUtils';
-import { paginationInit } from '@/utils/requestUtils';
+import { apiSlice } from "@/app/api/apiSlice";
+import { PaginatedResponse } from "@/utils/responseUtils";
+import { paginationInit } from "@/utils/requestUtils";
 import {
   IContract,
+  IDuplicateTB,
   IRegistry,
   IRegistryDates,
   IRegistryDenial,
   IRegistryMail,
   IRegistryRequest,
-} from './types';
+} from "./types";
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['REGISTRIES', 'REGISTRY'],
+  addTagTypes: ["REGISTRIES", "REGISTRY"],
 });
 
 export const registriesApiSlice = apiWithTag.injectEndpoints({
@@ -23,162 +24,165 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
       query: ({
         page = paginationInit.page,
         pageSize = paginationInit.pageSize,
-        search = '',
+        search = "",
       }) => `/registries?page=${page}&pageSize=${pageSize}&search=${search}`,
-      providesTags: ['REGISTRIES'],
+      providesTags: ["REGISTRIES"],
       // keepUnusedDataFor: 5,
     }),
 
     getRegistry: builder.query<IRegistry, string>({
       query: (id) => `/registries/${id}`,
-      providesTags: ['REGISTRY'],
+      providesTags: ["REGISTRY"],
     }),
     createRegistry: builder.mutation<
       IRegistry,
       { t_b: number } & IRegistryDates
     >({
       query: (body) => ({
-        method: 'POST',
-        url: '/registries',
+        method: "POST",
+        url: "/registries",
         body,
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
     }),
     updateRegistry: builder.mutation<
       IRegistry,
       { id: string } & { t_b: number } & IRegistryDates
     >({
       query: ({ id, ...body }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/registries/${id}`,
         body,
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
     }),
     updateRegistryMail: builder.mutation<
       IRegistry,
       { id: string } & IRegistryMail
     >({
       query: ({ id, ...body }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/registries/${id}/mail`,
         body,
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
     }),
     updateRegistryNumber: builder.mutation<
       IRegistry,
       { id: string; t_b: number }
     >({
       query: ({ id, t_b }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/registries/${id}/registry_number`,
         body: {
           t_b,
         },
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
     }),
     updateRegistryDates: builder.mutation<
       IRegistry,
       { id: string } & IRegistryDates
     >({
       query: ({ id, reviewed_at, registered_at }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/registries/${id}/registry_dates`,
         body: {
           reviewed_at,
           registered_at,
         },
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
     }),
     updateRegistryContract: builder.mutation<
       IRegistry,
       { id: string } & IContract
     >({
       query: ({ id, ...body }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/registries/${id}/contract`,
         body,
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
     }),
     updateRegistryDenial: builder.mutation<
       IRegistry,
       { id: string } & IRegistryDenial
     >({
       query: ({ id, ...body }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/registries/${id}/denial`,
         body,
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
     }),
     selectGeneralContractor: builder.mutation<
       IRegistry,
       { id: string; general_contractor_id: number }
     >({
       query: ({ id, general_contractor_id }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/registries/${id}/general_contractor`,
         body: {
           general_contractor_id,
         },
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
     }),
     selectBuilding: builder.mutation<
       IRegistry,
       { id: string; building_id: number }
     >({
       query: ({ id, building_id }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/registries/${id}/building`,
         body: {
           building_id,
         },
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
     }),
     selectBuilder: builder.mutation<
       IRegistry,
       { id: string; builder_id: number }
     >({
       query: ({ id, builder_id }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/registries/${id}/builder`,
         body: {
           builder_id,
         },
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
     }),
     selectReceiver: builder.mutation<
       IRegistry,
       { id: string; receiver_id: number }
     >({
       query: ({ id, receiver_id }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/registries/${id}/receiver`,
         body: {
           receiver_id,
         },
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
     }),
     selectShareholder: builder.mutation<
       IRegistry,
       { id: string; shareholder_id: number }
     >({
       query: ({ id, shareholder_id }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/registries/${id}/shareholder`,
         body: {
           shareholder_id,
         },
       }),
-      invalidatesTags: ['REGISTRIES', 'REGISTRY'],
+      invalidatesTags: ["REGISTRIES", "REGISTRY"],
+    }),
+    getDuplicateTBs: builder.query<IDuplicateTB[], void>({
+      query: () => "/registries/duplicate-tbs",
     }),
   }),
 });
@@ -198,4 +202,5 @@ export const {
   useSelectBuilderMutation,
   useSelectReceiverMutation,
   useSelectShareholderMutation,
+  useLazyGetDuplicateTBsQuery,
 } = registriesApiSlice;
