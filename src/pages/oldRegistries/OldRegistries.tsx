@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, Table, Input, Typography, Spin, Button, Space, Tag } from 'antd';
 import { SearchOutlined, EyeOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { useGetOldRegistriesQuery } from '../../features/oldRegistries/oldRegistriesApiSlice';
@@ -18,10 +18,13 @@ const OldRegistries: React.FC = () => {
 
   const [searchInput, setSearchInput] = useState(urlSearch);
 
-  // Sync searchInput with URL on mount/change
-  useEffect(() => {
+  // Sync searchInput when the URL search param changes (e.g. back/forward nav).
+  // Adjusting state during render is preferred over an effect for this.
+  const [prevUrlSearch, setPrevUrlSearch] = useState(urlSearch);
+  if (urlSearch !== prevUrlSearch) {
+    setPrevUrlSearch(urlSearch);
     setSearchInput(urlSearch);
-  }, [urlSearch]);
+  }
 
   const { data, isLoading, error } = useGetOldRegistriesQuery({
     page,
@@ -144,7 +147,7 @@ const OldRegistries: React.FC = () => {
   };
 
   // Check if record contains OTKAZ text (case-insensitive)
-  const hasOtkazText = (record: any) => {
+  const hasOtkazText = (record: { ady_paychy_alan?: string }) => {
     const adyPaychyAlan = record.ady_paychy_alan?.toLowerCase() || '';
     return adyPaychyAlan.includes('otkaz');
   };

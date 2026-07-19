@@ -81,7 +81,12 @@ const AdditionalAgreements: React.FC<AdditionalAgreementsProps> = ({
     }
   };
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: {
+    agreement_number?: string;
+    agreement_date?: dayjs.Dayjs | null;
+    reason?: string;
+    additional_info?: string;
+  }) => {
     try {
       const agreementDate = values.agreement_date
         ? dayjs(values.agreement_date).format('YYYY-MM-DD')
@@ -127,7 +132,7 @@ const AdditionalAgreements: React.FC<AdditionalAgreementsProps> = ({
       title: '№',
       key: 'index',
       width: 60,
-      render: (_: any, __: any, index: number) => index + 1,
+      render: (_: unknown, __: unknown, index: number) => index + 1,
     },
     {
       title: 'Şertnama belgisi',
@@ -164,7 +169,7 @@ const AdditionalAgreements: React.FC<AdditionalAgreementsProps> = ({
       title: 'Hereketler',
       key: 'actions',
       width: 150,
-      render: (_: any, record: AdditionalAgreement) => (
+      render: (_: unknown, record: AdditionalAgreement) => (
         <Space>
           <Button
             type='link'

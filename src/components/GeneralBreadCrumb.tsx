@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { useIdAddedBreadCrumb } from '@/utils/hooks/paramsHooks';
 import { HomeOutlined, LeftCircleFilled } from '@ant-design/icons';
 import { Breadcrumb, Button, Space } from 'antd';

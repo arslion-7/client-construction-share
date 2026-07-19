@@ -6,7 +6,7 @@ export const useFocusInput = () => {
   useEffect(() => {
     if (inputRef.current) {
       // Simplified check
-      // @ts-expect-error
+      // @ts-expect-error focus() exists on the underlying input DOM element
       inputRef.current.focus();
     }
   }, []);

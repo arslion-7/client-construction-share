@@ -57,9 +57,7 @@ export function useSufColumns({
 export function useEditColumns() {
   const navigate = useNavigate();
 
-  let editColumns: TableProps<{ id: number; edit: string }>['columns'] = [];
-
-  editColumns = [
+  const editColumns: TableProps<{ id: number; edit: string }>['columns'] = [
     {
       title: 'Hereket',
       dataIndex: 'edit',

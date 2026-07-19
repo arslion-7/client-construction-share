@@ -4,7 +4,7 @@ import type { TourProps } from 'antd';
 import { hasSeenThemeTour, markThemeTourAsSeen } from '@/utils/tourUtils';
 
 interface ThemeTourProps {
-  themeSwitcherRef: React.RefObject<HTMLButtonElement>;
+  themeSwitcherRef: React.RefObject<HTMLButtonElement | null>;
 }
 
 export default function ThemeTour({ themeSwitcherRef }: ThemeTourProps) {

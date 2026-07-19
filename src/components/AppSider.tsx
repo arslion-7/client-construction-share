@@ -12,8 +12,7 @@ import {
   DashboardOutlined,
 } from '@ant-design/icons';
 import { Image, Layout, Menu } from 'antd';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 const { Sider } = Layout;
 
@@ -22,14 +21,9 @@ import { PATHS } from '@/routes/paths';
 
 export default function AppSider() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [selectedKeys, setSelectedKeys] = useState('/');
-
-  useEffect(() => {
-    const pathName = location.pathname;
-    console.log('pathName', pathName);
-    setSelectedKeys(location.pathname);
-  }, [location.pathname]);
+  const selectedKeys = location.pathname;
 
   const items = [
     {

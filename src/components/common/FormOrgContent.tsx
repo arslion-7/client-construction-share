@@ -4,7 +4,6 @@ import SubmitButton from '../button/SubmitButton';
 import { IOrg } from '@/features/generalTypes';
 import { useFocusInput } from './hooks';
 import { orgTypeOptions } from '@/utils/commonOptions';
-import { useEffect, useState } from 'react';
 
 interface IFormOrgContent {
   org: IOrg;
@@ -17,19 +16,12 @@ const FormOrgContent = ({ org, onFinish, loading }: IFormOrgContent) => {
 
   const defaultOrgNameLabel = 'Guramanyň ady';
 
-  const [orgNameLabel, setOrgNameLabel] = useState(defaultOrgNameLabel);
-
   const focusInput = useFocusInput();
 
   const orgType = Form.useWatch('org_type', form);
 
-  useEffect(() => {
-    if (orgType === 'Raýat') {
-      setOrgNameLabel('Raýat A.F.Aa');
-    } else {
-      setOrgNameLabel(defaultOrgNameLabel);
-    }
-  }, [orgType]);
+  const orgNameLabel =
+    orgType === 'Raýat' ? 'Raýat A.F.Aa' : defaultOrgNameLabel;
 
   return (
     <Form

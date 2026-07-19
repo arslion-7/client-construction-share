@@ -35,7 +35,7 @@ export default function ShareholdersTable({
   return (
     <Table
       rowKey='id'
-      // @ts-expect-error
+      // @ts-expect-error safeColumns type doesn't fully align with antd Table's column generics
       columns={safeColumns}
       dataSource={paginatedData?.data}
       pagination={getPagination<IShareholder[]>(paginatedData!)}

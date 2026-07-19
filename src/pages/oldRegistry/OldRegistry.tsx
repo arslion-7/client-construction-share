@@ -110,7 +110,10 @@ const OldRegistry: React.FC = () => {
   };
 
   // Handle Paychy form submission
-  const handlePaychyFormSubmit = async (values: any) => {
+  const handlePaychyFormSubmit = async (values: {
+    ady_paychy_alan: string;
+    sene_paychy_alan: string;
+  }) => {
     try {
       await updateOldRegistry({
         id: id || '',
