@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import RegistriesTable from "./RegistriesTable";
-import { Alert, Button, Flex, Modal, Skeleton, Table } from "antd";
+import { Alert, Button, Flex, Modal, Segmented, Skeleton, Table } from "antd";
 import TableHeader from "@/components/TableHeader/TableHeader";
 import { usePaginationSearch } from "@/utils/hooks/paramsHooks";
 import RegistriesBreadcrumb from "./RegistriesBreadcrumb";
+import { useSearchParams } from "react-router";
 import {
   useGetRegistriesQuery,
   useLazyGetDuplicateTBsQuery,
@@ -12,13 +13,27 @@ import { IDuplicateTB } from "@/features/registries/types";
 
 const Registries: React.FC = () => {
   const { page, pageSize, search } = usePaginationSearch();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const source = searchParams.get("source") || "";
+
+  const onChangeSource = (value: string) => {
+    if (value) {
+      searchParams.set("source", value);
+    } else {
+      searchParams.delete("source");
+    }
+    searchParams.set("page", "1");
+    setSearchParams(searchParams);
+  };
 
   const { data: paginatedData, isLoading: isLoadingGeneralContractors } =
     useGetRegistriesQuery({
       page,
       pageSize,
       search,
+      source,
     });
 
   const [
@@ -49,6 +64,15 @@ const Registries: React.FC = () => {
       <RegistriesBreadcrumb />
       <Flex gap={16}>
         <TableHeader />
+        <Segmented
+          value={source}
+          onChange={onChangeSource}
+          options={[
+            { label: "Ählisi", value: "" },
+            { label: "Täze", value: "new" },
+            { label: "Öňki", value: "old" },
+          ]}
+        />
         <Button
           onClick={handleCheckDuplicateTBs}
           loading={isLoadingDuplicateTBs}

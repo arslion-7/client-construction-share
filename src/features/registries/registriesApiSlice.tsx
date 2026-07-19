@@ -25,7 +25,9 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
         page = paginationInit.page,
         pageSize = paginationInit.pageSize,
         search = "",
-      }) => `/registries?page=${page}&pageSize=${pageSize}&search=${search}`,
+        source = "",
+      }) =>
+        `/registries?page=${page}&pageSize=${pageSize}&search=${search}&source=${source}`,
       providesTags: ["REGISTRIES"],
       // keepUnusedDataFor: 5,
     }),

@@ -10,6 +10,8 @@ import { IShareholder } from "../shareholders/types";
 
 export interface IRegistryRequest extends PaginatedRequest {
   some?: string;
+  // 'old' -> only registries migrated from old_registries, 'new' -> only manual ones
+  source?: string;
 }
 
 export interface IRegistryDates {
