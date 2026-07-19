@@ -11,6 +11,9 @@ export const lightTheme: ThemeConfig = {
     colorBgLayout: '#f5f5f5',
     colorText: '#262626',
     colorTextSecondary: '#595959',
+    // antd v5 token behind Typography type="secondary"
+    colorTextDescription: '#595959',
+    colorTextTertiary: '#8c8c8c',
     colorLink: '#2E7D32',
     colorLinkHover: '#1B5E20',
     colorBorder: '#d9d9d9',
@@ -98,6 +101,9 @@ export const darkTheme: ThemeConfig = {
     colorBgLayout: '#141414',
     colorText: '#ffffff',
     colorTextSecondary: '#a6a6a6',
+    // antd v5 token behind Typography type="secondary"
+    colorTextDescription: '#a6a6a6',
+    colorTextTertiary: '#8c8c8c',
     colorLink: '#2E7D32',
     colorLinkHover: '#388E3C',
     colorBorder: '#434343',
