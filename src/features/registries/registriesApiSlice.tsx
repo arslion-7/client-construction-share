@@ -7,6 +7,7 @@ import {
   IRegistry,
   IRegistryDates,
   IRegistryDenial,
+  IRegistryFilterOptions,
   IRegistryMail,
   IRegistryRequest,
 } from "./types";
@@ -26,8 +27,27 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
         pageSize = paginationInit.pageSize,
         search = "",
         source = "",
-      }) =>
-        `/registries?page=${page}&pageSize=${pageSize}&search=${search}&source=${source}`,
+        t_b = "",
+        gc_ids = "",
+        user_ids = "",
+        shareholder_q = "",
+        builder_q = "",
+        building_q = "",
+      }) => {
+        const params = new URLSearchParams({
+          page: String(page ?? paginationInit.page),
+          pageSize: String(pageSize ?? paginationInit.pageSize),
+          search: search ?? "",
+          source,
+          t_b,
+          gc_ids,
+          user_ids,
+          shareholder_q,
+          builder_q,
+          building_q,
+        });
+        return `/registries?${params.toString()}`;
+      },
       providesTags: ["REGISTRIES"],
       // keepUnusedDataFor: 5,
     }),
@@ -186,6 +206,10 @@ export const registriesApiSlice = apiWithTag.injectEndpoints({
     getDuplicateTBs: builder.query<IDuplicateTB[], void>({
       query: () => "/registries/duplicate-tbs",
     }),
+    getRegistryFilterOptions: builder.query<IRegistryFilterOptions, void>({
+      query: () => "/registries/filter-options",
+      providesTags: ["REGISTRIES"],
+    }),
   }),
 });
 
@@ -205,4 +229,5 @@ export const {
   useSelectReceiverMutation,
   useSelectShareholderMutation,
   useLazyGetDuplicateTBsQuery,
+  useGetRegistryFilterOptionsQuery,
 } = registriesApiSlice;

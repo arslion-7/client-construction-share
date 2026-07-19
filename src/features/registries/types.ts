@@ -12,6 +12,23 @@ export interface IRegistryRequest extends PaginatedRequest {
   some?: string;
   // 'old' -> only registries migrated from old_registries, 'new' -> only manual ones
   source?: string;
+  // column filters
+  t_b?: string;
+  gc_ids?: string;
+  user_ids?: string;
+  shareholder_q?: string;
+  builder_q?: string;
+  building_q?: string;
+}
+
+export interface IRegistryFilterOption {
+  id: number;
+  name: string;
+}
+
+export interface IRegistryFilterOptions {
+  general_contractors: IRegistryFilterOption[];
+  users: IRegistryFilterOption[];
 }
 
 export interface IRegistryDates {

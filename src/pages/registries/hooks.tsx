@@ -2,8 +2,22 @@ import React from 'react';
 import { Button, type TableProps } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
-import { IRegistry } from '@/features/registries/types';
+import { IRegistry, IRegistryFilterOptions } from '@/features/registries/types';
 import { UndefinedTag } from '@/components/table/UndefinedTag';
+import {
+  getTextFilterDropdown,
+  getFilterIcon,
+} from '@/components/table/TextFilterDropdown';
+
+// Current server-side column filter values (from the URL)
+export interface IRegistryColumnFilters {
+  t_b: string;
+  gc_ids: string[];
+  user_ids: string[];
+  shareholder_q: string;
+  builder_q: string;
+  building_q: string;
+}
 
 // Component for expandable text with row expand state
 const ExpandableText: React.FC<{
@@ -46,7 +60,13 @@ const ExpandableText: React.FC<{
   );
 };
 
-export function useColumns() {
+export function useColumns({
+  filterOptions,
+  filterValues,
+}: {
+  filterOptions?: IRegistryFilterOptions;
+  filterValues: IRegistryColumnFilters;
+}) {
   const navigate = useNavigate();
   const [expandedRows, setExpandedRows] = React.useState<
     Record<number, boolean>
@@ -62,6 +82,9 @@ export function useColumns() {
       title: 'PGGŞ №',
       dataIndex: 't_b',
       key: 't_b',
+      filterDropdown: getTextFilterDropdown('PGGŞ №'),
+      filterIcon: getFilterIcon(!!filterValues.t_b),
+      filteredValue: filterValues.t_b ? [filterValues.t_b] : null,
     },
     {
       title: 'Hereket',
@@ -82,6 +105,14 @@ export function useColumns() {
     {
       title: 'Baş potratçy',
       key: 'general_contractor',
+      filters: (filterOptions?.general_contractors || []).map((o) => ({
+        text: o.name || `#${o.id}`,
+        value: o.id,
+      })),
+      filterSearch: true,
+      filteredValue: filterValues.gc_ids.length
+        ? filterValues.gc_ids.map(Number)
+        : null,
       render: (_, record) => (
         <>
           {record.general_contractor ? (
@@ -95,6 +126,14 @@ export function useColumns() {
     {
       title: 'Ulanyjy',
       key: 'user',
+      filters: (filterOptions?.users || []).map((o) => ({
+        text: o.name || `#${o.id}`,
+        value: o.id,
+      })),
+      filterSearch: true,
+      filteredValue: filterValues.user_ids.length
+        ? filterValues.user_ids.map(Number)
+        : null,
       render: (_, record) => (
         <>{record.user ? record.user.email : <UndefinedTag />}</>
       ),
@@ -102,6 +141,11 @@ export function useColumns() {
     {
       title: 'Paýçy maglumaty',
       key: 'shareholder_description',
+      filterDropdown: getTextFilterDropdown('Paýçy boýunça gözle'),
+      filterIcon: getFilterIcon(!!filterValues.shareholder_q),
+      filteredValue: filterValues.shareholder_q
+        ? [filterValues.shareholder_q]
+        : null,
       render: (_, record) => (
         <ExpandableText
           text={record.shareholder_description || ''}
@@ -122,6 +166,11 @@ export function useColumns() {
     {
       title: 'Desga maglumaty',
       key: 'building_description',
+      filterDropdown: getTextFilterDropdown('Desga boýunça gözle'),
+      filterIcon: getFilterIcon(!!filterValues.building_q),
+      filteredValue: filterValues.building_q
+        ? [filterValues.building_q]
+        : null,
       render: (_, record) => (
         <ExpandableText
           text={record.building_description || ''}
@@ -132,6 +181,9 @@ export function useColumns() {
     {
       title: 'Gurujy maglumaty',
       key: 'builder_description',
+      filterDropdown: getTextFilterDropdown('Gurujy boýunça gözle'),
+      filterIcon: getFilterIcon(!!filterValues.builder_q),
+      filteredValue: filterValues.builder_q ? [filterValues.builder_q] : null,
       render: (_, record) => (
         <ExpandableText
           text={record.builder_description || ''}

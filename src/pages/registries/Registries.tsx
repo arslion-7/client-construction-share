@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import RegistriesTable from "./RegistriesTable";
 import {
-  Alert,
   Button,
   Flex,
   Modal,
   Segmented,
   Skeleton,
+  Space,
   Table,
   Tag,
+  Typography,
 } from "antd";
 import TableHeader from "@/components/TableHeader/TableHeader";
 import { usePaginationSearch } from "@/utils/hooks/paramsHooks";
@@ -43,6 +44,12 @@ const Registries: React.FC = () => {
       pageSize,
       search,
       source,
+      t_b: searchParams.get("t_b") || "",
+      gc_ids: searchParams.get("gc_ids") || "",
+      user_ids: searchParams.get("user_ids") || "",
+      shareholder_q: searchParams.get("shareholder_q") || "",
+      builder_q: searchParams.get("builder_q") || "",
+      building_q: searchParams.get("building_q") || "",
     });
 
   const [
@@ -89,27 +96,24 @@ const Registries: React.FC = () => {
           Gaýtalanýan T/B-leri barla
         </Button>
       </Flex>
-      <Alert
-        message={
-          <Flex gap={16} wrap>
-            <span>
-              <Tag color="red" style={{ margin: 0, marginRight: 8 }}>
-                Gyzyl setirler
-              </Tag>
-              Ret edilen ýazgylar (çep tarapynda gyzyl çyzyk)
-            </span>
-            <span>
-              <Tag color="orange" style={{ margin: 0, marginRight: 8 }}>
-                Mämişi setirler
-              </Tag>
-              Öňki reýestrden geçirilen ýazgylar (çep tarapynda mämişi çyzyk)
-            </span>
-          </Flex>
-        }
-        type="info"
-        showIcon
-        closable
-      />
+      <Flex gap={24} wrap align="center">
+        <Space size={8}>
+          <Tag color="red" style={{ margin: 0 }}>
+            Gyzyl setirler
+          </Tag>
+          <Typography.Text type="secondary">
+            Ret edilen ýazgylar (çep tarapynda gyzyl çyzyk)
+          </Typography.Text>
+        </Space>
+        <Space size={8}>
+          <Tag color="orange" style={{ margin: 0 }}>
+            Mämişi setirler
+          </Tag>
+          <Typography.Text type="secondary">
+            Öňki reýestrden geçirilen ýazgylar (çep tarapynda mämişi çyzyk)
+          </Typography.Text>
+        </Space>
+      </Flex>
       {isLoadingGeneralContractors ? (
         <Skeleton />
       ) : (
