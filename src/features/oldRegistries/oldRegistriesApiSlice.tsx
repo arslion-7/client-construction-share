@@ -29,8 +29,16 @@ interface UpdateOldRegistryResponse {
   data: OldRegistry;
 }
 
+// Define the migrate response structure
+export interface MigrateOldRegistriesResponse {
+  message: string;
+  total: number;
+  migrated: number;
+  skipped: number;
+}
+
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['OLD_REGISTRIES', 'OLD_REGISTRY'],
+  addTagTypes: ['OLD_REGISTRIES', 'OLD_REGISTRY', 'REGISTRIES', 'REGISTRY'],
 });
 
 export const oldRegistriesApiSlice = apiWithTag.injectEndpoints({
@@ -58,6 +66,13 @@ export const oldRegistriesApiSlice = apiWithTag.injectEndpoints({
       }),
       invalidatesTags: ['OLD_REGISTRY', 'OLD_REGISTRIES'],
     }),
+    migrateOldRegistries: builder.mutation<MigrateOldRegistriesResponse, void>({
+      query: () => ({
+        url: '/old-registries/migrate',
+        method: 'POST',
+      }),
+      invalidatesTags: ['OLD_REGISTRIES', 'REGISTRIES', 'REGISTRY'],
+    }),
   }),
 });
 
@@ -65,4 +80,5 @@ export const {
   useGetOldRegistriesQuery,
   useGetOldRegistryQuery,
   useUpdateOldRegistryMutation,
+  useMigrateOldRegistriesMutation,
 } = oldRegistriesApiSlice;

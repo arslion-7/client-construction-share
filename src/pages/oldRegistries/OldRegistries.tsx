@@ -1,7 +1,26 @@
 import React, { useState } from 'react';
-import { Card, Table, Input, Typography, Spin, Button, Space, Tag } from 'antd';
-import { SearchOutlined, EyeOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { useGetOldRegistriesQuery } from '../../features/oldRegistries/oldRegistriesApiSlice';
+import {
+  Card,
+  Table,
+  Input,
+  Typography,
+  Spin,
+  Button,
+  Space,
+  Tag,
+  Popconfirm,
+  message,
+} from 'antd';
+import {
+  SearchOutlined,
+  EyeOutlined,
+  InfoCircleOutlined,
+  SwapOutlined,
+} from '@ant-design/icons';
+import {
+  useGetOldRegistriesQuery,
+  useMigrateOldRegistriesMutation,
+} from '../../features/oldRegistries/oldRegistriesApiSlice';
 import OldRegistriesBreadcrumb from './OldRegistriesBreadcrumb';
 import { useNavigate, useSearchParams } from 'react-router';
 
@@ -31,6 +50,21 @@ const OldRegistries: React.FC = () => {
     limit: pageSize,
     search: urlSearch,
   });
+
+  const [migrateOldRegistries, { isLoading: isMigrating }] =
+    useMigrateOldRegistriesMutation();
+
+  const handleMigrate = async () => {
+    try {
+      const result = await migrateOldRegistries().unwrap();
+      message.success(
+        `Migrated: ${result.migrated}, already migrated (skipped): ${result.skipped}, total: ${result.total}`,
+        8
+      );
+    } catch {
+      message.error('Migration failed');
+    }
+  };
 
   const handleViewDetails = (record: { t_b: number }) => {
     navigate(`/old-registries/${record.t_b}`);
@@ -171,8 +205,30 @@ const OldRegistries: React.FC = () => {
       </div>
       <Card>
         <div style={{ marginBottom: '16px' }}>
-          <Title level={2}>Old Registries</Title>
-          <p>Legacy data migrated from MySQL database</p>
+          <Space
+            style={{ width: '100%', justifyContent: 'space-between' }}
+            align='start'
+          >
+            <div>
+              <Title level={2}>Old Registries</Title>
+              <p>Legacy data migrated from MySQL database</p>
+            </div>
+            <Popconfirm
+              title='Täze reýestre geçirmek'
+              description='Ähli öňki reýestr maglumatlary täze reýestre geçirilsinmi? Öň geçirilenler gaýtalanmaz.'
+              onConfirm={handleMigrate}
+              okText='Hawa'
+              cancelText='Ýok'
+            >
+              <Button
+                type='primary'
+                icon={<SwapOutlined />}
+                loading={isMigrating}
+              >
+                Täze reýestre geçir
+              </Button>
+            </Popconfirm>
+          </Space>
         </div>
 
         <div style={{ marginBottom: '16px' }}>
