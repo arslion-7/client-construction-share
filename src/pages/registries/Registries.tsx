@@ -81,7 +81,7 @@ const Registries: React.FC = () => {
         </Button>
       </Flex>
       <Alert
-        message="Reňkli setirler - Ret edilen ýazgylar (çep tarapynda gyzyl çyzyk)"
+        message="Gyzyl setirler - Ret edilen ýazgylar (çep tarapynda gyzyl çyzyk). Mämişi setirler - Öňki reýestrden geçirilen ýazgylar (çep tarapynda mämişi çyzyk)"
         type="info"
         showIcon
         closable

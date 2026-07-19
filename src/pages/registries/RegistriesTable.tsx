@@ -41,6 +41,10 @@ export default function RegistriesTable({
         if (record.denial_reason || record.denial_date || record.denial_additional_info) {
           return 'denial-row';
         }
+        // Rows migrated from the old registries
+        if (record.old_registry_id) {
+          return 'old-registry-row';
+        }
         return '';
       }}
       onRow={(record) => ({
