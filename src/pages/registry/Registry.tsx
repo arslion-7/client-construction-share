@@ -8,6 +8,7 @@ import {
   BankOutlined,
   FileAddOutlined,
   CloseCircleOutlined,
+  HistoryOutlined,
 } from '@ant-design/icons';
 
 import { useIsNew } from '@/utils/hooks/paramsHooks';
@@ -23,6 +24,7 @@ import RegistryMail from './RegistryMail';
 import Contract from './contract/Contract';
 import AdditionalAgreements from './additionalAgreements/AdditionalAgreements';
 import Denial from './denial/Denial';
+import OldRegistryData from './OldRegistryData';
 // import RegistryDatesForm from './dates/RegistryDatesForm';
 
 export default function Registry() {
@@ -128,12 +130,21 @@ export default function Registry() {
       disabled: isNew,
     },
 
-    // {
-    //   key: 'old',
-    //   label: 'Öňki',
-    //   children: <Card></Card>,
-    //   disabled: isNew
-    // }
+    ...(registry?.old_registry_id
+      ? [
+          {
+            key: 'old',
+            label: (
+              <span>
+                <HistoryOutlined style={{ marginRight: 8 }} />
+                Öňki
+              </span>
+            ),
+            children: <Card>{<OldRegistryData registry={registry!} />}</Card>,
+            disabled: isNew,
+          },
+        ]
+      : []),
   ];
 
   return (

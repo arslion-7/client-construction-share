@@ -10,6 +10,25 @@ import { IShareholder } from "../shareholders/types";
 
 export interface IRegistryRequest extends PaginatedRequest {
   some?: string;
+  // 'old' -> only registries migrated from old_registries, 'new' -> only manual ones
+  source?: string;
+  // column filters
+  t_b?: string;
+  gc_ids?: string;
+  user_ids?: string;
+  shareholder_q?: string;
+  builder_q?: string;
+  building_q?: string;
+}
+
+export interface IRegistryFilterOption {
+  id: number;
+  name: string;
+}
+
+export interface IRegistryFilterOptions {
+  general_contractors: IRegistryFilterOption[];
+  users: IRegistryFilterOption[];
 }
 
 export interface IRegistryDates {
@@ -50,12 +69,50 @@ export interface IDuplicateTB {
   t_b: number;
 }
 
+// Verbatim legacy values copied from old_registries during migration.
+// old_registry_id present => this registry comes from the old registry data.
+export interface IRegistryOldData {
+  old_registry_id?: number;
+  old_t_b?: number;
+  old_min_hat?: string;
+  old_sene_hat_min_to_mud?: string;
+  old_gurujy?: string;
+  old_paychy?: string;
+  old_sertnama_gurujy_paychy?: string;
+  old_desga?: string;
+  old_baha_umumy?: string;
+  old_meydan_umumy?: string;
+  old_kep_resminama?: string;
+  old_emlak_paychy?: string;
+  old_baha_paychy?: string;
+  old_baha_1m2_paychy?: string;
+  old_salgy_desga?: string;
+  old_salgy_gurujy?: string;
+  old_salgy_paychy?: string;
+  old_bash_potr?: string;
+  old_sertnama_gur_potr?: string;
+  old_potratchy_komek?: string;
+  old_shahadatnama?: string;
+  old_ygtyyarnama?: string;
+  old_patent_pasport?: string;
+  old_sene_bashy_songy?: string;
+  old_sene_seredilen?: string;
+  old_sene_hasaba_alnan?: string;
+  old_wezipe_alan_adam?: string;
+  old_ady_alan_adam?: string;
+  old_sene_san_sertnama?: string;
+  old_ady_paychy_alan?: string;
+  old_sene_paychy_alan?: string;
+  old_login?: string;
+}
+
 export interface IRegistry
   extends IGeneral,
     IRegistryDates,
     IRegistryMail,
     IContract,
-    IRegistryDenial {
+    IRegistryDenial,
+    IRegistryOldData {
   t_b: number;
   user_id: number | null;
   user: IUser | null;

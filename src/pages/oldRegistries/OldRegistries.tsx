@@ -1,7 +1,35 @@
 import React, { useState } from 'react';
-import { Card, Table, Input, Typography, Spin, Button, Space, Tag } from 'antd';
-import { SearchOutlined, EyeOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { useGetOldRegistriesQuery } from '../../features/oldRegistries/oldRegistriesApiSlice';
+import {
+  Card,
+  Table,
+  Input,
+  Typography,
+  Spin,
+  Button,
+  Space,
+  Tag,
+  Popconfirm,
+  message,
+  Upload,
+  Modal,
+  Descriptions,
+} from 'antd';
+import {
+  SearchOutlined,
+  EyeOutlined,
+  InfoCircleOutlined,
+  SwapOutlined,
+  UndoOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
+import {
+  useGetOldRegistriesQuery,
+  useMigrateOldRegistriesMutation,
+  useRollbackOldRegistriesMigrationMutation,
+  useImportAgreementsMutation,
+  useRollbackImportedAgreementsMutation,
+  ImportAgreementsResponse,
+} from '../../features/oldRegistries/oldRegistriesApiSlice';
 import OldRegistriesBreadcrumb from './OldRegistriesBreadcrumb';
 import { useNavigate, useSearchParams } from 'react-router';
 
@@ -31,6 +59,76 @@ const OldRegistries: React.FC = () => {
     limit: pageSize,
     search: urlSearch,
   });
+
+  const [migrateOldRegistries, { isLoading: isMigrating }] =
+    useMigrateOldRegistriesMutation();
+  const [rollbackMigration, { isLoading: isRollingBack }] =
+    useRollbackOldRegistriesMigrationMutation();
+
+  const handleMigrate = async () => {
+    try {
+      const result = await migrateOldRegistries().unwrap();
+      const created = Object.entries(result.created || {})
+        .map(([k, v]) => `${k}: ${v}`)
+        .join(', ');
+      message.success(
+        `Migrated: ${result.migrated}, skipped: ${result.skipped}, total: ${result.total}` +
+          (created ? `. Created — ${created}` : ''),
+        10
+      );
+    } catch {
+      message.error('Migration failed');
+    }
+  };
+
+  const handleRollback = async () => {
+    try {
+      const result = await rollbackMigration().unwrap();
+      const deleted = Object.entries(result.deleted || {})
+        .map(([k, v]) => `${k}: ${v}`)
+        .join(', ');
+      message.success(`Rollback done. Deleted — ${deleted}`, 10);
+    } catch {
+      message.error('Rollback failed');
+    }
+  };
+
+  const [importAgreements, { isLoading: isImporting }] =
+    useImportAgreementsMutation();
+  const [rollbackAgreements, { isLoading: isRollingBackAgreements }] =
+    useRollbackImportedAgreementsMutation();
+  const [importResult, setImportResult] =
+    useState<ImportAgreementsResponse | null>(null);
+
+  const handleImportAgreements = async (file: File) => {
+    try {
+      const result = await importAgreements(file).unwrap();
+      setImportResult(result);
+    } catch {
+      message.error('Goşmaça şertnamalary ýüklemek başartmady');
+    }
+  };
+
+  const handleRollbackAgreements = async () => {
+    try {
+      const result = await rollbackAgreements().unwrap();
+      message.success(`Pozuldy: ${result.deleted} goşmaça şertnama`, 8);
+    } catch {
+      message.error('Rollback failed');
+    }
+  };
+
+  const problemColumns = [
+    { title: 'CSV t_b', dataIndex: 't_b', key: 't_b', width: 90 },
+    { title: 'Paýçy', dataIndex: 'paychy', key: 'paychy' },
+    {
+      title: 'Reýestrler',
+      dataIndex: 'registry_ids',
+      key: 'registry_ids',
+      width: 140,
+      render: (ids?: number[]) => (ids ? ids.join(', ') : '-'),
+    },
+  ];
 
   const handleViewDetails = (record: { t_b: number }) => {
     navigate(`/old-registries/${record.t_b}`);
@@ -171,8 +269,72 @@ const OldRegistries: React.FC = () => {
       </div>
       <Card>
         <div style={{ marginBottom: '16px' }}>
-          <Title level={2}>Old Registries</Title>
-          <p>Legacy data migrated from MySQL database</p>
+          <Space
+            style={{ width: '100%', justifyContent: 'space-between' }}
+            align='start'
+          >
+            <div>
+              <Title level={2}>Old Registries</Title>
+              <p>Legacy data migrated from MySQL database</p>
+            </div>
+            <Space>
+              <Popconfirm
+                title='Täze reýestre geçirmek'
+                description='Ähli öňki reýestr maglumatlary täze reýestre geçirilsinmi? Öň geçirilenler gaýtalanmaz.'
+                onConfirm={handleMigrate}
+                okText='Hawa'
+                cancelText='Ýok'
+              >
+                <Button
+                  type='primary'
+                  icon={<SwapOutlined />}
+                  loading={isMigrating}
+                >
+                  Täze reýestre geçir
+                </Button>
+              </Popconfirm>
+              <Popconfirm
+                title='Geçirilen maglumatlary yzyna almak'
+                description='Öňki reýestrden geçirilen ähli ýazgylar täze reýestrden pozulsynmy? El bilen girizilen maglumatlara degilmez.'
+                onConfirm={handleRollback}
+                okText='Hawa'
+                cancelText='Ýok'
+                okButtonProps={{ danger: true }}
+              >
+                <Button danger icon={<UndoOutlined />} loading={isRollingBack}>
+                  Yzyna al
+                </Button>
+              </Popconfirm>
+              <Upload
+                accept='.csv'
+                showUploadList={false}
+                beforeUpload={(file) => {
+                  handleImportAgreements(file);
+                  return false;
+                }}
+              >
+                <Button icon={<UploadOutlined />} loading={isImporting}>
+                  Goşmaça şertnamalary ýükle (CSV)
+                </Button>
+              </Upload>
+              <Popconfirm
+                title='Ýüklenen goşmaça şertnamalary pozmak'
+                description='CSV-den ýüklenen ähli goşmaça şertnamalar pozulsynmy? El bilen girizilenlere degilmez.'
+                onConfirm={handleRollbackAgreements}
+                okText='Hawa'
+                cancelText='Ýok'
+                okButtonProps={{ danger: true }}
+              >
+                <Button
+                  danger
+                  icon={<UndoOutlined />}
+                  loading={isRollingBackAgreements}
+                >
+                  Şertnamalary poz
+                </Button>
+              </Popconfirm>
+            </Space>
+          </Space>
         </div>
 
         <div style={{ marginBottom: '16px' }}>
@@ -237,6 +399,68 @@ const OldRegistries: React.FC = () => {
           />
         </Spin>
       </Card>
+
+      <Modal
+        title='Goşmaça şertnamalary ýüklemegiň netijesi'
+        open={!!importResult}
+        onCancel={() => setImportResult(null)}
+        footer={
+          <Button type='primary' onClick={() => setImportResult(null)}>
+            Ýap
+          </Button>
+        }
+        width={800}
+      >
+        {importResult && (
+          <Space direction='vertical' style={{ width: '100%' }} size={16}>
+            <Descriptions bordered size='small' column={2}>
+              <Descriptions.Item label='Jemi'>
+                {importResult.total}
+              </Descriptions.Item>
+              <Descriptions.Item label='Ýüklendi'>
+                {importResult.imported}
+              </Descriptions.Item>
+              <Descriptions.Item label='Öň ýüklenen (geçirildi)'>
+                {importResult.skipped_existing}
+              </Descriptions.Item>
+              <Descriptions.Item label='Tapylmady / köp gabat gelen'>
+                {(importResult.unmatched?.length || 0) +
+                  (importResult.ambiguous?.length || 0)}
+              </Descriptions.Item>
+            </Descriptions>
+            {!!importResult.unmatched?.length && (
+              <>
+                <Text strong>
+                  Reýestri tapylmadyk paýçylar (
+                  {importResult.unmatched.length})
+                </Text>
+                <Table
+                  columns={problemColumns}
+                  dataSource={importResult.unmatched}
+                  rowKey='t_b'
+                  size='small'
+                  pagination={{ pageSize: 5 }}
+                />
+              </>
+            )}
+            {!!importResult.ambiguous?.length && (
+              <>
+                <Text strong>
+                  Birnäçe reýestre gabat gelenler (
+                  {importResult.ambiguous.length})
+                </Text>
+                <Table
+                  columns={problemColumns}
+                  dataSource={importResult.ambiguous}
+                  rowKey='t_b'
+                  size='small'
+                  pagination={{ pageSize: 5 }}
+                />
+              </>
+            )}
+          </Space>
+        )}
+      </Modal>
     </div>
   );
 };

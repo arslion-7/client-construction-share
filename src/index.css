@@ -128,3 +128,22 @@ body {
 [data-theme='dark'] .otkaz-row:hover > td {
   background-color: #722ed1 !important;
 }
+
+/* Registries migrated from old_registries - amber tint with orange left bar */
+[data-theme='light'] .old-registry-row {
+  background-color: #fff7e6 !important;
+  border-left: 6px solid #fa8c16 !important;
+}
+
+[data-theme='light'] .old-registry-row:hover > td {
+  background-color: #ffe7ba !important;
+}
+
+[data-theme='dark'] .old-registry-row {
+  background-color: #442a00 !important;
+  border-left: 6px solid #fa8c16 !important;
+}
+
+[data-theme='dark'] .old-registry-row:hover > td {
+  background-color: #613400 !important;
+}
