@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import RegistriesTable from "./RegistriesTable";
-import { Alert, Button, Flex, Modal, Segmented, Skeleton, Table } from "antd";
+import {
+  Alert,
+  Button,
+  Flex,
+  Modal,
+  Segmented,
+  Skeleton,
+  Table,
+  Tag,
+} from "antd";
 import TableHeader from "@/components/TableHeader/TableHeader";
 import { usePaginationSearch } from "@/utils/hooks/paramsHooks";
 import RegistriesBreadcrumb from "./RegistriesBreadcrumb";
@@ -81,7 +90,22 @@ const Registries: React.FC = () => {
         </Button>
       </Flex>
       <Alert
-        message="Gyzyl setirler - Ret edilen ýazgylar (çep tarapynda gyzyl çyzyk). Mämişi setirler - Öňki reýestrden geçirilen ýazgylar (çep tarapynda mämişi çyzyk)"
+        message={
+          <Flex gap={16} wrap>
+            <span>
+              <Tag color="red" style={{ margin: 0, marginRight: 8 }}>
+                Gyzyl setirler
+              </Tag>
+              Ret edilen ýazgylar (çep tarapynda gyzyl çyzyk)
+            </span>
+            <span>
+              <Tag color="orange" style={{ margin: 0, marginRight: 8 }}>
+                Mämişi setirler
+              </Tag>
+              Öňki reýestrden geçirilen ýazgylar (çep tarapynda mämişi çyzyk)
+            </span>
+          </Flex>
+        }
         type="info"
         showIcon
         closable
