@@ -44,8 +44,35 @@ export interface RollbackMigrationResponse {
   deleted: Record<string, number>;
 }
 
+// Rows the agreements import could not attach to exactly one registry
+export interface AgreementProblemRow {
+  t_b: number;
+  paychy: string;
+  registry_ids?: number[];
+}
+
+export interface ImportAgreementsResponse {
+  message: string;
+  total: number;
+  imported: number;
+  skipped_existing: number;
+  unmatched: AgreementProblemRow[] | null;
+  ambiguous: AgreementProblemRow[] | null;
+}
+
+export interface RollbackAgreementsResponse {
+  message: string;
+  deleted: number;
+}
+
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ['OLD_REGISTRIES', 'OLD_REGISTRY', 'REGISTRIES', 'REGISTRY'],
+  addTagTypes: [
+    'OLD_REGISTRIES',
+    'OLD_REGISTRY',
+    'REGISTRIES',
+    'REGISTRY',
+    'ADDITIONAL_AGREEMENTS',
+  ],
 });
 
 export const oldRegistriesApiSlice = apiWithTag.injectEndpoints({
@@ -90,6 +117,28 @@ export const oldRegistriesApiSlice = apiWithTag.injectEndpoints({
       }),
       invalidatesTags: ['OLD_REGISTRIES', 'REGISTRIES', 'REGISTRY'],
     }),
+    importAgreements: builder.mutation<ImportAgreementsResponse, File>({
+      query: (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return {
+          url: '/old-registries/import-agreements',
+          method: 'POST',
+          body: formData,
+        };
+      },
+      invalidatesTags: ['ADDITIONAL_AGREEMENTS'],
+    }),
+    rollbackImportedAgreements: builder.mutation<
+      RollbackAgreementsResponse,
+      void
+    >({
+      query: () => ({
+        url: '/old-registries/rollback-agreements',
+        method: 'POST',
+      }),
+      invalidatesTags: ['ADDITIONAL_AGREEMENTS'],
+    }),
   }),
 });
 
@@ -99,4 +148,6 @@ export const {
   useUpdateOldRegistryMutation,
   useMigrateOldRegistriesMutation,
   useRollbackOldRegistriesMigrationMutation,
+  useImportAgreementsMutation,
+  useRollbackImportedAgreementsMutation,
 } = oldRegistriesApiSlice;

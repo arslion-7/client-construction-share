@@ -10,6 +10,9 @@ import {
   Tag,
   Popconfirm,
   message,
+  Upload,
+  Modal,
+  Descriptions,
 } from 'antd';
 import {
   SearchOutlined,
@@ -17,11 +20,15 @@ import {
   InfoCircleOutlined,
   SwapOutlined,
   UndoOutlined,
+  UploadOutlined,
 } from '@ant-design/icons';
 import {
   useGetOldRegistriesQuery,
   useMigrateOldRegistriesMutation,
   useRollbackOldRegistriesMigrationMutation,
+  useImportAgreementsMutation,
+  useRollbackImportedAgreementsMutation,
+  ImportAgreementsResponse,
 } from '../../features/oldRegistries/oldRegistriesApiSlice';
 import OldRegistriesBreadcrumb from './OldRegistriesBreadcrumb';
 import { useNavigate, useSearchParams } from 'react-router';
@@ -85,6 +92,43 @@ const OldRegistries: React.FC = () => {
       message.error('Rollback failed');
     }
   };
+
+  const [importAgreements, { isLoading: isImporting }] =
+    useImportAgreementsMutation();
+  const [rollbackAgreements, { isLoading: isRollingBackAgreements }] =
+    useRollbackImportedAgreementsMutation();
+  const [importResult, setImportResult] =
+    useState<ImportAgreementsResponse | null>(null);
+
+  const handleImportAgreements = async (file: File) => {
+    try {
+      const result = await importAgreements(file).unwrap();
+      setImportResult(result);
+    } catch {
+      message.error('Goşmaça şertnamalary ýüklemek başartmady');
+    }
+  };
+
+  const handleRollbackAgreements = async () => {
+    try {
+      const result = await rollbackAgreements().unwrap();
+      message.success(`Pozuldy: ${result.deleted} goşmaça şertnama`, 8);
+    } catch {
+      message.error('Rollback failed');
+    }
+  };
+
+  const problemColumns = [
+    { title: 'CSV t_b', dataIndex: 't_b', key: 't_b', width: 90 },
+    { title: 'Paýçy', dataIndex: 'paychy', key: 'paychy' },
+    {
+      title: 'Reýestrler',
+      dataIndex: 'registry_ids',
+      key: 'registry_ids',
+      width: 140,
+      render: (ids?: number[]) => (ids ? ids.join(', ') : '-'),
+    },
+  ];
 
   const handleViewDetails = (record: { t_b: number }) => {
     navigate(`/old-registries/${record.t_b}`);
@@ -261,6 +305,34 @@ const OldRegistries: React.FC = () => {
                   Yzyna al
                 </Button>
               </Popconfirm>
+              <Upload
+                accept='.csv'
+                showUploadList={false}
+                beforeUpload={(file) => {
+                  handleImportAgreements(file);
+                  return false;
+                }}
+              >
+                <Button icon={<UploadOutlined />} loading={isImporting}>
+                  Goşmaça şertnamalary ýükle (CSV)
+                </Button>
+              </Upload>
+              <Popconfirm
+                title='Ýüklenen goşmaça şertnamalary pozmak'
+                description='CSV-den ýüklenen ähli goşmaça şertnamalar pozulsynmy? El bilen girizilenlere degilmez.'
+                onConfirm={handleRollbackAgreements}
+                okText='Hawa'
+                cancelText='Ýok'
+                okButtonProps={{ danger: true }}
+              >
+                <Button
+                  danger
+                  icon={<UndoOutlined />}
+                  loading={isRollingBackAgreements}
+                >
+                  Şertnamalary poz
+                </Button>
+              </Popconfirm>
             </Space>
           </Space>
         </div>
@@ -327,6 +399,68 @@ const OldRegistries: React.FC = () => {
           />
         </Spin>
       </Card>
+
+      <Modal
+        title='Goşmaça şertnamalary ýüklemegiň netijesi'
+        open={!!importResult}
+        onCancel={() => setImportResult(null)}
+        footer={
+          <Button type='primary' onClick={() => setImportResult(null)}>
+            Ýap
+          </Button>
+        }
+        width={800}
+      >
+        {importResult && (
+          <Space direction='vertical' style={{ width: '100%' }} size={16}>
+            <Descriptions bordered size='small' column={2}>
+              <Descriptions.Item label='Jemi'>
+                {importResult.total}
+              </Descriptions.Item>
+              <Descriptions.Item label='Ýüklendi'>
+                {importResult.imported}
+              </Descriptions.Item>
+              <Descriptions.Item label='Öň ýüklenen (geçirildi)'>
+                {importResult.skipped_existing}
+              </Descriptions.Item>
+              <Descriptions.Item label='Tapylmady / köp gabat gelen'>
+                {(importResult.unmatched?.length || 0) +
+                  (importResult.ambiguous?.length || 0)}
+              </Descriptions.Item>
+            </Descriptions>
+            {!!importResult.unmatched?.length && (
+              <>
+                <Text strong>
+                  Reýestri tapylmadyk paýçylar (
+                  {importResult.unmatched.length})
+                </Text>
+                <Table
+                  columns={problemColumns}
+                  dataSource={importResult.unmatched}
+                  rowKey='t_b'
+                  size='small'
+                  pagination={{ pageSize: 5 }}
+                />
+              </>
+            )}
+            {!!importResult.ambiguous?.length && (
+              <>
+                <Text strong>
+                  Birnäçe reýestre gabat gelenler (
+                  {importResult.ambiguous.length})
+                </Text>
+                <Table
+                  columns={problemColumns}
+                  dataSource={importResult.ambiguous}
+                  rowKey='t_b'
+                  size='small'
+                  pagination={{ pageSize: 5 }}
+                />
+              </>
+            )}
+          </Space>
+        )}
+      </Modal>
     </div>
   );
 };
