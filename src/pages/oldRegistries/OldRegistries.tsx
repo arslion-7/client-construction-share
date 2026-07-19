@@ -16,10 +16,12 @@ import {
   EyeOutlined,
   InfoCircleOutlined,
   SwapOutlined,
+  UndoOutlined,
 } from '@ant-design/icons';
 import {
   useGetOldRegistriesQuery,
   useMigrateOldRegistriesMutation,
+  useRollbackOldRegistriesMigrationMutation,
 } from '../../features/oldRegistries/oldRegistriesApiSlice';
 import OldRegistriesBreadcrumb from './OldRegistriesBreadcrumb';
 import { useNavigate, useSearchParams } from 'react-router';
@@ -53,16 +55,34 @@ const OldRegistries: React.FC = () => {
 
   const [migrateOldRegistries, { isLoading: isMigrating }] =
     useMigrateOldRegistriesMutation();
+  const [rollbackMigration, { isLoading: isRollingBack }] =
+    useRollbackOldRegistriesMigrationMutation();
 
   const handleMigrate = async () => {
     try {
       const result = await migrateOldRegistries().unwrap();
+      const created = Object.entries(result.created || {})
+        .map(([k, v]) => `${k}: ${v}`)
+        .join(', ');
       message.success(
-        `Migrated: ${result.migrated}, already migrated (skipped): ${result.skipped}, total: ${result.total}`,
-        8
+        `Migrated: ${result.migrated}, skipped: ${result.skipped}, total: ${result.total}` +
+          (created ? `. Created — ${created}` : ''),
+        10
       );
     } catch {
       message.error('Migration failed');
+    }
+  };
+
+  const handleRollback = async () => {
+    try {
+      const result = await rollbackMigration().unwrap();
+      const deleted = Object.entries(result.deleted || {})
+        .map(([k, v]) => `${k}: ${v}`)
+        .join(', ');
+      message.success(`Rollback done. Deleted — ${deleted}`, 10);
+    } catch {
+      message.error('Rollback failed');
     }
   };
 
@@ -213,21 +233,35 @@ const OldRegistries: React.FC = () => {
               <Title level={2}>Old Registries</Title>
               <p>Legacy data migrated from MySQL database</p>
             </div>
-            <Popconfirm
-              title='Täze reýestre geçirmek'
-              description='Ähli öňki reýestr maglumatlary täze reýestre geçirilsinmi? Öň geçirilenler gaýtalanmaz.'
-              onConfirm={handleMigrate}
-              okText='Hawa'
-              cancelText='Ýok'
-            >
-              <Button
-                type='primary'
-                icon={<SwapOutlined />}
-                loading={isMigrating}
+            <Space>
+              <Popconfirm
+                title='Täze reýestre geçirmek'
+                description='Ähli öňki reýestr maglumatlary täze reýestre geçirilsinmi? Öň geçirilenler gaýtalanmaz.'
+                onConfirm={handleMigrate}
+                okText='Hawa'
+                cancelText='Ýok'
               >
-                Täze reýestre geçir
-              </Button>
-            </Popconfirm>
+                <Button
+                  type='primary'
+                  icon={<SwapOutlined />}
+                  loading={isMigrating}
+                >
+                  Täze reýestre geçir
+                </Button>
+              </Popconfirm>
+              <Popconfirm
+                title='Geçirilen maglumatlary yzyna almak'
+                description='Öňki reýestrden geçirilen ähli ýazgylar täze reýestrden pozulsynmy? El bilen girizilen maglumatlara degilmez.'
+                onConfirm={handleRollback}
+                okText='Hawa'
+                cancelText='Ýok'
+                okButtonProps={{ danger: true }}
+              >
+                <Button danger icon={<UndoOutlined />} loading={isRollingBack}>
+                  Yzyna al
+                </Button>
+              </Popconfirm>
+            </Space>
           </Space>
         </div>
 

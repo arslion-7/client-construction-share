@@ -35,6 +35,13 @@ export interface MigrateOldRegistriesResponse {
   total: number;
   migrated: number;
   skipped: number;
+  created?: Record<string, number>;
+}
+
+// Define the rollback response structure
+export interface RollbackMigrationResponse {
+  message: string;
+  deleted: Record<string, number>;
 }
 
 const apiWithTag = apiSlice.enhanceEndpoints({
@@ -73,6 +80,16 @@ export const oldRegistriesApiSlice = apiWithTag.injectEndpoints({
       }),
       invalidatesTags: ['OLD_REGISTRIES', 'REGISTRIES', 'REGISTRY'],
     }),
+    rollbackOldRegistriesMigration: builder.mutation<
+      RollbackMigrationResponse,
+      void
+    >({
+      query: () => ({
+        url: '/old-registries/rollback-migration',
+        method: 'POST',
+      }),
+      invalidatesTags: ['OLD_REGISTRIES', 'REGISTRIES', 'REGISTRY'],
+    }),
   }),
 });
 
@@ -81,4 +98,5 @@ export const {
   useGetOldRegistryQuery,
   useUpdateOldRegistryMutation,
   useMigrateOldRegistriesMutation,
+  useRollbackOldRegistriesMigrationMutation,
 } = oldRegistriesApiSlice;
